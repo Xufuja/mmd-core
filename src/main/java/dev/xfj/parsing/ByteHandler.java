@@ -22,6 +22,22 @@ public class ByteHandler {
         System.out.println("End of Byte Range");
         return result;
     }
+    public byte[] getStringFromBytes(int start) {
+        int end = bytes[start];
+        start++;
+        end = end + start;
+        byte[] result = new byte[end - start];
+        for (int i = start; i < end; i++) {
+            /*if (bytes[i] == 0) {
+                break;
+            }*/
+            int resultIndex = i - start;
+            result[resultIndex] = bytes[i];
+            System.out.println(result[resultIndex]);
+        }
+        System.out.println("End of Byte Range");
+        return result;
+    }
     public ByteBuffer getLittleEndianBuffer(byte[] input) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(input);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);

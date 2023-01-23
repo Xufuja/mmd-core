@@ -3,6 +3,9 @@ package dev.xfj.parsing;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +35,19 @@ public class PMMParser {
         byte[] selectedModelIndex = bytes.getByteRange(53, 54);
         byte[] modelCount = bytes.getByteRange(54, 55);
         byte[] modelIndex = bytes.getByteRange(55, 56);
-        //byte[] modelNameJapanese = bytes.getByteRange(55, bytes.getBytes().length);
+        byte[] modelNameJapanese = bytes.getStringFromBytes(56);
+
+        //https://stackoverflow.com/questions/68317293/charbuffer-to-string
+        CharsetDecoder charsetDecoder = Charset.forName(StandardCharsets.UTF_8.name()).newDecoder();
+        ByteBuffer byteBuffer = ByteBuffer.wrap(modelNameJapanese);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        try {
+            System.out.println(charsetDecoder.decode(byteBuffer).toString());
+
+        } catch (CharacterCodingException e) {
+            System.out.println(e.toString());
+            //return false;
+        }
 
         System.out.println(new String(version, StandardCharsets.UTF_8));
         System.out.println(bytes.getLittleEndianBuffer(outputWidth).getInt());
