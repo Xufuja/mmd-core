@@ -21,24 +21,31 @@ public class PMMParser {
 
     public void parse() throws IOException {
         byte[] version = bytes.getByteRange(0, 30);
-        byte[] outputWidth = bytes.getByteRange(30, 34);
-        byte[] outputHeight = bytes.getByteRange(34, 38);
-        byte[] keyFrameEditorWidth = bytes.getByteRange(38, 42);
-        byte[] currentAngleOfView = bytes.getByteRange(42, 46);
-        byte[] cameraLightingAccessory = bytes.getByteRange(46, 47);
-        byte[] cameraPane = bytes.getByteRange(47, 48);
-        byte[] lightingPane = bytes.getByteRange(48, 49);
-        byte[] accessoryPane = bytes.getByteRange(49, 50);
-        byte[] bonePane = bytes.getByteRange(50, 51);
-        byte[] morphPane = bytes.getByteRange(51, 52);
-        byte[] selfShadowPane = bytes.getByteRange(52, 53);
-        byte[] selectedModelIndex = bytes.getByteRange(53, 54);
-        byte[] modelCount = bytes.getByteRange(54, 55);
-        byte[] modelIndex = bytes.getByteRange(55, 56);
+        byte[] outputWidth = bytes.getByteRange(30, 4);
+        byte[] outputHeight = bytes.getByteRange(34, 4);
+        byte[] keyFrameEditorWidth = bytes.getByteRange(38, 4);
+        byte[] currentAngleOfView = bytes.getByteRange(42, 4);
+        byte[] cameraLightingAccessory = bytes.getByteRange(46, 1);
+        byte[] cameraPanel = bytes.getByteRange(47, 1);
+        byte[] lightingPanel = bytes.getByteRange(48, 1);
+        byte[] accessoryPanel = bytes.getByteRange(49, 1);
+        byte[] bonePanel = bytes.getByteRange(50, 1);
+        byte[] morphPanel = bytes.getByteRange(51, 1);
+        byte[] selfShadowPanel = bytes.getByteRange(52, 1);
+        byte[] selectedModelIndex = bytes.getByteRange(53, 1);
+        byte[] modelCount = bytes.getByteRange(54, 1);
+        byte[] modelIndex = bytes.getByteRange(55, 1);
         byte[] modelNameJapanese = bytes.getStringFromBytes(56);
+        byte[] modelNameEnglish = bytes.getStringFromBytes(68);
+        byte[] modelFilePath = bytes.getByteRange(80, 256);
+        byte[] keyFrameEditorTopRows = bytes.getByteRange(336, 1);
+        byte[] boneCount = bytes.getByteRange(337, 4);
+        byte[] boneName = bytes.getStringFromBytes(341);
+        byte[] morphCount = bytes.getByteRange(350, 4);
+        byte[] morphName = bytes.getStringFromBytes(354);
 
         //https://stackoverflow.com/questions/68317293/charbuffer-to-string
-        CharsetDecoder charsetDecoder = Charset.forName(StandardCharsets.UTF_8.name()).newDecoder();
+        CharsetDecoder charsetDecoder = Charset.forName("Shift-JIS").newDecoder();
         ByteBuffer byteBuffer = ByteBuffer.wrap(modelNameJapanese);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         try {
@@ -49,11 +56,19 @@ public class PMMParser {
             //return false;
         }
 
-        System.out.println(new String(version, StandardCharsets.UTF_8));
+        System.out.println(new String(version, "Shift-JIS"));
         System.out.println(bytes.getLittleEndianBuffer(outputWidth).getInt());
         System.out.println(bytes.getLittleEndianBuffer(outputHeight).getInt());
+        System.out.println(bytes.getLittleEndianBuffer(currentAngleOfView).getFloat());
         System.out.println(bytes.getLittleEndianBuffer(modelCount).get());
         System.out.println(bytes.getLittleEndianBuffer(modelIndex).get());
-        //System.out.println(new String(modelNameJapanese, StandardCharsets.UTF_8));
+        System.out.println(new String(modelNameJapanese, "Shift-JIS"));
+        System.out.println(new String(modelNameEnglish, "Shift-JIS"));
+        System.out.println(new String(modelFilePath, "Shift-JIS"));
+        System.out.println(bytes.getLittleEndianBuffer(keyFrameEditorTopRows).get());
+        System.out.println(bytes.getLittleEndianBuffer(boneCount).getInt());
+        System.out.println(new String(boneName, "Shift-JIS"));
+        System.out.println(bytes.getLittleEndianBuffer(morphCount).getInt());
+        System.out.println(new String(morphName, "Shift-JIS"));
     }
 }

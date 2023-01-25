@@ -9,8 +9,9 @@ public class ByteHandler {
     public ByteHandler(byte[] bytes) {
         this.bytes = bytes;
     }
-    public byte[] getByteRange(int start, int end) {
-        byte[] result = new byte[end - start];
+    public byte[] getByteRange(int start, int length) {
+        int end = start + length;
+        byte[] result = new byte[length];
         for (int i = start; i < end; i++) {
             /*if (bytes[i] == 0) {
                 break;
@@ -24,6 +25,7 @@ public class ByteHandler {
     }
     public byte[] getStringFromBytes(int start) {
         int end = bytes[start];
+        System.out.println("Length: " + end);
         start++;
         end = end + start;
         byte[] result = new byte[end - start];
