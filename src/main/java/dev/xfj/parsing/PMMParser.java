@@ -1,5 +1,7 @@
 package dev.xfj.parsing;
 
+import dev.xfj.format.PMMFile;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,58 +19,56 @@ public class PMMParser {
     public PMMParser(Path path) throws IOException {
         this.path = path;
         this.bytes = new ByteHandler(Files.readAllBytes(this.path));
+
     }
 
     public void parse() throws IOException {
-        byte[] version = bytes.getByteRange(0, 30);
-        byte[] outputWidth = bytes.getByteRange(30, 4);
-        byte[] outputHeight = bytes.getByteRange(34, 4);
-        byte[] keyFrameEditorWidth = bytes.getByteRange(38, 4);
-        byte[] currentAngleOfView = bytes.getByteRange(42, 4);
-        byte[] cameraLightingAccessory = bytes.getByteRange(46, 1);
-        byte[] cameraPanel = bytes.getByteRange(47, 1);
-        byte[] lightingPanel = bytes.getByteRange(48, 1);
-        byte[] accessoryPanel = bytes.getByteRange(49, 1);
-        byte[] bonePanel = bytes.getByteRange(50, 1);
-        byte[] morphPanel = bytes.getByteRange(51, 1);
-        byte[] selfShadowPanel = bytes.getByteRange(52, 1);
-        byte[] selectedModelIndex = bytes.getByteRange(53, 1);
-        byte[] modelCount = bytes.getByteRange(54, 1);
-        byte[] modelIndex = bytes.getByteRange(55, 1);
-        byte[] modelNameJapanese = bytes.getStringFromBytes(56);
-        byte[] modelNameEnglish = bytes.getStringFromBytes(68);
-        byte[] modelFilePath = bytes.getByteRange(80, 256);
-        byte[] keyFrameEditorTopRows = bytes.getByteRange(336, 1);
-        byte[] boneCount = bytes.getByteRange(337, 4);
-        byte[] boneName = bytes.getStringFromBytes(341);
-        byte[] morphCount = bytes.getByteRange(350, 4);
-        byte[] morphName = bytes.getStringFromBytes(354);
 
+        PMMFile pmmFile = new PMMFile();
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes.getBytes());
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        pmmFile.setVersion(new String(bytes.getByteRange(0, 30), "Shift-JIS"));
+        pmmFile.setOutputWidth(byteBuffer.getInt(30));
+        pmmFile.setOutputHeight(byteBuffer.getInt(34));
+        pmmFile.setKeyFrameEditorWidth(byteBuffer.getInt(38));
+        pmmFile.setCurrentAngleOfView(byteBuffer.getFloat(42));
+        pmmFile.setCameraLightingAccessory(byteBuffer.get(46));
+        pmmFile.setCameraPanel(byteBuffer.get(47));
+        pmmFile.setLightingPanel(byteBuffer.get(48));
+        pmmFile.setAccessoryPanel(byteBuffer.get(49));
+        pmmFile.setBonePanel(byteBuffer.get(50));
+        pmmFile.setMorphPanel(byteBuffer.get(51));
+        pmmFile.setSelfShadowPanel(byteBuffer.get(52));
+        pmmFile.setSelectedModelIndex(byteBuffer.get(53));
+        pmmFile.setModelCount(byteBuffer.get(54));
+        pmmFile.setModelIndex(byteBuffer.get(55));
+        pmmFile.setModelNameJapanese(new String(bytes.getStringFromBytes(56), "Shift-JIS"));
+        pmmFile.setModelNameEnglish(new String(bytes.getStringFromBytes(68), "Shift-JIS"));
+        pmmFile.setModelFilePath(new String(bytes.getByteRange(80, 256), "Shift-JIS"));
+        pmmFile.setKeyFrameEditorTopRows(byteBuffer.get(336));
+        pmmFile.setBoneCount(byteBuffer.getInt(337));
+        pmmFile.setBoneName(new String(bytes.getStringFromBytes(341), "Shift-JIS"));
+        pmmFile.setMorphCount(byteBuffer.getInt(350));
+        pmmFile.setMorphName(new String(bytes.getStringFromBytes(354), "Shift-JIS"));
+
+
+        System.out.println(pmmFile.getVersion());
+        System.out.println(pmmFile.getOutputWidth());
+        System.out.println(pmmFile.getModelNameJapanese());
+        System.out.println(pmmFile.getModelFilePath());
+        System.out.println(pmmFile.getMorphName());
         //https://stackoverflow.com/questions/68317293/charbuffer-to-string
-        CharsetDecoder charsetDecoder = Charset.forName("Shift-JIS").newDecoder();
+        /*CharsetDecoder charsetDecoder = Charset.forName("Shift-JIS").newDecoder();
         ByteBuffer byteBuffer = ByteBuffer.wrap(modelNameJapanese);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
         try {
             System.out.println(charsetDecoder.decode(byteBuffer).toString());
 
         } catch (CharacterCodingException e) {
             System.out.println(e.toString());
             //return false;
-        }
-
-        System.out.println(new String(version, "Shift-JIS"));
-        System.out.println(bytes.getLittleEndianBuffer(outputWidth).getInt());
-        System.out.println(bytes.getLittleEndianBuffer(outputHeight).getInt());
-        System.out.println(bytes.getLittleEndianBuffer(currentAngleOfView).getFloat());
-        System.out.println(bytes.getLittleEndianBuffer(modelCount).get());
-        System.out.println(bytes.getLittleEndianBuffer(modelIndex).get());
-        System.out.println(new String(modelNameJapanese, "Shift-JIS"));
-        System.out.println(new String(modelNameEnglish, "Shift-JIS"));
-        System.out.println(new String(modelFilePath, "Shift-JIS"));
-        System.out.println(bytes.getLittleEndianBuffer(keyFrameEditorTopRows).get());
-        System.out.println(bytes.getLittleEndianBuffer(boneCount).getInt());
-        System.out.println(new String(boneName, "Shift-JIS"));
-        System.out.println(bytes.getLittleEndianBuffer(morphCount).getInt());
-        System.out.println(new String(morphName, "Shift-JIS"));
+        }*/
     }
+
 }
