@@ -31,7 +31,7 @@ public class PMMParser {
     public void parse() throws IOException {
         PMMFile pmmFile = new PMMFile();
         //Keeping track of the positions was tedious so just added a counter that increments after each read
-        pmmFile.setVersion(getFixedString(offset, 30));
+        pmmFile.setVersion(getFixedString(30));
         pmmFile.setOutputWidth(getInt());
         pmmFile.setOutputHeight(getInt());
         pmmFile.setKeyFrameEditorWidth(getInt());
@@ -60,15 +60,15 @@ public class PMMParser {
         for (int i = 0; i < count; i++) {
             PMMFileModel pmmFileModel = new PMMFileModel();
             pmmFileModel.setModelIndex(getByte());
-            pmmFileModel.setModelNameJapanese(getVariableString(offset));
-            pmmFileModel.setModelNameEnglish(getVariableString(offset));
-            pmmFileModel.setModelFilePath(getFixedString(offset, 256));
+            pmmFileModel.setModelNameJapanese(getVariableString());
+            pmmFileModel.setModelNameEnglish(getVariableString());
+            pmmFileModel.setModelFilePath(getFixedString(256));
             pmmFileModel.setKeyFrameEditorTopRows(getByte());
 
             pmmFileModel.setBoneCount(getInt());
             pmmFileModel.setBoneNames(IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> {
                 try {
-                    return getVariableString(offset);
+                    return getVariableString();
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
@@ -77,7 +77,7 @@ public class PMMParser {
             pmmFileModel.setMorphCount(getInt());
             pmmFileModel.setMorphNames(IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> {
                 try {
-                    return getVariableString(offset);
+                    return getVariableString();
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
@@ -118,6 +118,7 @@ public class PMMParser {
         }
         return models;
     }
+
     public PMMFileModelKeyframe parseKeyframe() {
         PMMFileModelKeyframe keyframe = new PMMFileModelKeyframe();
         keyframe.setKeyframePosition(getInt());
@@ -156,7 +157,8 @@ public class PMMParser {
         return result;
     }
 
-    public String getVariableString(int start) throws UnsupportedEncodingException {
+    public String getVariableString() throws UnsupportedEncodingException {
+        int start = offset;
         int end = bytes[start];
         start += 1;
         offset += 1; //First byte was read to get length
@@ -174,5 +176,9 @@ public class PMMParser {
         //System.out.println("End of Byte Range");
         offset += length;
         return new String(result, "Shift-JIS");
+    }
+
+    public String getFixedString(int length) throws UnsupportedEncodingException {
+        return getFixedString(offset, length);
     }
 }
