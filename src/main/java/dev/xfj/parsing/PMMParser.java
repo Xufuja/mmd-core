@@ -30,7 +30,7 @@ public class PMMParser {
 
     public void parse() throws IOException {
         PMMFile pmmFile = new PMMFile();
-        //Keeping tracking of the positions was tedious so just added a counter that increments after each read
+        //Keeping track of the positions was tedious so just added a counter that increments after each read
         pmmFile.setVersion(getFixedString(offset, 30));
         pmmFile.setOutputWidth(getInt());
         pmmFile.setOutputHeight(getInt());
@@ -158,7 +158,7 @@ public class PMMParser {
 
     public String getVariableString(int start) throws UnsupportedEncodingException {
         int end = bytes[start];
-        start++;
+        start += 1;
         offset += 1; //First byte was read to get length
         return getFixedString(start, end);
     }
