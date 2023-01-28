@@ -7,6 +7,7 @@ public class PMMFileModelKeyframe {
     private PMMFileModelKeyframeInterpolation interpolationX;
     private PMMFileModelKeyframeInterpolation interpolationY;
     private PMMFileModelKeyframeInterpolation interpolationZ;
+    private PMMFileModelKeyframeInterpolation interpolationRotation;
     private float translationX;
     private float translationY;
     private float translationZ;
@@ -136,5 +137,13 @@ public class PMMFileModelKeyframe {
 
     public void setPhysicsDisabled(byte physicsDisabled) {
         this.physicsDisabled = physicsDisabled;
+    }
+
+    public PMMFileModelKeyframeInterpolation getInterpolationRotation() {
+        return interpolationRotation;
+    }
+
+    public void setInterpolationRotation(PMMFileModelKeyframeInterpolation interpolationRotation) {
+        this.interpolationRotation = interpolationRotation;
     }
 }

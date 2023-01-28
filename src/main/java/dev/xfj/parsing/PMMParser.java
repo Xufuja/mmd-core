@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class PMMParser {
     private Path path;
     private final byte[] bytes;
-    private ByteBuffer byteBuffer;
+    private final ByteBuffer byteBuffer;
 
     private int offset;
 
@@ -50,10 +50,11 @@ public class PMMParser {
 
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
-        System.out.println(pmmFile.getPmmFileModels().get(0).getModelNameJapanese());
-        System.out.println(pmmFile.getPmmFileModels().get(0).getModelFilePath());
-        pmmFile.getPmmFileModels().get(0).getBoneNames().forEach(System.out::println);
-        pmmFile.getPmmFileModels().get(0).getMorphNames().forEach(System.out::println);
+        pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelNameJapanese()));
+        //pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelNameEnglish()));
+        pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelFilePath()));
+        //pmmFile.getPmmFileModels().forEach(model -> model.getBoneNames().forEach(System.out::println));
+        //pmmFile.getPmmFileModels().forEach(model -> model.getMorphNames().forEach(System.out::println));
     }
 
     public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
@@ -67,7 +68,7 @@ public class PMMParser {
             pmmFileModel.setKeyFrameEditorTopRows(getByte());
 
             pmmFileModel.setBoneCount(getInt());
-            pmmFileModel.setBoneNames(pmmFileModel.getBoneCount() > 0 ?IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> {
+            pmmFileModel.setBoneNames(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> {
                 try {
                     return getVariableString();
                 } catch (UnsupportedEncodingException e) {
@@ -76,7 +77,7 @@ public class PMMParser {
             }).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setMorphCount(getInt());
-            pmmFileModel.setMorphNames(pmmFileModel.getMorphCount() > 0 ?IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> {
+            pmmFileModel.setMorphNames(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> {
                 try {
                     return getVariableString();
                 } catch (UnsupportedEncodingException e) {
@@ -99,68 +100,37 @@ public class PMMParser {
             pmmFileModel.setSelectedOtherMorphIndex(getInt());
 
             pmmFileModel.setFoldCount(getByte());
-            pmmFileModel.setSelectedFoldStatus(IntStream.range(0, pmmFileModel.getFoldCount()).mapToObj(fold -> getByte()).collect(Collectors.toList()));
+            pmmFileModel.setSelectedFoldStatus(pmmFileModel.getFoldCount() > 0 ? IntStream.range(0, pmmFileModel.getFoldCount()).mapToObj(fold -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setVerticalScrollStatus(getInt());
             pmmFileModel.setLastFrame(getInt());
 
-            pmmFileModel.setBoneInitialKeyframes(IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseKeyframe()).collect(Collectors.toList()));
+            pmmFileModel.setBoneInitialKeyframes(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setBoneKeyframeCount(getInt());
-            List<PMMFileModelKeyframeWithIndex> boneKeyframes = new ArrayList<>();
-            IntStream.range(0, pmmFileModel.getBoneKeyframeCount()).mapToObj(boneKeyframe -> new PMMFileModelKeyframeWithIndex()).forEach(keyframe -> {
-                keyframe.setDataIndex(getInt());
-                keyframe.setBoneKeyframeData(parseKeyframe());
-                boneKeyframes.add(keyframe);
-            });
-            pmmFileModel.setBoneKeyframes(boneKeyframes);
+            pmmFileModel.setBoneKeyframes(pmmFileModel.getBoneKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneKeyframeCount()).mapToObj(bone -> parseKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
 
-            pmmFileModel.setMorphInitialKeyframes(IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> parseMorphKeyframe()).collect(Collectors.toList()));
+            pmmFileModel.setMorphInitialKeyframes(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> parseMorphKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setMorphKeyframeCount(getInt());
-            List<PMMFileModelMorphKeyframeWithIndex> morphKeyframes = new ArrayList<>();
-            IntStream.range(0, pmmFileModel.getMorphKeyframeCount()).mapToObj(morphKeyframe -> new PMMFileModelMorphKeyframeWithIndex()).forEach(keyframe -> {
-                keyframe.setDataIndex(getInt());
-                keyframe.setMorphKeyframeData(parseMorphKeyframe());
-                morphKeyframes.add(keyframe);
-            });
-            pmmFileModel.setMorphKeyframes(morphKeyframes);
+            pmmFileModel.setMorphKeyframes(pmmFileModel.getMorphKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphKeyframeCount()).mapToObj(morph -> parseMorphKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setConfigurationInitialKeyframe(parseConfigurationKeyframe());
-            pmmFileModel.setIkInitialEnabled(IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()));
+            pmmFileModel.setIkInitialEnabled(pmmFileModel.getIkBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
 
-            List<PMMFileModelKeyframeConfigurationRelation> relations = new ArrayList<>();
-            IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(bone -> new PMMFileModelKeyframeConfigurationRelation()).forEach(relation -> {
-                relation.setParentModelIndex(getInt());
-                relation.setParentBoneIndex(getInt());
-                relations.add(relation);
-            });
-            pmmFileModel.setRelationSettings(relations);
+            pmmFileModel.setRelationSettings(pmmFileModel.getParentableBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(relation -> parseConfigurationKeyframeRelation()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setSelectedConfiguration(getByte());
 
             pmmFileModel.setKeyframeConfigurationCount(getInt());
-            List<PMMFileModelKeyframeConfigurationWithIndex> configurations = new ArrayList<>();
-            IntStream.range(0, pmmFileModel.getKeyframeConfigurationCount()).mapToObj(configurationKeyframe -> new PMMFileModelKeyframeConfigurationWithIndex()).forEach(keyframe -> {
-                keyframe.setDataIndex(getInt());
-                keyframe.setKeyframeConfigurationData(parseConfigurationKeyframe());
-                configurations.add(keyframe);
-            });
-            pmmFileModel.setConfigurationKeyframes(configurations);
 
-            pmmFileModel.setCurrentBones(IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()));
-            pmmFileModel.setMorphValues(IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> getFloat()).collect(Collectors.toList()));
-            pmmFileModel.setIkEnabled(IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()));
+            pmmFileModel.setConfigurationKeyframes(pmmFileModel.getKeyframeConfigurationCount() > 0 ? IntStream.range(0, pmmFileModel.getKeyframeConfigurationCount()).mapToObj(configuration -> parseConfigurationKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
 
-            List<PMMFileModelKeyframeConfigurationRelationCurrent> currentRelations = new ArrayList<>();
-            IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(bone -> new PMMFileModelKeyframeConfigurationRelationCurrent()).forEach(relation -> {
-                relation.setKeyframePositionRelationBegin(getInt());
-                relation.setKeyframePositionRelationEnd(getInt());
-                relation.setParentModelIndex(getInt());
-                relation.setParentBoneIndex(getInt());
-                currentRelations.add(relation);
-            });
-            pmmFileModel.setCurrentRelationSettings(currentRelations);
+            pmmFileModel.setCurrentBones(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()) : Collections.emptyList());
+            pmmFileModel.setMorphValues(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> getFloat()).collect(Collectors.toList()) : Collections.emptyList());
+            pmmFileModel.setIkEnabled(pmmFileModel.getIkBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
+
+            pmmFileModel.setCurrentRelationSettings(pmmFileModel.getParentableBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(relation -> parseConfigurationKeyframeRelationCurrent()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setBlend(getByte());
             pmmFileModel.setEdgeWidth(getFloat());
@@ -180,6 +150,7 @@ public class PMMParser {
         keyframe.setInterpolationX(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
         keyframe.setInterpolationY(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
         keyframe.setInterpolationZ(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationRotation(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
         keyframe.setTranslationX(getFloat());
         keyframe.setTranslationY(getFloat());
         keyframe.setTranslationZ(getFloat());
@@ -189,6 +160,13 @@ public class PMMParser {
         keyframe.setRotationW(getFloat());
         keyframe.setSelected(getByte());
         keyframe.setPhysicsDisabled(getByte());
+        return keyframe;
+    }
+
+    public PMMFileModelKeyframeWithIndex parseKeyframeWithIndex() {
+        PMMFileModelKeyframeWithIndex keyframe = new PMMFileModelKeyframeWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setBoneKeyframeData(parseKeyframe());
         return keyframe;
     }
 
@@ -202,12 +180,42 @@ public class PMMParser {
         return keyframe;
     }
 
+    public PMMFileModelMorphKeyframeWithIndex parseMorphKeyframeWithIndex() {
+        PMMFileModelMorphKeyframeWithIndex keyframe = new PMMFileModelMorphKeyframeWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setMorphKeyframeData(parseMorphKeyframe());
+        return keyframe;
+    }
+
+    public PMMFileModelKeyframeConfigurationRelation parseConfigurationKeyframeRelation() {
+        PMMFileModelKeyframeConfigurationRelation relation = new PMMFileModelKeyframeConfigurationRelation();
+        relation.setParentModelIndex(getInt());
+        relation.setParentBoneIndex(getInt());
+        return relation;
+    }
+
+    public PMMFileModelKeyframeConfigurationRelationCurrent parseConfigurationKeyframeRelationCurrent() {
+        PMMFileModelKeyframeConfigurationRelationCurrent relation = new PMMFileModelKeyframeConfigurationRelationCurrent();
+        relation.setKeyframePositionRelationBegin(getInt());
+        relation.setKeyframePositionRelationEnd(getInt());
+        relation.setParentModelIndex(getInt());
+        relation.setParentBoneIndex(getInt());
+        return relation;
+    }
+
     public PMMFileModelKeyframeConfiguration parseConfigurationKeyframe() {
         PMMFileModelKeyframeConfiguration keyframe = new PMMFileModelKeyframeConfiguration();
         keyframe.setKeyframePosition(getInt());
         keyframe.setPreviousIndex(getInt());
         keyframe.setNextIndex(getInt());
         keyframe.setVisible(getByte());
+        return keyframe;
+    }
+
+    public PMMFileModelKeyframeConfigurationWithIndex parseConfigurationKeyframeWithIndex() {
+        PMMFileModelKeyframeConfigurationWithIndex keyframe = new PMMFileModelKeyframeConfigurationWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setKeyframeConfigurationData(parseConfigurationKeyframe());
         return keyframe;
     }
 
