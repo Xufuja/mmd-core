@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PMMParser {
-    private Path path;
+    private final Path path;
     private final byte[] bytes;
     private final ByteBuffer byteBuffer;
 
@@ -51,10 +52,12 @@ public class PMMParser {
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
         pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelNameJapanese()));
-        //pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelNameEnglish()));
+        pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelNameEnglish()));
+        pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getCalculationOrder()));
         pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getModelFilePath()));
-        //pmmFile.getPmmFileModels().forEach(model -> model.getBoneNames().forEach(System.out::println));
-        //pmmFile.getPmmFileModels().forEach(model -> model.getMorphNames().forEach(System.out::println));
+        pmmFile.getPmmFileModels().forEach(model -> model.getBoneNames().forEach(System.out::println));
+        pmmFile.getPmmFileModels().forEach(model -> model.getMorphNames().forEach(System.out::println));
+        pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getSelfShadowEnabled()));
     }
 
     public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
@@ -66,31 +69,14 @@ public class PMMParser {
             pmmFileModel.setModelNameEnglish(getVariableString());
             pmmFileModel.setModelFilePath(getFixedString(256));
             pmmFileModel.setKeyFrameEditorTopRows(getByte());
-
             pmmFileModel.setBoneCount(getInt());
-            pmmFileModel.setBoneNames(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> {
-                try {
-                    return getVariableString();
-                } catch (UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-            }).collect(Collectors.toList()) : Collections.emptyList());
-
+            pmmFileModel.setBoneNames(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> getVariableString()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setMorphCount(getInt());
-            pmmFileModel.setMorphNames(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> {
-                try {
-                    return getVariableString();
-                } catch (UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-            }).collect(Collectors.toList()) : Collections.emptyList());
-
+            pmmFileModel.setMorphNames(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> getVariableString()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setIkBoneCount(getInt());
             pmmFileModel.setIkBoneIndices(pmmFileModel.getIkBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ikBone -> getInt()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setParentableBoneCount(getInt());
             pmmFileModel.setParentableBoneIndices(pmmFileModel.getParentableBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(ikBone -> getInt()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setRenderOrder(getByte());
             pmmFileModel.setVisible(getByte());
             pmmFileModel.setSelectedBone(getInt());
@@ -98,40 +84,26 @@ public class PMMParser {
             pmmFileModel.setSelectedEyeMorphIndex(getInt());
             pmmFileModel.setSelectedLipMorphIndex(getInt());
             pmmFileModel.setSelectedOtherMorphIndex(getInt());
-
             pmmFileModel.setFoldCount(getByte());
             pmmFileModel.setSelectedFoldStatus(pmmFileModel.getFoldCount() > 0 ? IntStream.range(0, pmmFileModel.getFoldCount()).mapToObj(fold -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setVerticalScrollStatus(getInt());
             pmmFileModel.setLastFrame(getInt());
-
             pmmFileModel.setBoneInitialKeyframes(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setBoneKeyframeCount(getInt());
             pmmFileModel.setBoneKeyframes(pmmFileModel.getBoneKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneKeyframeCount()).mapToObj(bone -> parseKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setMorphInitialKeyframes(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> parseMorphKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setMorphKeyframeCount(getInt());
             pmmFileModel.setMorphKeyframes(pmmFileModel.getMorphKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphKeyframeCount()).mapToObj(morph -> parseMorphKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setConfigurationInitialKeyframe(parseConfigurationKeyframe());
             pmmFileModel.setIkInitialEnabled(pmmFileModel.getIkBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setRelationSettings(pmmFileModel.getParentableBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(relation -> parseConfigurationKeyframeRelation()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setSelectedConfiguration(getByte());
-
             pmmFileModel.setKeyframeConfigurationCount(getInt());
-
             pmmFileModel.setConfigurationKeyframes(pmmFileModel.getKeyframeConfigurationCount() > 0 ? IntStream.range(0, pmmFileModel.getKeyframeConfigurationCount()).mapToObj(configuration -> parseConfigurationKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setCurrentBones(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setMorphValues(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> getFloat()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setIkEnabled(pmmFileModel.getIkBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setCurrentRelationSettings(pmmFileModel.getParentableBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(relation -> parseConfigurationKeyframeRelationCurrent()).collect(Collectors.toList()) : Collections.emptyList());
-
             pmmFileModel.setBlend(getByte());
             pmmFileModel.setEdgeWidth(getFloat());
             pmmFileModel.setSelfShadowEnabled(getByte());
@@ -252,7 +224,7 @@ public class PMMParser {
         return result;
     }
 
-    public String getVariableString() throws UnsupportedEncodingException {
+    public String getVariableString() {
         int start = offset;
         int end = bytes[start];
         start += 1;
@@ -260,20 +232,24 @@ public class PMMParser {
         return getFixedString(start, end);
     }
 
-    public String getFixedString(int start, int length) throws UnsupportedEncodingException {
+    public String getFixedString(int start, int length) {
         int end = start + length;
         byte[] result = new byte[length];
         for (int i = start; i < end; i++) {
             int resultIndex = i - start;
+            if (bytes[i] == 0) {
+                break;
+            }
             result[resultIndex] = bytes[i];
             //System.out.println(result[resultIndex]);
         }
         //System.out.println("End of Byte Range");
         offset += length;
-        return new String(result, "Shift-JIS");
+        ByteBuffer buffer = ByteBuffer.wrap(result);
+        return Charset.forName("Shift-JIS").decode(buffer).toString();
     }
 
-    public String getFixedString(int length) throws UnsupportedEncodingException {
+    public String getFixedString(int length) {
         return getFixedString(offset, length);
     }
 }
