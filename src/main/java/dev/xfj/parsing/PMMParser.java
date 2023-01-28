@@ -9,6 +9,7 @@ import java.nio.ByteOrder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -45,7 +46,7 @@ public class PMMParser {
         pmmFile.setSelfShadowPanel(getByte());
         pmmFile.setSelectedModelIndex(getByte());
         pmmFile.setModelCount(getByte());
-        pmmFile.setPmmFileModels(parseModels((byte) 1)); //pmmFile.getModelCount()
+        pmmFile.setPmmFileModels(parseModels(pmmFile.getModelCount()));
 
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
@@ -66,28 +67,28 @@ public class PMMParser {
             pmmFileModel.setKeyFrameEditorTopRows(getByte());
 
             pmmFileModel.setBoneCount(getInt());
-            pmmFileModel.setBoneNames(IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> {
+            pmmFileModel.setBoneNames(pmmFileModel.getBoneCount() > 0 ?IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> {
                 try {
                     return getVariableString();
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
-            }).collect(Collectors.toList()));
+            }).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setMorphCount(getInt());
-            pmmFileModel.setMorphNames(IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> {
+            pmmFileModel.setMorphNames(pmmFileModel.getMorphCount() > 0 ?IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> {
                 try {
                     return getVariableString();
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
-            }).collect(Collectors.toList()));
+            }).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setIkBoneCount(getInt());
-            pmmFileModel.setIkBoneIndices(IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ikBone -> getInt()).collect(Collectors.toList()));
+            pmmFileModel.setIkBoneIndices(pmmFileModel.getIkBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ikBone -> getInt()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setParentableBoneCount(getInt());
-            pmmFileModel.setParentableBoneIndices(IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ikBone -> getInt()).collect(Collectors.toList()));
+            pmmFileModel.setParentableBoneIndices(pmmFileModel.getParentableBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(ikBone -> getInt()).collect(Collectors.toList()) : Collections.emptyList());
 
             pmmFileModel.setRenderOrder(getByte());
             pmmFileModel.setVisible(getByte());
@@ -114,6 +115,58 @@ public class PMMParser {
             });
             pmmFileModel.setBoneKeyframes(boneKeyframes);
 
+            pmmFileModel.setMorphInitialKeyframes(IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> parseMorphKeyframe()).collect(Collectors.toList()));
+
+            pmmFileModel.setMorphKeyframeCount(getInt());
+            List<PMMFileModelMorphKeyframeWithIndex> morphKeyframes = new ArrayList<>();
+            IntStream.range(0, pmmFileModel.getMorphKeyframeCount()).mapToObj(morphKeyframe -> new PMMFileModelMorphKeyframeWithIndex()).forEach(keyframe -> {
+                keyframe.setDataIndex(getInt());
+                keyframe.setMorphKeyframeData(parseMorphKeyframe());
+                morphKeyframes.add(keyframe);
+            });
+            pmmFileModel.setMorphKeyframes(morphKeyframes);
+
+            pmmFileModel.setConfigurationInitialKeyframe(parseConfigurationKeyframe());
+            pmmFileModel.setIkInitialEnabled(IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()));
+
+            List<PMMFileModelKeyframeConfigurationRelation> relations = new ArrayList<>();
+            IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(bone -> new PMMFileModelKeyframeConfigurationRelation()).forEach(relation -> {
+                relation.setParentModelIndex(getInt());
+                relation.setParentBoneIndex(getInt());
+                relations.add(relation);
+            });
+            pmmFileModel.setRelationSettings(relations);
+
+            pmmFileModel.setSelectedConfiguration(getByte());
+
+            pmmFileModel.setKeyframeConfigurationCount(getInt());
+            List<PMMFileModelKeyframeConfigurationWithIndex> configurations = new ArrayList<>();
+            IntStream.range(0, pmmFileModel.getKeyframeConfigurationCount()).mapToObj(configurationKeyframe -> new PMMFileModelKeyframeConfigurationWithIndex()).forEach(keyframe -> {
+                keyframe.setDataIndex(getInt());
+                keyframe.setKeyframeConfigurationData(parseConfigurationKeyframe());
+                configurations.add(keyframe);
+            });
+            pmmFileModel.setConfigurationKeyframes(configurations);
+
+            pmmFileModel.setCurrentBones(IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()));
+            pmmFileModel.setMorphValues(IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> getFloat()).collect(Collectors.toList()));
+            pmmFileModel.setIkEnabled(IntStream.range(0, pmmFileModel.getIkBoneCount()).mapToObj(ik -> getByte()).collect(Collectors.toList()));
+
+            List<PMMFileModelKeyframeConfigurationRelationCurrent> currentRelations = new ArrayList<>();
+            IntStream.range(0, pmmFileModel.getParentableBoneCount()).mapToObj(bone -> new PMMFileModelKeyframeConfigurationRelationCurrent()).forEach(relation -> {
+                relation.setKeyframePositionRelationBegin(getInt());
+                relation.setKeyframePositionRelationEnd(getInt());
+                relation.setParentModelIndex(getInt());
+                relation.setParentBoneIndex(getInt());
+                currentRelations.add(relation);
+            });
+            pmmFileModel.setCurrentRelationSettings(currentRelations);
+
+            pmmFileModel.setBlend(getByte());
+            pmmFileModel.setEdgeWidth(getFloat());
+            pmmFileModel.setSelfShadowEnabled(getByte());
+            pmmFileModel.setCalculationOrder(getByte());
+
             models.add(pmmFileModel);
         }
         return models;
@@ -137,6 +190,40 @@ public class PMMParser {
         keyframe.setSelected(getByte());
         keyframe.setPhysicsDisabled(getByte());
         return keyframe;
+    }
+
+    public PMMFileModelMorphKeyframe parseMorphKeyframe() {
+        PMMFileModelMorphKeyframe keyframe = new PMMFileModelMorphKeyframe();
+        keyframe.setKeyframePosition(getInt());
+        keyframe.setPreviousIndex(getInt());
+        keyframe.setNextIndex(getInt());
+        keyframe.setMorphValue(getFloat());
+        keyframe.setSelected(getByte());
+        return keyframe;
+    }
+
+    public PMMFileModelKeyframeConfiguration parseConfigurationKeyframe() {
+        PMMFileModelKeyframeConfiguration keyframe = new PMMFileModelKeyframeConfiguration();
+        keyframe.setKeyframePosition(getInt());
+        keyframe.setPreviousIndex(getInt());
+        keyframe.setNextIndex(getInt());
+        keyframe.setVisible(getByte());
+        return keyframe;
+    }
+
+    public PMMFileModelBone parseBone() {
+        PMMFileModelBone bone = new PMMFileModelBone();
+        bone.setTranslationX(getFloat());
+        bone.setTranslationY(getFloat());
+        bone.setTranslationZ(getFloat());
+        bone.setRotationX(getFloat());
+        bone.setRotationY(getFloat());
+        bone.setRotationZ(getFloat());
+        bone.setRotationW(getFloat());
+        bone.setOperationUncommitted(getByte());
+        bone.setPhysicsDisabled(getByte());
+        bone.setRowSelected(getByte());
+        return bone;
     }
 
     public byte getByte() {

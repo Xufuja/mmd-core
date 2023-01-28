@@ -14,7 +14,7 @@ public class PMMFileModel {
     private List<String> morphNames;
     private int ikBoneCount;
     private List<Integer> ikBoneIndices;
-    private int parentableBoneCount ;
+    private int parentableBoneCount;
     private List<Integer> parentableBoneIndices;
     private byte renderOrder;
     private byte visible;
@@ -30,8 +30,24 @@ public class PMMFileModel {
     private List<PMMFileModelKeyframe> boneInitialKeyframes;
     private int boneKeyframeCount;
     private List<PMMFileModelKeyframeWithIndex> boneKeyframes;
+    private List<PMMFileModelMorphKeyframe> morphInitialKeyframes;
+    private int morphKeyframeCount;
+    private List<PMMFileModelMorphKeyframeWithIndex> morphKeyframes;
+    private PMMFileModelKeyframeConfiguration configurationInitialKeyframe;
+    private List<Byte> ikInitialEnabled;
+    private List<PMMFileModelKeyframeConfigurationRelation> relationSettings;
+    private byte selectedConfiguration;
+    private int KeyframeConfigurationCount;
+    private List<PMMFileModelKeyframeConfigurationWithIndex> configurationKeyframes;
 
-
+    private List<PMMFileModelBone> currentBones;
+    private List<Float> morphValues;
+    private List<Byte> ikEnabled;
+    private List<PMMFileModelKeyframeConfigurationRelationCurrent> currentRelationSettings;
+    private byte blend;
+    private float edgeWidth;
+    private byte selfShadowEnabled;
+    private byte calculationOrder;
 
     public byte getModelIndex() {
         return modelIndex;
@@ -247,5 +263,141 @@ public class PMMFileModel {
 
     public void setBoneKeyframes(List<PMMFileModelKeyframeWithIndex> boneKeyframes) {
         this.boneKeyframes = boneKeyframes;
+    }
+
+    public List<PMMFileModelMorphKeyframe> getMorphInitialKeyframes() {
+        return morphInitialKeyframes;
+    }
+
+    public void setMorphInitialKeyframes(List<PMMFileModelMorphKeyframe> morphInitialKeyframes) {
+        this.morphInitialKeyframes = morphInitialKeyframes;
+    }
+
+    public int getMorphKeyframeCount() {
+        return morphKeyframeCount;
+    }
+
+    public void setMorphKeyframeCount(int morphKeyframeCount) {
+        this.morphKeyframeCount = morphKeyframeCount;
+    }
+
+    public List<PMMFileModelMorphKeyframeWithIndex> getMorphKeyframes() {
+        return morphKeyframes;
+    }
+
+    public void setMorphKeyframes(List<PMMFileModelMorphKeyframeWithIndex> morphKeyframes) {
+        this.morphKeyframes = morphKeyframes;
+    }
+
+    public PMMFileModelKeyframeConfiguration getConfigurationInitialKeyframe() {
+        return configurationInitialKeyframe;
+    }
+
+    public void setConfigurationInitialKeyframe(PMMFileModelKeyframeConfiguration configurationInitialKeyframe) {
+        this.configurationInitialKeyframe = configurationInitialKeyframe;
+    }
+
+    public List<Byte> getIkInitialEnabled() {
+        return ikInitialEnabled;
+    }
+
+    public void setIkInitialEnabled(List<Byte> ikInitialEnabled) {
+        this.ikInitialEnabled = ikInitialEnabled;
+    }
+
+    public List<PMMFileModelKeyframeConfigurationRelation> getRelationSettings() {
+        return relationSettings;
+    }
+
+    public void setRelationSettings(List<PMMFileModelKeyframeConfigurationRelation> relationSettings) {
+        this.relationSettings = relationSettings;
+    }
+
+    public byte getSelectedConfiguration() {
+        return selectedConfiguration;
+    }
+
+    public void setSelectedConfiguration(byte selectedConfiguration) {
+        this.selectedConfiguration = selectedConfiguration;
+    }
+
+    public int getKeyframeConfigurationCount() {
+        return KeyframeConfigurationCount;
+    }
+
+    public void setKeyframeConfigurationCount(int keyframeConfigurationCount) {
+        KeyframeConfigurationCount = keyframeConfigurationCount;
+    }
+
+    public List<PMMFileModelKeyframeConfigurationWithIndex> getConfigurationKeyframes() {
+        return configurationKeyframes;
+    }
+
+    public void setConfigurationKeyframes(List<PMMFileModelKeyframeConfigurationWithIndex> configurationKeyframes) {
+        this.configurationKeyframes = configurationKeyframes;
+    }
+
+    public List<PMMFileModelBone> getCurrentBones() {
+        return currentBones;
+    }
+
+    public void setCurrentBones(List<PMMFileModelBone> currentBones) {
+        this.currentBones = currentBones;
+    }
+
+    public List<Float> getMorphValues() {
+        return morphValues;
+    }
+
+    public void setMorphValues(List<Float> morphValues) {
+        this.morphValues = morphValues;
+    }
+
+    public List<Byte> getIkEnabled() {
+        return ikEnabled;
+    }
+
+    public void setIkEnabled(List<Byte> ikEnabled) {
+        this.ikEnabled = ikEnabled;
+    }
+
+    public List<PMMFileModelKeyframeConfigurationRelationCurrent> getCurrentRelationSettings() {
+        return currentRelationSettings;
+    }
+
+    public void setCurrentRelationSettings(List<PMMFileModelKeyframeConfigurationRelationCurrent> currentRelationSettings) {
+        this.currentRelationSettings = currentRelationSettings;
+    }
+
+    public byte getBlend() {
+        return blend;
+    }
+
+    public void setBlend(byte blend) {
+        this.blend = blend;
+    }
+
+    public float getEdgeWidth() {
+        return edgeWidth;
+    }
+
+    public void setEdgeWidth(float edgeWidth) {
+        this.edgeWidth = edgeWidth;
+    }
+
+    public byte getSelfShadowEnabled() {
+        return selfShadowEnabled;
+    }
+
+    public void setSelfShadowEnabled(byte selfShadowEnabled) {
+        this.selfShadowEnabled = selfShadowEnabled;
+    }
+
+    public byte getCalculationOrder() {
+        return calculationOrder;
+    }
+
+    public void setCalculationOrder(byte calculationOrder) {
+        this.calculationOrder = calculationOrder;
     }
 }
