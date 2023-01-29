@@ -4,10 +4,10 @@ public class PMMFileModelKeyframe {
     private int keyframePosition;
     private int previousIndex;
     private int nextIndex;
-    private PMMFileModelKeyframeInterpolation interpolationX;
-    private PMMFileModelKeyframeInterpolation interpolationY;
-    private PMMFileModelKeyframeInterpolation interpolationZ;
-    private PMMFileModelKeyframeInterpolation interpolationRotation;
+    private PMMFileKeyframeInterpolation interpolationX;
+    private PMMFileKeyframeInterpolation interpolationY;
+    private PMMFileKeyframeInterpolation interpolationZ;
+    private PMMFileKeyframeInterpolation interpolationRotation;
     private float translationX;
     private float translationY;
     private float translationZ;
@@ -43,27 +43,27 @@ public class PMMFileModelKeyframe {
         this.nextIndex = nextIndex;
     }
 
-    public PMMFileModelKeyframeInterpolation getInterpolationX() {
+    public PMMFileKeyframeInterpolation getInterpolationX() {
         return interpolationX;
     }
 
-    public void setInterpolationX(PMMFileModelKeyframeInterpolation interpolationX) {
+    public void setInterpolationX(PMMFileKeyframeInterpolation interpolationX) {
         this.interpolationX = interpolationX;
     }
 
-    public PMMFileModelKeyframeInterpolation getInterpolationY() {
+    public PMMFileKeyframeInterpolation getInterpolationY() {
         return interpolationY;
     }
 
-    public void setInterpolationY(PMMFileModelKeyframeInterpolation interpolationY) {
+    public void setInterpolationY(PMMFileKeyframeInterpolation interpolationY) {
         this.interpolationY = interpolationY;
     }
 
-    public PMMFileModelKeyframeInterpolation getInterpolationZ() {
+    public PMMFileKeyframeInterpolation getInterpolationZ() {
         return interpolationZ;
     }
 
-    public void setInterpolationZ(PMMFileModelKeyframeInterpolation interpolationZ) {
+    public void setInterpolationZ(PMMFileKeyframeInterpolation interpolationZ) {
         this.interpolationZ = interpolationZ;
     }
 
@@ -139,11 +139,11 @@ public class PMMFileModelKeyframe {
         this.physicsDisabled = physicsDisabled;
     }
 
-    public PMMFileModelKeyframeInterpolation getInterpolationRotation() {
+    public PMMFileKeyframeInterpolation getInterpolationRotation() {
         return interpolationRotation;
     }
 
-    public void setInterpolationRotation(PMMFileModelKeyframeInterpolation interpolationRotation) {
+    public void setInterpolationRotation(PMMFileKeyframeInterpolation interpolationRotation) {
         this.interpolationRotation = interpolationRotation;
     }
 }

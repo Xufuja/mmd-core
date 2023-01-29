@@ -48,6 +48,7 @@ public class PMMParser {
         pmmFile.setSelectedModelIndex(getByte());
         pmmFile.setModelCount(getByte());
         pmmFile.setPmmFileModels(parseModels(pmmFile.getModelCount()));
+        pmmFile.setPmmFileCamera(parseCamera());
 
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
@@ -58,6 +59,9 @@ public class PMMParser {
         pmmFile.getPmmFileModels().forEach(model -> model.getBoneNames().forEach(System.out::println));
         pmmFile.getPmmFileModels().forEach(model -> model.getMorphNames().forEach(System.out::println));
         pmmFile.getPmmFileModels().forEach(model -> System.out.println(model.getSelfShadowEnabled()));
+        pmmFile.getPmmFileCamera().getCameraKeyframes().forEach(camera -> System.out.println(camera.getCameraKeyframeData().getKeyframePosition() + " " + camera.getCameraKeyframeData().getDistance()));
+        pmmFile.getPmmFileCamera().getCameraKeyframes().forEach(camera -> System.out.println(camera.getCameraKeyframeData().getAngleOfView()));
+        System.out.println(pmmFile.getPmmFileCamera().getOrthographicCameraEnabled());
     }
 
     public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
@@ -88,9 +92,9 @@ public class PMMParser {
             pmmFileModel.setSelectedFoldStatus(pmmFileModel.getFoldCount() > 0 ? IntStream.range(0, pmmFileModel.getFoldCount()).mapToObj(fold -> getByte()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setVerticalScrollStatus(getInt());
             pmmFileModel.setLastFrame(getInt());
-            pmmFileModel.setBoneInitialKeyframes(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
+            pmmFileModel.setBoneInitialKeyframes(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> parseModelKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setBoneKeyframeCount(getInt());
-            pmmFileModel.setBoneKeyframes(pmmFileModel.getBoneKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneKeyframeCount()).mapToObj(bone -> parseKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
+            pmmFileModel.setBoneKeyframes(pmmFileModel.getBoneKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneKeyframeCount()).mapToObj(bone -> parseModelKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setMorphInitialKeyframes(pmmFileModel.getMorphCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphCount()).mapToObj(morph -> parseMorphKeyframe()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileModel.setMorphKeyframeCount(getInt());
             pmmFileModel.setMorphKeyframes(pmmFileModel.getMorphKeyframeCount() > 0 ? IntStream.range(0, pmmFileModel.getMorphKeyframeCount()).mapToObj(morph -> parseMorphKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
@@ -113,16 +117,34 @@ public class PMMParser {
         }
         return models;
     }
+    public PMMFileCamera parseCamera() {
+        PMMFileCamera pmmFileCamera = new PMMFileCamera();
+        pmmFileCamera.setCameraInitialKeyframe(parseCameraKeyframe());
+        pmmFileCamera.setCameraKeyframeCount(getInt());
+        pmmFileCamera.setCameraKeyframes(pmmFileCamera.getCameraKeyframeCount() > 0 ? IntStream.range(0, pmmFileCamera.getCameraKeyframeCount()).mapToObj(bone -> parseCameraKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
+        pmmFileCamera.setEyePositionX(getFloat());
+        pmmFileCamera.setEyePositionY(getFloat());
+        pmmFileCamera.setEyePositionZ(getFloat());
+        pmmFileCamera.setTargetPositionX(getFloat());
+        pmmFileCamera.setTargetPositionY(getFloat());
+        pmmFileCamera.setTargetPositionZ(getFloat());
+        pmmFileCamera.setRotationX(getFloat());
+        pmmFileCamera.setRotationY(getFloat());
+        pmmFileCamera.setRotationZ(getFloat());
+        pmmFileCamera.setOrthographicCameraEnabled(getByte());
 
-    public PMMFileModelKeyframe parseKeyframe() {
+        return pmmFileCamera;
+    }
+
+    public PMMFileModelKeyframe parseModelKeyframe() {
         PMMFileModelKeyframe keyframe = new PMMFileModelKeyframe();
         keyframe.setKeyframePosition(getInt());
         keyframe.setPreviousIndex(getInt());
         keyframe.setNextIndex(getInt());
-        keyframe.setInterpolationX(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
-        keyframe.setInterpolationY(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
-        keyframe.setInterpolationZ(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
-        keyframe.setInterpolationRotation(new PMMFileModelKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationX(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationY(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationZ(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationRotation(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
         keyframe.setTranslationX(getFloat());
         keyframe.setTranslationY(getFloat());
         keyframe.setTranslationZ(getFloat());
@@ -134,11 +156,42 @@ public class PMMParser {
         keyframe.setPhysicsDisabled(getByte());
         return keyframe;
     }
+    public PMMFileCameraKeyframe parseCameraKeyframe() {
+        PMMFileCameraKeyframe keyframe = new PMMFileCameraKeyframe();
+        keyframe.setKeyframePosition(getInt());
+        keyframe.setPreviousIndex(getInt());
+        keyframe.setNextIndex(getInt());
+        keyframe.setDistance(getFloat());
+        keyframe.setEyePositionX(getFloat());
+        keyframe.setEyePositionY(getFloat());
+        keyframe.setEyePositionZ(getFloat());
+        keyframe.setRotationX(getFloat());
+        keyframe.setRotationY(getFloat());
+        keyframe.setRotationZ(getFloat());
+        keyframe.setTrackedModelIndex(getInt());
+        keyframe.setTrackedModelBoneIndex(getInt());
+        keyframe.setEyeInterpolationX(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setEyeInterpolationY(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setEyeInterpolationZ(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationRotation(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationDistance(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setInterpolationAngleOfView(new PMMFileKeyframeInterpolation(getByte(), getByte(), getByte(), getByte()));
+        keyframe.setOrthographicCameraEnabled(getByte());
+        keyframe.setAngleOfView(getInt());
+        keyframe.setSelected(getByte());
+        return keyframe;
+    }
 
-    public PMMFileModelKeyframeWithIndex parseKeyframeWithIndex() {
+    public PMMFileModelKeyframeWithIndex parseModelKeyframeWithIndex() {
         PMMFileModelKeyframeWithIndex keyframe = new PMMFileModelKeyframeWithIndex();
         keyframe.setDataIndex(getInt());
-        keyframe.setBoneKeyframeData(parseKeyframe());
+        keyframe.setBoneKeyframeData(parseModelKeyframe());
+        return keyframe;
+    }
+    public PMMFileCameraKeyframeWithIndex parseCameraKeyframeWithIndex() {
+        PMMFileCameraKeyframeWithIndex keyframe = new PMMFileCameraKeyframeWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setCameraKeyframeData(parseCameraKeyframe());
         return keyframe;
     }
 

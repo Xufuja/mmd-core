@@ -18,6 +18,7 @@ public class PMMFile {
     private byte selectedModelIndex;
     private byte modelCount;
     private List<PMMFileModel> pmmFileModels;
+    private PMMFileCamera pmmFileCamera;
 
     public String getVersion() {
         return version;
@@ -137,5 +138,13 @@ public class PMMFile {
 
     public void setPmmFileModels(List<PMMFileModel> pmmFileModels) {
         this.pmmFileModels = pmmFileModels;
+    }
+
+    public PMMFileCamera getPmmFileCamera() {
+        return pmmFileCamera;
+    }
+
+    public void setPmmFileCamera(PMMFileCamera pmmFileCamera) {
+        this.pmmFileCamera = pmmFileCamera;
     }
 }

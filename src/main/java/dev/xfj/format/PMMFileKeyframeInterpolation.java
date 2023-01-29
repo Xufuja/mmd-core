@@ -1,12 +1,12 @@
 package dev.xfj.format;
 
-public class PMMFileModelKeyframeInterpolation {
+public class PMMFileKeyframeInterpolation {
     private byte startX;
     private byte startY;
     private byte endX;
     private byte endY;
 
-    public PMMFileModelKeyframeInterpolation(byte startX, byte startY, byte endX, byte endY) {
+    public PMMFileKeyframeInterpolation(byte startX, byte startY, byte endX, byte endY) {
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
