@@ -19,6 +19,12 @@ public class PMMFile {
     private byte modelCount;
     private List<PMMFileModel> pmmFileModels;
     private PMMFileCamera pmmFileCamera;
+    private PMMFileLighting pmmFileLighting;
+    private byte selectedAccessory;
+    private int verticalScroll;
+    private byte accessoryCount;
+    private List<String> accessoryNames;
+
 
     public String getVersion() {
         return version;
@@ -146,5 +152,45 @@ public class PMMFile {
 
     public void setPmmFileCamera(PMMFileCamera pmmFileCamera) {
         this.pmmFileCamera = pmmFileCamera;
+    }
+
+    public PMMFileLighting getPmmFileLighting() {
+        return pmmFileLighting;
+    }
+
+    public void setPmmFileLighting(PMMFileLighting pmmFileLighting) {
+        this.pmmFileLighting = pmmFileLighting;
+    }
+
+    public byte getSelectedAccessory() {
+        return selectedAccessory;
+    }
+
+    public void setSelectedAccessory(byte selectedAccessory) {
+        this.selectedAccessory = selectedAccessory;
+    }
+
+    public int getVerticalScroll() {
+        return verticalScroll;
+    }
+
+    public void setVerticalScroll(int verticalScroll) {
+        this.verticalScroll = verticalScroll;
+    }
+
+    public byte getAccessoryCount() {
+        return accessoryCount;
+    }
+
+    public void setAccessoryCount(byte accessoryCount) {
+        this.accessoryCount = accessoryCount;
+    }
+
+    public List<String> getAccessoryNames() {
+        return accessoryNames;
+    }
+
+    public void setAccessoryNames(List<String> accessoryNames) {
+        this.accessoryNames = accessoryNames;
     }
 }
