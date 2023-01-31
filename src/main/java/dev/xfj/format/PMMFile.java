@@ -24,6 +24,7 @@ public class PMMFile {
     private int verticalScroll;
     private byte accessoryCount;
     private List<String> accessoryNames;
+    private List<PMMFileAccessory> pmmFileAccessories;
 
 
     public String getVersion() {
@@ -192,5 +193,13 @@ public class PMMFile {
 
     public void setAccessoryNames(List<String> accessoryNames) {
         this.accessoryNames = accessoryNames;
+    }
+
+    public List<PMMFileAccessory> getPmmFileAccessories() {
+        return pmmFileAccessories;
+    }
+
+    public void setPmmFileAccessories(List<PMMFileAccessory> pmmFileAccessories) {
+        this.pmmFileAccessories = pmmFileAccessories;
     }
 }

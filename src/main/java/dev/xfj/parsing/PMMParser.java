@@ -55,6 +55,7 @@ public class PMMParser {
         pmmFile.setVerticalScroll(getInt());
         pmmFile.setAccessoryCount(getByte());
         pmmFile.setAccessoryNames(pmmFile.getAccessoryCount() > 0 ? IntStream.range(0, pmmFile.getAccessoryCount()).mapToObj(name -> getFixedString(100)).collect(Collectors.toList()) : Collections.emptyList());
+        pmmFile.setPmmFileAccessories(parseAccessories(pmmFile.getAccessoryCount()));
 
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
@@ -71,6 +72,7 @@ public class PMMParser {
         System.out.println(String.format("RGB: %1$s %2$s %3$s", pmmFile.getPmmFileLighting().getCurrentLightingData().getR(), pmmFile.getPmmFileLighting().getCurrentLightingData().getG(), pmmFile.getPmmFileLighting().getCurrentLightingData().getB()));
         System.out.println(String.format("XYZ: %1$s %2$s %3$s", pmmFile.getPmmFileLighting().getCurrentLightingData().getX(), pmmFile.getPmmFileLighting().getCurrentLightingData().getY(), pmmFile.getPmmFileLighting().getCurrentLightingData().getZ()));
         pmmFile.getAccessoryNames().forEach(System.out::println);
+        pmmFile.getPmmFileAccessories().forEach(accessory -> System.out.println(accessory.getAccessoryName()));
     }
 
     public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
@@ -126,6 +128,7 @@ public class PMMParser {
         }
         return models;
     }
+
     public PMMFileCamera parseCamera() {
         PMMFileCamera pmmFileCamera = new PMMFileCamera();
         pmmFileCamera.setCameraInitialKeyframe(parseCameraKeyframe());
@@ -143,6 +146,26 @@ public class PMMParser {
         pmmFileCamera.setOrthographicCameraEnabled(getByte());
 
         return pmmFileCamera;
+    }
+
+    public List<PMMFileAccessory> parseAccessories(byte count) {
+        List<PMMFileAccessory> accessories = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            PMMFileAccessory pmmFileAccessory = new PMMFileAccessory();
+            pmmFileAccessory.setAccessoryIndex(getByte());
+            pmmFileAccessory.setAccessoryName(getFixedString(100));
+            pmmFileAccessory.setAccessoryFilePath(getFixedString(256));
+            pmmFileAccessory.setRenderOrder(getByte());
+            pmmFileAccessory.setAccessoryInitialKeyframe(parseAccessoryKeyframe());
+            pmmFileAccessory.setAccessoryKeyframeCount(getByte());
+            pmmFileAccessory.setAccessoryKeyframes(pmmFileAccessory.getAccessoryKeyframeCount() > 0 ? IntStream.range(0, pmmFileAccessory.getAccessoryKeyframeCount()).mapToObj(accessory -> parseAccessoryKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
+            pmmFileAccessory.setCurrentAccessoryData(new PMMFileAccessoryData(getByte(), getInt(), getInt(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getByte()));
+            pmmFileAccessory.setBlend(getByte());
+
+            accessories.add(pmmFileAccessory);
+
+        }
+        return accessories;
     }
 
     public PMMFileLighting parseLighting() {
@@ -174,6 +197,7 @@ public class PMMParser {
         keyframe.setPhysicsDisabled(getByte());
         return keyframe;
     }
+
     public PMMFileCameraKeyframe parseCameraKeyframe() {
         PMMFileCameraKeyframe keyframe = new PMMFileCameraKeyframe();
         keyframe.setKeyframePosition(getInt());
@@ -210,22 +234,41 @@ public class PMMParser {
         return keyframe;
     }
 
+    public PMMFileAccessoryKeyframe parseAccessoryKeyframe() {
+        PMMFileAccessoryKeyframe keyframe = new PMMFileAccessoryKeyframe();
+        keyframe.setKeyframePosition(getInt());
+        keyframe.setPreviousIndex(getInt());
+        keyframe.setNextIndex(getInt());
+        keyframe.setAccessoryData(new PMMFileAccessoryData(getByte(), getInt(), getInt(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getByte()));
+        keyframe.setSelected(getByte());
+        return keyframe;
+    }
+
     public PMMFileModelKeyframeWithIndex parseModelKeyframeWithIndex() {
         PMMFileModelKeyframeWithIndex keyframe = new PMMFileModelKeyframeWithIndex();
         keyframe.setDataIndex(getInt());
         keyframe.setBoneKeyframeData(parseModelKeyframe());
         return keyframe;
     }
+
     public PMMFileCameraKeyframeWithIndex parseCameraKeyframeWithIndex() {
         PMMFileCameraKeyframeWithIndex keyframe = new PMMFileCameraKeyframeWithIndex();
         keyframe.setDataIndex(getInt());
         keyframe.setCameraKeyframeData(parseCameraKeyframe());
         return keyframe;
     }
+
     public PMMFileLightingKeyframeWithIndex parseLightingKeyframeWithIndex() {
         PMMFileLightingKeyframeWithIndex keyframe = new PMMFileLightingKeyframeWithIndex();
         keyframe.setDataIndex(getInt());
         keyframe.setLightingKeyframe(parseLightingKeyframe());
+        return keyframe;
+    }
+
+    public PMMFileAccessoryKeyframeWithIndex parseAccessoryKeyframeWithIndex() {
+        PMMFileAccessoryKeyframeWithIndex keyframe = new PMMFileAccessoryKeyframeWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setAccessoryKeyframeData(parseAccessoryKeyframe());
         return keyframe;
     }
 
