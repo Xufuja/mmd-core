@@ -56,6 +56,38 @@ public class PMMFile {
     private float groundShadowBrightness;
     private byte transparentGroundShadow;
     private byte physicsMode;
+    private PMMFileGravity pmmFileGravity;
+    private byte showSelfShadow;
+    private PMMFileSelfShadow pmmFileSelfShadow;
+    private int edgeColorR;
+    private int edgeColorG;
+    private int edgeColorB;
+    private byte blackBackground;
+    private int cameraLookingAtModelCurrent;
+    private int cameraLookingAtBoneCurrent;
+    private float unknownFloat01;
+    private float unknownFloat02;
+    private float unknownFloat03;
+    private float unknownFloat04;
+    private float unknownFloat05;
+    private float unknownFloat06;
+    private float unknownFloat07;
+    private float unknownFloat08;
+    private float unknownFloat09;
+    private float unknownFloat10;
+    private float unknownFloat11;
+    private float unknownFloat12;
+    private float unknownFloat13;
+    private float unknownFloat14;
+    private float unknownFloat15;
+    private float unknownFloat16;
+    private byte eyeTrackingEnabled;
+    private byte unknownByte01;
+    private byte groundPhysicsEnabled;
+    private int frameTextBox;
+    private byte selectorChoiceFollowing;
+    private List<PMMFileSelectorChoice> pmmFileSelectorChoices;
+
 
 
     public String getVersion() {
@@ -480,5 +512,253 @@ public class PMMFile {
 
     public void setPhysicsMode(byte physicsMode) {
         this.physicsMode = physicsMode;
+    }
+
+    public PMMFileGravity getPmmFileGravity() {
+        return pmmFileGravity;
+    }
+
+    public void setPmmFileGravity(PMMFileGravity pmmFileGravity) {
+        this.pmmFileGravity = pmmFileGravity;
+    }
+
+    public byte getShowSelfShadow() {
+        return showSelfShadow;
+    }
+
+    public void setShowSelfShadow(byte showSelfShadow) {
+        this.showSelfShadow = showSelfShadow;
+    }
+
+    public PMMFileSelfShadow getPmmFileSelfShadow() {
+        return pmmFileSelfShadow;
+    }
+
+    public void setPmmFileSelfShadow(PMMFileSelfShadow pmmFileSelfShadow) {
+        this.pmmFileSelfShadow = pmmFileSelfShadow;
+    }
+
+    public int getEdgeColorR() {
+        return edgeColorR;
+    }
+
+    public void setEdgeColorR(int edgeColorR) {
+        this.edgeColorR = edgeColorR;
+    }
+
+    public int getEdgeColorG() {
+        return edgeColorG;
+    }
+
+    public void setEdgeColorG(int edgeColorG) {
+        this.edgeColorG = edgeColorG;
+    }
+
+    public int getEdgeColorB() {
+        return edgeColorB;
+    }
+
+    public void setEdgeColorB(int edgeColorB) {
+        this.edgeColorB = edgeColorB;
+    }
+
+    public byte getBlackBackground() {
+        return blackBackground;
+    }
+
+    public void setBlackBackground(byte blackBackground) {
+        this.blackBackground = blackBackground;
+    }
+
+    public int getCameraLookingAtModelCurrent() {
+        return cameraLookingAtModelCurrent;
+    }
+
+    public void setCameraLookingAtModelCurrent(int cameraLookingAtModelCurrent) {
+        this.cameraLookingAtModelCurrent = cameraLookingAtModelCurrent;
+    }
+
+    public int getCameraLookingAtBoneCurrent() {
+        return cameraLookingAtBoneCurrent;
+    }
+
+    public void setCameraLookingAtBoneCurrent(int cameraLookingAtBoneCurrent) {
+        this.cameraLookingAtBoneCurrent = cameraLookingAtBoneCurrent;
+    }
+
+    public float getUnknownFloat01() {
+        return unknownFloat01;
+    }
+
+    public void setUnknownFloat01(float unknownFloat01) {
+        this.unknownFloat01 = unknownFloat01;
+    }
+
+    public float getUnknownFloat02() {
+        return unknownFloat02;
+    }
+
+    public void setUnknownFloat02(float unknownFloat02) {
+        this.unknownFloat02 = unknownFloat02;
+    }
+
+    public float getUnknownFloat03() {
+        return unknownFloat03;
+    }
+
+    public void setUnknownFloat03(float unknownFloat03) {
+        this.unknownFloat03 = unknownFloat03;
+    }
+
+    public float getUnknownFloat04() {
+        return unknownFloat04;
+    }
+
+    public void setUnknownFloat04(float unknownFloat04) {
+        this.unknownFloat04 = unknownFloat04;
+    }
+
+    public float getUnknownFloat05() {
+        return unknownFloat05;
+    }
+
+    public void setUnknownFloat05(float unknownFloat05) {
+        this.unknownFloat05 = unknownFloat05;
+    }
+
+    public float getUnknownFloat06() {
+        return unknownFloat06;
+    }
+
+    public void setUnknownFloat06(float unknownFloat06) {
+        this.unknownFloat06 = unknownFloat06;
+    }
+
+    public float getUnknownFloat07() {
+        return unknownFloat07;
+    }
+
+    public void setUnknownFloat07(float unknownFloat07) {
+        this.unknownFloat07 = unknownFloat07;
+    }
+
+    public float getUnknownFloat08() {
+        return unknownFloat08;
+    }
+
+    public void setUnknownFloat08(float unknownFloat08) {
+        this.unknownFloat08 = unknownFloat08;
+    }
+
+    public float getUnknownFloat09() {
+        return unknownFloat09;
+    }
+
+    public void setUnknownFloat09(float unknownFloat09) {
+        this.unknownFloat09 = unknownFloat09;
+    }
+
+    public float getUnknownFloat10() {
+        return unknownFloat10;
+    }
+
+    public void setUnknownFloat10(float unknownFloat10) {
+        this.unknownFloat10 = unknownFloat10;
+    }
+
+    public float getUnknownFloat11() {
+        return unknownFloat11;
+    }
+
+    public void setUnknownFloat11(float unknownFloat11) {
+        this.unknownFloat11 = unknownFloat11;
+    }
+
+    public float getUnknownFloat12() {
+        return unknownFloat12;
+    }
+
+    public void setUnknownFloat12(float unknownFloat12) {
+        this.unknownFloat12 = unknownFloat12;
+    }
+
+    public float getUnknownFloat13() {
+        return unknownFloat13;
+    }
+
+    public void setUnknownFloat13(float unknownFloat13) {
+        this.unknownFloat13 = unknownFloat13;
+    }
+
+    public float getUnknownFloat14() {
+        return unknownFloat14;
+    }
+
+    public void setUnknownFloat14(float unknownFloat14) {
+        this.unknownFloat14 = unknownFloat14;
+    }
+
+    public float getUnknownFloat15() {
+        return unknownFloat15;
+    }
+
+    public void setUnknownFloat15(float unknownFloat15) {
+        this.unknownFloat15 = unknownFloat15;
+    }
+
+    public float getUnknownFloat16() {
+        return unknownFloat16;
+    }
+
+    public void setUnknownFloat16(float unknownFloat16) {
+        this.unknownFloat16 = unknownFloat16;
+    }
+
+    public byte getEyeTrackingEnabled() {
+        return eyeTrackingEnabled;
+    }
+
+    public void setEyeTrackingEnabled(byte eyeTrackingEnabled) {
+        this.eyeTrackingEnabled = eyeTrackingEnabled;
+    }
+
+    public byte getUnknownByte01() {
+        return unknownByte01;
+    }
+
+    public void setUnknownByte01(byte unknownByte01) {
+        this.unknownByte01 = unknownByte01;
+    }
+
+    public byte getGroundPhysicsEnabled() {
+        return groundPhysicsEnabled;
+    }
+
+    public void setGroundPhysicsEnabled(byte groundPhysicsEnabled) {
+        this.groundPhysicsEnabled = groundPhysicsEnabled;
+    }
+
+    public int getFrameTextBox() {
+        return frameTextBox;
+    }
+
+    public void setFrameTextBox(int frameTextBox) {
+        this.frameTextBox = frameTextBox;
+    }
+
+    public byte getSelectorChoiceFollowing() {
+        return selectorChoiceFollowing;
+    }
+
+    public void setSelectorChoiceFollowing(byte selectorChoiceFollowing) {
+        this.selectorChoiceFollowing = selectorChoiceFollowing;
+    }
+
+    public List<PMMFileSelectorChoice> getPmmFileSelectorChoices() {
+        return pmmFileSelectorChoices;
+    }
+
+    public void setPmmFileSelectorChoices(List<PMMFileSelectorChoice> pmmFileSelectorChoices) {
+        this.pmmFileSelectorChoices = pmmFileSelectorChoices;
     }
 }

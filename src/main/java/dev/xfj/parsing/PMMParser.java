@@ -3,7 +3,6 @@ package dev.xfj.parsing;
 import dev.xfj.format.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
@@ -87,6 +86,37 @@ public class PMMParser {
         pmmFile.setGroundShadowBrightness(getFloat());
         pmmFile.setTransparentGroundShadow(getByte());
         pmmFile.setPhysicsMode(getByte());
+        pmmFile.setPmmFileGravity(parseGravity());
+        pmmFile.setShowSelfShadow(getByte());
+        pmmFile.setPmmFileSelfShadow(parseSelfShadow());
+        pmmFile.setEdgeColorR(getInt());
+        pmmFile.setEdgeColorG(getInt());
+        pmmFile.setEdgeColorB(getInt());
+        pmmFile.setBlackBackground(getByte());
+        pmmFile.setCameraLookingAtModelCurrent(getInt());
+        pmmFile.setCameraLookingAtBoneCurrent(getInt());
+        pmmFile.setUnknownFloat01(getFloat());
+        pmmFile.setUnknownFloat02(getFloat());
+        pmmFile.setUnknownFloat03(getFloat());
+        pmmFile.setUnknownFloat04(getFloat());
+        pmmFile.setUnknownFloat05(getFloat());
+        pmmFile.setUnknownFloat06(getFloat());
+        pmmFile.setUnknownFloat07(getFloat());
+        pmmFile.setUnknownFloat08(getFloat());
+        pmmFile.setUnknownFloat09(getFloat());
+        pmmFile.setUnknownFloat10(getFloat());
+        pmmFile.setUnknownFloat11(getFloat());
+        pmmFile.setUnknownFloat12(getFloat());
+        pmmFile.setUnknownFloat13(getFloat());
+        pmmFile.setUnknownFloat14(getFloat());
+        pmmFile.setUnknownFloat15(getFloat());
+        pmmFile.setUnknownFloat16(getFloat());
+        pmmFile.setEyeTrackingEnabled(getByte());
+        pmmFile.setUnknownByte01(getByte());
+        pmmFile.setGroundPhysicsEnabled(getByte());
+        pmmFile.setFrameTextBox(getInt());
+        pmmFile.setSelectorChoiceFollowing(getByte());
+        pmmFile.setPmmFileSelectorChoices(parseSelectorChoices(pmmFile.getModelCount()));
 
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
@@ -111,9 +141,18 @@ public class PMMParser {
         System.out.println(pmmFile.getShowAxis());
         System.out.println(pmmFile.getFpsLimit());
         System.out.println(pmmFile.getPhysicsMode());
+        System.out.println(pmmFile.getPmmFileGravity().getGravityKeyframeCount());
+        System.out.println(pmmFile.getPmmFileGravity().getGravityInitialKeyframe().getNoiseAmount());
+        System.out.println(pmmFile.getPmmFileGravity().getGravityInitialKeyframe().getDirectionX());
+        System.out.println(pmmFile.getPmmFileGravity().getGravityInitialKeyframe().getDirectionY());
+        System.out.println(pmmFile.getPmmFileGravity().getGravityInitialKeyframe().getDirectionZ());
+        System.out.println(pmmFile.getPmmFileSelfShadow().getSelfShadowKeyframeCount());
+        System.out.println(pmmFile.getPmmFileSelfShadow().getSelfShadowInitialKeyframe().getDistance());
+        System.out.println(pmmFile.getSelectorChoiceFollowing());
+        System.out.println(offset);
     }
 
-    public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
+    public List<PMMFileModel> parseModels(byte count) {
         List<PMMFileModel> models = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             PMMFileModel pmmFileModel = new PMMFileModel();
@@ -215,6 +254,41 @@ public class PMMParser {
         return pmmFileLighting;
     }
 
+    public PMMFileGravity parseGravity() {
+        PMMFileGravity pmmFileGravity = new PMMFileGravity();
+        pmmFileGravity.setAcceleration(getFloat());
+        pmmFileGravity.setNoiseAmount(getInt());
+        pmmFileGravity.setDirectionX(getFloat());
+        pmmFileGravity.setDirectionY(getFloat());
+        pmmFileGravity.setDirectionZ(getFloat());
+        pmmFileGravity.setAddNoise(getByte());
+        pmmFileGravity.setGravityInitialKeyframe(parseGravityKeyframe());
+        pmmFileGravity.setGravityKeyframeCount(getInt());
+        pmmFileGravity.setGravityKeyframes(pmmFileGravity.getGravityKeyframeCount() > 0 ? IntStream.range(0, pmmFileGravity.getGravityKeyframeCount()).mapToObj(gravity -> parseGravityKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
+        return pmmFileGravity;
+    }
+
+    public PMMFileSelfShadow parseSelfShadow() {
+        PMMFileSelfShadow pmmFileSelfShadow = new PMMFileSelfShadow();
+        pmmFileSelfShadow.setSelfShadowDistance(getFloat());
+        pmmFileSelfShadow.setSelfShadowInitialKeyframe(parseSelfShadowKeyframe());
+        pmmFileSelfShadow.setSelfShadowKeyframeCount(getInt());
+        pmmFileSelfShadow.setSelfShadowKeyframes(pmmFileSelfShadow.getSelfShadowKeyframeCount() > 0 ? IntStream.range(0, pmmFileSelfShadow.getSelfShadowKeyframeCount()).mapToObj(shadow -> parseSelfShadowKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
+        return pmmFileSelfShadow;
+    }
+
+    public List<PMMFileSelectorChoice> parseSelectorChoices(byte count) {
+        List<PMMFileSelectorChoice> choices = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            PMMFileSelectorChoice pmmFileSelectorChoice = new PMMFileSelectorChoice();
+            pmmFileSelectorChoice.setModelIndex(getByte());
+            pmmFileSelectorChoice.setSelectorChoice(getInt());
+
+            choices.add(pmmFileSelectorChoice);
+        }
+        return choices;
+    }
+
     public PMMFileModelKeyframe parseModelKeyframe() {
         PMMFileModelKeyframe keyframe = new PMMFileModelKeyframe();
         keyframe.setKeyframePosition(getInt());
@@ -282,6 +356,32 @@ public class PMMParser {
         return keyframe;
     }
 
+    public PMMFileGravityKeyframe parseGravityKeyframe() {
+        PMMFileGravityKeyframe keyframe = new PMMFileGravityKeyframe();
+        keyframe.setKeyframePosition(getInt());
+        keyframe.setPreviousIndex(getInt());
+        keyframe.setNextIndex(getInt());
+        keyframe.setAddNoise(getByte());
+        keyframe.setNoiseAmount(getInt());
+        keyframe.setAcceleration(getFloat());
+        keyframe.setDirectionX(getFloat());
+        keyframe.setDirectionY(getFloat());
+        keyframe.setDirectionZ(getFloat());
+        keyframe.setSelected(getByte());
+        return keyframe;
+    }
+
+    public PMMFileSelfShadowKeyframe parseSelfShadowKeyframe() {
+        PMMFileSelfShadowKeyframe keyframe = new PMMFileSelfShadowKeyframe();
+        keyframe.setKeyframePosition(getInt());
+        keyframe.setPreviousIndex(getInt());
+        keyframe.setNextIndex(getInt());
+        keyframe.setMode(getByte());
+        keyframe.setDistance(getFloat());
+        keyframe.setSelected(getByte());
+        return keyframe;
+    }
+
     public PMMFileModelKeyframeWithIndex parseModelKeyframeWithIndex() {
         PMMFileModelKeyframeWithIndex keyframe = new PMMFileModelKeyframeWithIndex();
         keyframe.setDataIndex(getInt());
@@ -307,6 +407,20 @@ public class PMMParser {
         PMMFileAccessoryKeyframeWithIndex keyframe = new PMMFileAccessoryKeyframeWithIndex();
         keyframe.setDataIndex(getInt());
         keyframe.setAccessoryKeyframeData(parseAccessoryKeyframe());
+        return keyframe;
+    }
+
+    public PMMFileGravityKeyframeWithIndex parseGravityKeyframeWithIndex() {
+        PMMFileGravityKeyframeWithIndex keyframe = new PMMFileGravityKeyframeWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setGravityKeyframeData(parseGravityKeyframe());
+        return keyframe;
+    }
+
+    public PMMFileSelfShadowKeyframeWithIndex parseSelfShadowKeyframeWithIndex() {
+        PMMFileSelfShadowKeyframeWithIndex keyframe = new PMMFileSelfShadowKeyframeWithIndex();
+        keyframe.setDataIndex(getInt());
+        keyframe.setSelfShadowKeyframeData(parseSelfShadowKeyframe());
         return keyframe;
     }
 
