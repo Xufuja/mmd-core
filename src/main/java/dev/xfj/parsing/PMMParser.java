@@ -56,6 +56,37 @@ public class PMMParser {
         pmmFile.setAccessoryCount(getByte());
         pmmFile.setAccessoryNames(pmmFile.getAccessoryCount() > 0 ? IntStream.range(0, pmmFile.getAccessoryCount()).mapToObj(name -> getFixedString(100)).collect(Collectors.toList()) : Collections.emptyList());
         pmmFile.setPmmFileAccessories(parseAccessories(pmmFile.getAccessoryCount()));
+        pmmFile.setCurrentFramePosition(getInt());
+        pmmFile.setHorizontalScrollPosition(getInt());
+        pmmFile.setHorizontalScale(getInt());
+        pmmFile.setBoneOperationMethod(getInt());
+        pmmFile.setLookingAt(getByte());
+        pmmFile.setRepeat(getByte());
+        pmmFile.setPlayFromFrame(getByte());
+        pmmFile.setPlayToFrame(getByte());
+        pmmFile.setPlayStartFrame(getInt());
+        pmmFile.setPlayEndFrame(getInt());
+        pmmFile.setWaveEnabled(getByte());
+        pmmFile.setWaveFileName(getFixedString(256));
+        pmmFile.setAviOffsetX(getInt());
+        pmmFile.setAviOffsetY(getInt());
+        pmmFile.setAviScale(getFloat());
+        pmmFile.setAviFileName(getFixedString(256));
+        pmmFile.setShowAvi(getInt());
+        pmmFile.setBackgroundImageOffsetX(getInt());
+        pmmFile.setBackgroundImageOffsetY(getInt());
+        pmmFile.setBackgroundImageScale(getFloat());
+        pmmFile.setBackgroundImageFileName(getFixedString(256));
+        pmmFile.setShowBackgroundImage(getByte());
+        pmmFile.setShowInformation(getByte());
+        pmmFile.setShowAxis(getByte());
+        pmmFile.setShowGroundShadow(getByte());
+        pmmFile.setFpsLimit(getFloat());
+        pmmFile.setScreenCaptureMode(getInt());
+        pmmFile.setAccessoryNumberRenderAfterModel(getInt());
+        pmmFile.setGroundShadowBrightness(getFloat());
+        pmmFile.setTransparentGroundShadow(getByte());
+        pmmFile.setPhysicsMode(getByte());
 
         System.out.println(pmmFile.getVersion());
         System.out.println(pmmFile.getOutputWidth());
@@ -73,6 +104,13 @@ public class PMMParser {
         System.out.println(String.format("XYZ: %1$s %2$s %3$s", pmmFile.getPmmFileLighting().getCurrentLightingData().getX(), pmmFile.getPmmFileLighting().getCurrentLightingData().getY(), pmmFile.getPmmFileLighting().getCurrentLightingData().getZ()));
         pmmFile.getAccessoryNames().forEach(System.out::println);
         pmmFile.getPmmFileAccessories().forEach(accessory -> System.out.println(String.format("%1$s: XYZ: %2$s %3$s %4$s", accessory.getAccessoryName(), accessory.getCurrentAccessoryData().getRotationX(), accessory.getCurrentAccessoryData().getRotationY(), accessory.getCurrentAccessoryData().getRotationZ())));
+        System.out.println(pmmFile.getBoneOperationMethod());
+        System.out.println(pmmFile.getPlayStartFrame());
+        System.out.println(pmmFile.getPlayEndFrame());
+        System.out.println(pmmFile.getShowInformation());
+        System.out.println(pmmFile.getShowAxis());
+        System.out.println(pmmFile.getFpsLimit());
+        System.out.println(pmmFile.getPhysicsMode());
     }
 
     public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
