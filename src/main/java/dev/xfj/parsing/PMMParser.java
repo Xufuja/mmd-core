@@ -1,6 +1,6 @@
 package dev.xfj.parsing;
 
-import dev.xfj.format.*;
+import dev.xfj.format.pmm.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -18,7 +18,6 @@ public class PMMParser {
     private final Path path;
     private final byte[] bytes;
     private final ByteBuffer byteBuffer;
-
     private int offset;
 
     public PMMParser(Path path) throws IOException {
@@ -30,7 +29,7 @@ public class PMMParser {
     }
 
     //Based on https://drive.google.com/file/d/0B6jwWdrYAgJTdXZSd1Noa2hKbmM/view?resourcekey=0-96-_sPXYP3ItPOQL7sca1A
-    public void parse() throws IOException {
+    public void parse() {
         PMMFile pmmFile = new PMMFile();
         //Keeping track of the positions was tedious so just added a counter that increments after each read
         pmmFile.setVersion(getFixedString(30));
