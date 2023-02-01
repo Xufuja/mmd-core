@@ -72,7 +72,7 @@ public class PMMParser {
         System.out.println(String.format("RGB: %1$s %2$s %3$s", pmmFile.getPmmFileLighting().getCurrentLightingData().getR(), pmmFile.getPmmFileLighting().getCurrentLightingData().getG(), pmmFile.getPmmFileLighting().getCurrentLightingData().getB()));
         System.out.println(String.format("XYZ: %1$s %2$s %3$s", pmmFile.getPmmFileLighting().getCurrentLightingData().getX(), pmmFile.getPmmFileLighting().getCurrentLightingData().getY(), pmmFile.getPmmFileLighting().getCurrentLightingData().getZ()));
         pmmFile.getAccessoryNames().forEach(System.out::println);
-        pmmFile.getPmmFileAccessories().forEach(accessory -> System.out.println(accessory.getAccessoryName()));
+        pmmFile.getPmmFileAccessories().forEach(accessory -> System.out.println(String.format("%1$s: XYZ: %2$s %3$s %4$s", accessory.getAccessoryName(), accessory.getCurrentAccessoryData().getRotationX(), accessory.getCurrentAccessoryData().getRotationY(), accessory.getCurrentAccessoryData().getRotationZ())));
     }
 
     public List<PMMFileModel> parseModels(byte count) throws UnsupportedEncodingException {
@@ -157,7 +157,7 @@ public class PMMParser {
             pmmFileAccessory.setAccessoryFilePath(getFixedString(256));
             pmmFileAccessory.setRenderOrder(getByte());
             pmmFileAccessory.setAccessoryInitialKeyframe(parseAccessoryKeyframe());
-            pmmFileAccessory.setAccessoryKeyframeCount(getByte());
+            pmmFileAccessory.setAccessoryKeyframeCount(getInt());
             pmmFileAccessory.setAccessoryKeyframes(pmmFileAccessory.getAccessoryKeyframeCount() > 0 ? IntStream.range(0, pmmFileAccessory.getAccessoryKeyframeCount()).mapToObj(accessory -> parseAccessoryKeyframeWithIndex()).collect(Collectors.toList()) : Collections.emptyList());
             pmmFileAccessory.setCurrentAccessoryData(new PMMFileAccessoryData(getByte(), getInt(), getInt(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getFloat(), getByte()));
             pmmFileAccessory.setBlend(getByte());

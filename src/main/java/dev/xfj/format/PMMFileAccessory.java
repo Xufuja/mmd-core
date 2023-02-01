@@ -8,7 +8,7 @@ public class PMMFileAccessory {
     private String accessoryFilePath;
     private byte renderOrder;
     private PMMFileAccessoryKeyframe accessoryInitialKeyframe;
-    private byte accessoryKeyframeCount;
+    private int accessoryKeyframeCount;
     private List<PMMFileAccessoryKeyframeWithIndex> accessoryKeyframes;
     private PMMFileAccessoryData currentAccessoryData;
     private byte blend;
@@ -53,11 +53,11 @@ public class PMMFileAccessory {
         this.accessoryInitialKeyframe = accessoryInitialKeyframe;
     }
 
-    public byte getAccessoryKeyframeCount() {
+    public int getAccessoryKeyframeCount() {
         return accessoryKeyframeCount;
     }
 
-    public void setAccessoryKeyframeCount(byte accessoryKeyframeCount) {
+    public void setAccessoryKeyframeCount(int accessoryKeyframeCount) {
         this.accessoryKeyframeCount = accessoryKeyframeCount;
     }
 
