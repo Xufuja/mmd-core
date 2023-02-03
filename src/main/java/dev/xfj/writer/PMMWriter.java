@@ -5,6 +5,8 @@ import dev.xfj.format.pmm.PMMFile;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 
+import static dev.xfj.parsing.PMMParser.*;
+
 public class PMMWriter {
     PMMFile pmmFile;
 
@@ -13,12 +15,18 @@ public class PMMWriter {
     }
 
     public void write() {
-        ByteBuffer byteBuffer = ByteBuffer.allocate(getSize(this.pmmFile));
+        int size = 0;
+        size += getSize(this.pmmFile);
+        size += pmmFile.getPmmFileModels().stream().mapToInt(this::getSize).sum();
+        size += pmmFile.getPmmFileAccessories().stream().mapToInt(this::getSize).sum();
+        size += pmmFile.getPmmFileSelectorChoices().stream().mapToInt(this::getSize).sum();
+        System.out.println(size);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(size);
 
     }
 
     public int getSize(Object object) {
-        System.out.println(object.getClass().getName());
+        String className = object.getClass().getName();
         int size = 0;
         for (Field field : object.getClass().getDeclaredFields()) {
             Object fieldValue;
@@ -28,12 +36,36 @@ public class PMMWriter {
             } catch (IllegalAccessException e) {
                 continue;
             }
-            System.out.println(field.getName());
+            String fieldName = field.getName();
+            System.out.println(className + " " + fieldName + " " + fieldValue);
             Class<?> clazz = fieldValue.getClass();
-            if (clazz.equals(Integer.class) || clazz.equals(Float.class)) {
-                size += 4;
+            if (clazz.equals(Integer.class)) {
+                size += Integer.BYTES;
+            } else if (clazz.equals(Float.class)) {
+                size += Float.BYTES;
             } else if (clazz.equals(Byte.class)) {
-                size += 1;
+                size += Byte.BYTES;
+            } else if (clazz.equals(String.class)) {
+                switch (className) {
+                    case "dev.xfj.format.pmm.PMMFile" -> {
+                        switch (fieldName) {
+                            case "version" -> size += FILE_FORMAT_VERSION_LENGTH;
+                            case "accessoryNames" -> size += NAME_LENGTH;
+                            case "waveFileName", "aviFileName", "backgroundImageFileName" -> size += FILE_NAME_LENGTH;
+                        }
+                    }
+                    case "dev.xfj.format.pmm.PMMFileModel" -> {
+                        switch (fieldName) {
+                            case "modelFilePath" -> size += FILE_PATH_LENGTH;
+                        }
+                    }
+                    case "dev.xfj.format.pmm.PMMFileAccessory" -> {
+                        switch (fieldName) {
+                            case "accessoryName" -> size += NAME_LENGTH;
+                            case "accessoryFilePath" -> size += FILE_PATH_LENGTH;
+                        }
+                    }
+                }
             }
         }
         System.out.println(size);

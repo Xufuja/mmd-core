@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PMMParser {
+    public final static int FILE_FORMAT_VERSION_LENGTH = 30;
+    public final static int NAME_LENGTH = 100;
+    public final static int FILE_NAME_LENGTH = 256;
+    public final static int FILE_PATH_LENGTH = 256;
     private final Path path;
     private final byte[] bytes;
     private final ByteBuffer byteBuffer;
@@ -32,7 +36,7 @@ public class PMMParser {
     public PMMFile parse() {
         PMMFile pmmFile = new PMMFile();
         //Keeping track of the positions was tedious so just added a counter that increments after each read
-        pmmFile.setVersion(getFixedString(30));
+        pmmFile.setVersion(getFixedString(FILE_FORMAT_VERSION_LENGTH));
         pmmFile.setOutputWidth(getInt());
         pmmFile.setOutputHeight(getInt());
         pmmFile.setKeyFrameEditorWidth(getInt());
@@ -52,7 +56,7 @@ public class PMMParser {
         pmmFile.setSelectedAccessory(getByte());
         pmmFile.setVerticalScroll(getInt());
         pmmFile.setAccessoryCount(getByte());
-        pmmFile.setAccessoryNames(pmmFile.getAccessoryCount() > 0 ? IntStream.range(0, pmmFile.getAccessoryCount()).mapToObj(name -> getFixedString(100)).collect(Collectors.toList()) : Collections.emptyList());
+        pmmFile.setAccessoryNames(pmmFile.getAccessoryCount() > 0 ? IntStream.range(0, pmmFile.getAccessoryCount()).mapToObj(name -> getFixedString(NAME_LENGTH)).collect(Collectors.toList()) : Collections.emptyList());
         pmmFile.setPmmFileAccessories(parseAccessories(pmmFile.getAccessoryCount()));
         pmmFile.setCurrentFramePosition(getInt());
         pmmFile.setHorizontalScrollPosition(getInt());
@@ -65,16 +69,16 @@ public class PMMParser {
         pmmFile.setPlayStartFrame(getInt());
         pmmFile.setPlayEndFrame(getInt());
         pmmFile.setWaveEnabled(getByte());
-        pmmFile.setWaveFileName(getFixedString(256));
+        pmmFile.setWaveFileName(getFixedString(FILE_NAME_LENGTH));
         pmmFile.setAviOffsetX(getInt());
         pmmFile.setAviOffsetY(getInt());
         pmmFile.setAviScale(getFloat());
-        pmmFile.setAviFileName(getFixedString(256));
+        pmmFile.setAviFileName(getFixedString(FILE_NAME_LENGTH));
         pmmFile.setShowAvi(getInt());
         pmmFile.setBackgroundImageOffsetX(getInt());
         pmmFile.setBackgroundImageOffsetY(getInt());
         pmmFile.setBackgroundImageScale(getFloat());
-        pmmFile.setBackgroundImageFileName(getFixedString(256));
+        pmmFile.setBackgroundImageFileName(getFixedString(FILE_NAME_LENGTH));
         pmmFile.setShowBackgroundImage(getByte());
         pmmFile.setShowInformation(getByte());
         pmmFile.setShowAxis(getByte());
@@ -127,7 +131,7 @@ public class PMMParser {
             pmmFileModel.setModelIndex(getByte());
             pmmFileModel.setModelNameJapanese(getVariableString());
             pmmFileModel.setModelNameEnglish(getVariableString());
-            pmmFileModel.setModelFilePath(getFixedString(256));
+            pmmFileModel.setModelFilePath(getFixedString(FILE_PATH_LENGTH));
             pmmFileModel.setKeyFrameEditorTopRows(getByte());
             pmmFileModel.setBoneCount(getInt());
             pmmFileModel.setBoneNames(pmmFileModel.getBoneCount() > 0 ? IntStream.range(0, pmmFileModel.getBoneCount()).mapToObj(bone -> getVariableString()).collect(Collectors.toList()) : Collections.emptyList());
@@ -198,8 +202,8 @@ public class PMMParser {
         for (int i = 0; i < count; i++) {
             PMMFileAccessory pmmFileAccessory = new PMMFileAccessory();
             pmmFileAccessory.setAccessoryIndex(getByte());
-            pmmFileAccessory.setAccessoryName(getFixedString(100));
-            pmmFileAccessory.setAccessoryFilePath(getFixedString(256));
+            pmmFileAccessory.setAccessoryName(getFixedString(NAME_LENGTH));
+            pmmFileAccessory.setAccessoryFilePath(getFixedString(FILE_PATH_LENGTH));
             pmmFileAccessory.setRenderOrder(getByte());
             pmmFileAccessory.setAccessoryInitialKeyframe(parseAccessoryKeyframe());
             pmmFileAccessory.setAccessoryKeyframeCount(getInt());
