@@ -1,9 +1,13 @@
 package dev.xfj.writer;
 
 import dev.xfj.format.pmm.PMMFile;
+import dev.xfj.format.pmm.PMMFileAccessory;
+import dev.xfj.format.pmm.PMMFileModel;
+import dev.xfj.format.pmm.PMMFileSelectorChoice;
 
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 import static dev.xfj.parsing.PMMParser.*;
 
@@ -17,9 +21,6 @@ public class PMMWriter {
     public void write() {
         int size = 0;
         size += getSize(this.pmmFile);
-        size += pmmFile.getPmmFileModels().stream().mapToInt(this::getSize).sum();
-        size += pmmFile.getPmmFileAccessories().stream().mapToInt(this::getSize).sum();
-        size += pmmFile.getPmmFileSelectorChoices().stream().mapToInt(this::getSize).sum();
         System.out.println(size);
         ByteBuffer byteBuffer = ByteBuffer.allocate(size);
 
@@ -37,7 +38,7 @@ public class PMMWriter {
                 continue;
             }
             String fieldName = field.getName();
-            System.out.println(className + " " + fieldName + " " + fieldValue);
+            System.out.println(className + " " + fieldName);
             Class<?> clazz = fieldValue.getClass();
             if (clazz.equals(Integer.class)) {
                 size += Integer.BYTES;
@@ -64,6 +65,17 @@ public class PMMWriter {
                             case "accessoryName" -> size += NAME_LENGTH;
                             case "accessoryFilePath" -> size += FILE_PATH_LENGTH;
                         }
+                    }
+                }
+            } else if (clazz.equals(ArrayList.class)) {
+                ArrayList<?> list = (ArrayList<?>) fieldValue;
+                for (Object item : list) {
+                    if (item instanceof PMMFileModel) {
+                        size += getSize(item);
+                    } else if (item instanceof PMMFileAccessory) {
+                        size += getSize(item);
+                    } else if (item instanceof PMMFileSelectorChoice) {
+                        size += getSize(item);
                     }
                 }
             }
