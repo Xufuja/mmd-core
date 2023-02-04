@@ -121,6 +121,8 @@ public class PMMParser {
         pmmFile.setSelectorChoiceFollowing(getByte());
         pmmFile.setPmmFileSelectorChoices(parseSelectorChoices(pmmFile.getModelCount()));
 
+        System.out.println(String.format("Parsed %1$s bytes", offset));
+
         return pmmFile;
     }
 
