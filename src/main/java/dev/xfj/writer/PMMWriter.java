@@ -52,26 +52,12 @@ public class PMMWriter {
                 //No idea why I cannot just stick this in the else case, but that errors out so here is a list of every single class in the package
                 size += getSize(fieldValue);
             } else if (fieldValueClass.equals(String.class)) {
-                switch (className) {
-                    case "dev.xfj.format.pmm.PMMFile" -> {
-                        switch (fieldValueName) {
-                            case "version" -> size += FILE_FORMAT_VERSION_LENGTH;
-                            case "waveFileName", "aviFileName", "backgroundImageFileName" -> size += FILE_NAME_LENGTH;
-                        }
-                    }
-                    case "dev.xfj.format.pmm.PMMFileModel" -> {
-                        switch (fieldValueName) {
-                            case "modelFilePath" -> size += FILE_PATH_LENGTH;
-                            case "modelNameJapanese", "modelNameEnglish" ->
-                                    size += (((String) fieldValue).getBytes(Charset.forName("Shift-JIS")).length + 1);
-                        }
-                    }
-                    case "dev.xfj.format.pmm.PMMFileAccessory" -> {
-                        switch (fieldValueName) {
-                            case "accessoryName" -> size += NAME_LENGTH;
-                            case "accessoryFilePath" -> size += FILE_PATH_LENGTH;
-                        }
-                    }
+                switch (fieldValueName) {
+                    case "version" -> size += FILE_FORMAT_VERSION_LENGTH;
+                    case "waveFileName", "aviFileName", "backgroundImageFileName" -> size += FILE_NAME_LENGTH;
+                    case "modelFilePath", "accessoryFilePath" -> size += FILE_PATH_LENGTH;
+                    case "modelNameJapanese", "modelNameEnglish" -> size += (((String) fieldValue).getBytes(Charset.forName("Shift-JIS")).length + 1);
+                    case "accessoryName" -> size += NAME_LENGTH;
                 }
             } else if (fieldValueClass.equals(ArrayList.class)) {
                 ArrayList<?> list = (ArrayList<?>) fieldValue;
