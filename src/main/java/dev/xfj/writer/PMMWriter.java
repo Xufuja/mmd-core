@@ -39,41 +39,41 @@ public class PMMWriter {
             } catch (IllegalAccessException e) {
                 continue;
             }
-            String fieldName = field.getName();
-            //System.out.println(className + " " + fieldName);
-            Class<?> clazz = fieldValue.getClass();
-            if (clazz.equals(Integer.class)) {
+            String fieldValueName = field.getName();
+            //System.out.println(className + " " + fieldValueName);
+            Class<?> fieldValueClass = fieldValue.getClass();
+            if (fieldValueClass.equals(Integer.class)) {
                 size += Integer.BYTES;
-            } else if (clazz.equals(Float.class)) {
+            } else if (fieldValueClass.equals(Float.class)) {
                 size += Float.BYTES;
-            } else if (clazz.equals(Byte.class)) {
+            } else if (fieldValueClass.equals(Byte.class)) {
                 size += Byte.BYTES;
-            } else if (clazz.equals(PMMFile.class) || clazz.equals(PMMFileAccessory.class) || clazz.equals(PMMFileAccessoryData.class) || clazz.equals(PMMFileAccessoryKeyframe.class) || clazz.equals(PMMFileAccessoryKeyframeWithIndex.class) || clazz.equals(PMMFileCamera.class) || clazz.equals(PMMFileCameraKeyframe.class) || clazz.equals(PMMFileCameraKeyframeWithIndex.class) || clazz.equals(PMMFileGravity.class) || clazz.equals(PMMFileGravityKeyframe.class) || clazz.equals(PMMFileGravityKeyframeWithIndex.class) || clazz.equals(PMMFileKeyframeInterpolation.class) || clazz.equals(PMMFileLighting.class) || clazz.equals(PMMFileLightingData.class) || clazz.equals(PMMFileLightingKeyframe.class) || clazz.equals(PMMFileLightingKeyframeWithIndex.class) || clazz.equals(PMMFileModel.class) || clazz.equals(PMMFileModelBone.class) || clazz.equals(PMMFileModelKeyframe.class) || clazz.equals(PMMFileModelKeyframeConfiguration.class) || clazz.equals(PMMFileModelKeyframeConfigurationRelation.class) || clazz.equals(PMMFileModelKeyframeConfigurationRelationCurrent.class) || clazz.equals(PMMFileModelKeyframeConfigurationWithIndex.class) || clazz.equals(PMMFileModelKeyframeWithIndex.class) || clazz.equals(PMMFileModelMorphKeyframe.class) || clazz.equals(PMMFileModelMorphKeyframeWithIndex.class) || clazz.equals(PMMFileSelectorChoice.class) || clazz.equals(PMMFileSelfShadow.class) || clazz.equals(PMMFileSelfShadowKeyframe.class) || clazz.equals(PMMFileSelfShadowKeyframeWithIndex.class)) {
+            } else if (fieldValueClass.equals(PMMFile.class) || fieldValueClass.equals(PMMFileAccessory.class) || fieldValueClass.equals(PMMFileAccessoryData.class) || fieldValueClass.equals(PMMFileAccessoryKeyframe.class) || fieldValueClass.equals(PMMFileAccessoryKeyframeWithIndex.class) || fieldValueClass.equals(PMMFileCamera.class) || fieldValueClass.equals(PMMFileCameraKeyframe.class) || fieldValueClass.equals(PMMFileCameraKeyframeWithIndex.class) || fieldValueClass.equals(PMMFileGravity.class) || fieldValueClass.equals(PMMFileGravityKeyframe.class) || fieldValueClass.equals(PMMFileGravityKeyframeWithIndex.class) || fieldValueClass.equals(PMMFileKeyframeInterpolation.class) || fieldValueClass.equals(PMMFileLighting.class) || fieldValueClass.equals(PMMFileLightingData.class) || fieldValueClass.equals(PMMFileLightingKeyframe.class) || fieldValueClass.equals(PMMFileLightingKeyframeWithIndex.class) || fieldValueClass.equals(PMMFileModel.class) || fieldValueClass.equals(PMMFileModelBone.class) || fieldValueClass.equals(PMMFileModelKeyframe.class) || fieldValueClass.equals(PMMFileModelKeyframeConfiguration.class) || fieldValueClass.equals(PMMFileModelKeyframeConfigurationRelation.class) || fieldValueClass.equals(PMMFileModelKeyframeConfigurationRelationCurrent.class) || fieldValueClass.equals(PMMFileModelKeyframeConfigurationWithIndex.class) || fieldValueClass.equals(PMMFileModelKeyframeWithIndex.class) || fieldValueClass.equals(PMMFileModelMorphKeyframe.class) || fieldValueClass.equals(PMMFileModelMorphKeyframeWithIndex.class) || fieldValueClass.equals(PMMFileSelectorChoice.class) || fieldValueClass.equals(PMMFileSelfShadow.class) || fieldValueClass.equals(PMMFileSelfShadowKeyframe.class) || fieldValueClass.equals(PMMFileSelfShadowKeyframeWithIndex.class)) {
                 //No idea why I cannot just stick this in the else case, but that errors out so here is a list of every single class in the package
                 size += getSize(fieldValue);
-            } else if (clazz.equals(String.class)) {
+            } else if (fieldValueClass.equals(String.class)) {
                 switch (className) {
                     case "dev.xfj.format.pmm.PMMFile" -> {
-                        switch (fieldName) {
+                        switch (fieldValueName) {
                             case "version" -> size += FILE_FORMAT_VERSION_LENGTH;
                             case "waveFileName", "aviFileName", "backgroundImageFileName" -> size += FILE_NAME_LENGTH;
                         }
                     }
                     case "dev.xfj.format.pmm.PMMFileModel" -> {
-                        switch (fieldName) {
+                        switch (fieldValueName) {
                             case "modelFilePath" -> size += FILE_PATH_LENGTH;
                             case "modelNameJapanese", "modelNameEnglish" ->
                                     size += (((String) fieldValue).getBytes(Charset.forName("Shift-JIS")).length + 1);
                         }
                     }
                     case "dev.xfj.format.pmm.PMMFileAccessory" -> {
-                        switch (fieldName) {
+                        switch (fieldValueName) {
                             case "accessoryName" -> size += NAME_LENGTH;
                             case "accessoryFilePath" -> size += FILE_PATH_LENGTH;
                         }
                     }
                 }
-            } else if (clazz.equals(ArrayList.class)) {
+            } else if (fieldValueClass.equals(ArrayList.class)) {
                 ArrayList<?> list = (ArrayList<?>) fieldValue;
                 if (!list.isEmpty()) {
                     for (Object item : list) {
@@ -84,7 +84,7 @@ public class PMMWriter {
                         } else if (item instanceof Float) {
                             size += Float.BYTES;
                         } else if (item instanceof String) {
-                            if (fieldName.equals("accessoryNames")) {
+                            if (fieldValueName.equals("accessoryNames")) {
                                 size += NAME_LENGTH;
                             } else {
                                 size += (((String) item).getBytes(Charset.forName("Shift-JIS")).length + 1);
@@ -95,8 +95,8 @@ public class PMMWriter {
                     }
                 }
             } else {
-                if (!clazz.getName().contains("EmptyList")) {
-                    System.out.println(String.format("Missing handler for class: %1$s, field: %1$s", className, fieldName));
+                if (!fieldValueClass.getName().contains("EmptyList")) {
+                    System.out.println(String.format("Missing handler for class: %1$s, field: %1$s", fieldValueClass, fieldValueName));
                 }
             }
         }
