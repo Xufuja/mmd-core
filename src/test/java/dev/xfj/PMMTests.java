@@ -1,4 +1,4 @@
-package dev.xfj.pmm;
+package dev.xfj;
 
 import dev.xfj.format.pmm.PMMFile;
 import dev.xfj.parsing.PMMParser;
@@ -15,7 +15,7 @@ public class PMMTests {
     @Test
     @DisplayName("Test if PMM Parser and PMM Writer work")
     void bytesReadEqualsBytesWrittenWithoutChanges() throws IOException {
-        PMMParser pmmParser = new PMMParser(Path.of("test_in_02.pmm"));
+        PMMParser pmmParser = new PMMParser(Path.of("test_in_01.pmm"));
         PMMFile pmmFile = pmmParser.parse();
         PMMWriter pmmWriter = new PMMWriter(pmmFile);
         pmmWriter.write();
