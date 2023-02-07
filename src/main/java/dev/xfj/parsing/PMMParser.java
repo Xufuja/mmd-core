@@ -480,10 +480,9 @@ public class PMMParser {
 
     public String getVariableString() {
         int start = offset;
-        int end = bytes[start];
+        int length = getByte();
         start += 1;
-        offset += 1; //First byte was read to get length
-        return getFixedString(start, end);
+        return getFixedString(start, length);
     }
 
     public String getFixedString(int start, int length) {
