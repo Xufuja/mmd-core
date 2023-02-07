@@ -33,7 +33,7 @@ public class PMXParser {
         pmxFile.setVersion(getFloat());
         pmxFile.setGlobalsCount(getByte());
         pmxFile.setGlobals(parseGlobals());
-        characterEncoding = pmxFile.getGlobals().getTextEncoding() == 1 ? StandardCharsets.UTF_8 : StandardCharsets.UTF_16;
+        characterEncoding = pmxFile.getGlobals().getTextEncoding() == 1 ? StandardCharsets.UTF_8 : StandardCharsets.UTF_16LE;
         pmxFile.setModelNameJapanese(getVariableString());
         pmxFile.setModelNameEnglish(getVariableString());
         pmxFile.setCommentsJapanese(getVariableString());
@@ -84,9 +84,6 @@ public class PMXParser {
         byte[] result = new byte[length];
         for (int i = start; i < end; i++) {
             int resultIndex = i - start;
-            if (bytes[i] == 0) {
-                break;
-            }
             result[resultIndex] = bytes[i];
             //System.out.println(result[resultIndex]);
         }

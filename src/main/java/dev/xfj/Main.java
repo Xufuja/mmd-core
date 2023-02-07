@@ -1,10 +1,7 @@
 package dev.xfj;
 
-import dev.xfj.format.pmm.PMMFile;
 import dev.xfj.format.pmx.PMXFile;
-import dev.xfj.parsing.PMMParser;
 import dev.xfj.parsing.PMXParser;
-import dev.xfj.writer.PMMWriter;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,6 +15,8 @@ public class Main {
         System.out.println(pmxFile.getGlobals().getTextEncoding());
         System.out.println(pmxFile.getModelNameEnglish());
         System.out.println(pmxFile.getCommentsEnglish());
+        System.out.println(pmxFile.getModelNameJapanese());
+        System.out.println(pmxFile.getCommentsJapanese());
     }
 
 }
