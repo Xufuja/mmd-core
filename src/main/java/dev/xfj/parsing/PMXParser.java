@@ -2,6 +2,10 @@ package dev.xfj.parsing;
 
 import dev.xfj.format.pmx.PMXFile;
 import dev.xfj.format.pmx.PMXFileGlobals;
+import dev.xfj.format.pmx.PMXFileVertex;
+import dev.xfj.vec.Vec2;
+import dev.xfj.vec.Vec3;
+import dev.xfj.vec.Vec4;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -10,6 +14,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class PMXParser {
     private final Path path;
@@ -17,6 +24,7 @@ public class PMXParser {
     private final ByteBuffer byteBuffer;
     private int offset;
     private Charset characterEncoding;
+    private PMXFileGlobals globals;
 
     public PMXParser(Path path) throws IOException {
         this.path = path;
@@ -27,6 +35,7 @@ public class PMXParser {
         this.characterEncoding = StandardCharsets.UTF_8;
     }
 
+    //Based on https://gist.github.com/felixjones/f8a06bd48f9da9a4539f
     public PMXFile parse() {
         PMXFile pmxFile = new PMXFile();
         pmxFile.setSignature(getFixedString(4));
@@ -38,7 +47,23 @@ public class PMXParser {
         pmxFile.setModelNameEnglish(getVariableString());
         pmxFile.setCommentsJapanese(getVariableString());
         pmxFile.setCommentsEnglish(getVariableString());
+        pmxFile.setVertextCount(getInt());
+        pmxFile.setVertices(pmxFile.getVertextCount() > 0 ? IntStream.range(0, 1/*pmxFile.getVertextCount()*/).mapToObj(vertex -> parseVertex()).collect(Collectors.toList()) : Collections.emptyList());
+
         return pmxFile;
+    }
+
+    public PMXFileVertex parseVertex() {
+        PMXFileVertex vertex = new PMXFileVertex();
+        vertex.setPosition(getVec3());
+        vertex.setNormal(getVec3());
+        vertex.setUv(getVec2());
+        vertex.setAdditionalVec4(globals.getAdditionalVec4Count() > 0 ? IntStream.range(0, globals.getAdditionalVec4Count()).mapToObj(vec4 -> getVec4()).collect(Collectors.toList()) : Collections.emptyList());
+        vertex.setWeightDeformType(getByte());
+        //After this parse the weightDeform based on the type: 0 = BDEF1, 1 = BDEF2, 2 = BDEF4, 3 = SDEF, 4 = QDEF
+        //Based on the type, check the lookup table of what to read the lookup table requires you to read "index", float, and vec3
+        //The bones value size depends on the "index", fetch the boneIndexType from globals, for bones: 1 = byte, 2 = short, 4 = int, values are signed
+        return vertex;
     }
 
     public PMXFileGlobals parseGlobals() {
@@ -51,6 +76,7 @@ public class PMXParser {
         globals.setBoneIndexSize(getByte());
         globals.setMorphIndexSize(getByte());
         globals.setRigidBodyIndexSize(getByte());
+        this.globals = globals;
         return globals;
     }
 
@@ -70,6 +96,18 @@ public class PMXParser {
         float result = byteBuffer.getFloat(offset);
         this.offset += 4;
         return result;
+    }
+
+    public Vec2 getVec2() {
+        return new Vec2(getFloat(), getFloat());
+    }
+
+    public Vec3 getVec3() {
+        return new Vec3(getFloat(), getFloat(), getFloat());
+    }
+
+    public Vec4 getVec4() {
+        return new Vec4(getFloat(), getFloat(), getFloat(), getFloat());
     }
 
     public String getVariableString() {

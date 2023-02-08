@@ -11,6 +11,8 @@ public class PMXFile {
     private String modelNameEnglish;
     private String commentsJapanese;
     private String commentsEnglish;
+    private int vertextCount;
+    private List<PMXFileVertex> vertices;
 
     public String getSignature() {
         return signature;
@@ -74,5 +76,21 @@ public class PMXFile {
 
     public void setCommentsEnglish(String commentsEnglish) {
         this.commentsEnglish = commentsEnglish;
+    }
+
+    public int getVertextCount() {
+        return vertextCount;
+    }
+
+    public void setVertextCount(int vertextCount) {
+        this.vertextCount = vertextCount;
+    }
+
+    public List<PMXFileVertex> getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(List<PMXFileVertex> vertices) {
+        this.vertices = vertices;
     }
 }

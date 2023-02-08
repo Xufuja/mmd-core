@@ -16,7 +16,7 @@ public class Main {
         System.out.println(pmxFile.getModelNameEnglish());
         System.out.println(pmxFile.getCommentsEnglish());
         System.out.println(pmxFile.getModelNameJapanese());
-        System.out.println(pmxFile.getCommentsJapanese());
+        System.out.println(pmxFile.getVertextCount());
     }
 
 }
