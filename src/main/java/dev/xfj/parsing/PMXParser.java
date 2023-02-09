@@ -14,7 +14,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -48,9 +50,17 @@ public class PMXParser {
         pmxFile.setCommentsJapanese(getVariableString());
         pmxFile.setCommentsEnglish(getVariableString());
         pmxFile.setVertextCount(getInt());
-        pmxFile.setVertices(pmxFile.getVertextCount() > 0 ? IntStream.range(0, 1/*pmxFile.getVertextCount()*/).mapToObj(vertex -> parseVertex()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setVertices(pmxFile.getVertextCount() > 0 ? IntStream.range(0, pmxFile.getVertextCount()).mapToObj(vertex -> parseVertex()).collect(Collectors.toList()) : Collections.emptyList());
 
         return pmxFile;
+    }
+
+    public enum WeightDeformType {
+        BDEF1,
+        BDEF2,
+        BDEF4,
+        SDEF,
+        QDEF
     }
 
     public PMXFileVertex parseVertex() {
@@ -60,9 +70,41 @@ public class PMXParser {
         vertex.setUv(getVec2());
         vertex.setAdditionalVec4(globals.getAdditionalVec4Count() > 0 ? IntStream.range(0, globals.getAdditionalVec4Count()).mapToObj(vec4 -> getVec4()).collect(Collectors.toList()) : Collections.emptyList());
         vertex.setWeightDeformType(getByte());
-        //After this parse the weightDeform based on the type: 0 = BDEF1, 1 = BDEF2, 2 = BDEF4, 3 = SDEF, 4 = QDEF
-        //Based on the type, check the lookup table of what to read the lookup table requires you to read "index", float, and vec3
-        //The bones value size depends on the "index", fetch the boneIndexType from globals, for bones: 1 = byte, 2 = short, 4 = int, values are signed
+        WeightDeformType type = WeightDeformType.values()[vertex.getWeightDeformType()];
+        List<Short> boneIndices = new ArrayList<>();
+        List<Float> boneWeight = new ArrayList<>();
+        switch (type) {
+            case BDEF1 -> {
+                boneIndices.add(getShort());
+                boneWeight.add(1.0f);
+            }
+            case BDEF2, SDEF -> {
+                boneIndices.add(getShort());
+                boneIndices.add(getShort());
+                float bone1 = getFloat();
+                boneWeight.add(bone1);
+                boneWeight.add(1.0f - bone1);
+            }
+            case BDEF4, QDEF -> {
+                boneIndices.add(getShort());
+                boneIndices.add(getShort());
+                boneIndices.add(getShort());
+                boneIndices.add(getShort());
+                boneWeight.add(getFloat());
+                boneWeight.add(getFloat());
+                boneWeight.add(getFloat());
+                boneWeight.add(getFloat());
+            }
+        }
+        vertex.setBoneIndices(boneIndices);
+        vertex.setBoneWeights(boneWeight);
+        if (type == WeightDeformType.SDEF) {
+            vertex.setC(getVec3());
+            vertex.setR0(getVec3());
+            vertex.setR1(getVec3());
+        }
+        vertex.setEdgeScale(getFloat());
+
         return vertex;
     }
 
@@ -83,6 +125,12 @@ public class PMXParser {
     public byte getByte() {
         byte result = byteBuffer.get(offset);
         this.offset += 1;
+        return result;
+    }
+
+    public short getShort() {
+        short result = byteBuffer.getShort(offset);
+        this.offset += 2;
         return result;
     }
 

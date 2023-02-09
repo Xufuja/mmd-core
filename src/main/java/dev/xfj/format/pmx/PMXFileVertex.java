@@ -12,6 +12,12 @@ public class PMXFileVertex {
     private Vec2 uv;
     private List<Vec4> additionalVec4;
     private byte weightDeformType;
+    private List<Short> boneIndices;
+    private List<Float> boneWeights;
+    private Vec3 c;
+    private Vec3 r0;
+    private Vec3 r1;
+    private float edgeScale;
 
     public Vec3 getPosition() {
         return position;
@@ -51,5 +57,53 @@ public class PMXFileVertex {
 
     public void setWeightDeformType(byte weightDeformType) {
         this.weightDeformType = weightDeformType;
+    }
+
+    public List<Short> getBoneIndices() {
+        return boneIndices;
+    }
+
+    public void setBoneIndices(List<Short> boneIndices) {
+        this.boneIndices = boneIndices;
+    }
+
+    public List<Float> getBoneWeights() {
+        return boneWeights;
+    }
+
+    public void setBoneWeights(List<Float> boneWeights) {
+        this.boneWeights = boneWeights;
+    }
+
+    public Vec3 getC() {
+        return c;
+    }
+
+    public void setC(Vec3 c) {
+        this.c = c;
+    }
+
+    public Vec3 getR0() {
+        return r0;
+    }
+
+    public void setR0(Vec3 r0) {
+        this.r0 = r0;
+    }
+
+    public Vec3 getR1() {
+        return r1;
+    }
+
+    public void setR1(Vec3 r1) {
+        this.r1 = r1;
+    }
+
+    public float getEdgeScale() {
+        return edgeScale;
+    }
+
+    public void setEdgeScale(float edgeScale) {
+        this.edgeScale = edgeScale;
     }
 }
