@@ -4,9 +4,7 @@ import dev.xfj.format.pmm.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,22 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class PMMParser {
+public class PMMParser extends Parser {
     public final static int FILE_FORMAT_VERSION_LENGTH = 30;
     public final static int NAME_LENGTH = 100;
     public final static int FILE_NAME_LENGTH = 256;
     public final static int FILE_PATH_LENGTH = 256;
-    private final Path path;
-    private final byte[] bytes;
-    private final ByteBuffer byteBuffer;
-    private int offset;
 
     public PMMParser(Path path) throws IOException {
-        this.path = path;
-        this.bytes = Files.readAllBytes(this.path);
-        this.byteBuffer = ByteBuffer.wrap(bytes);
-        this.byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        this.offset = 0;
+        super(path);
     }
 
     //Based on https://drive.google.com/file/d/0B6jwWdrYAgJTdXZSd1Noa2hKbmM/view?resourcekey=0-96-_sPXYP3ItPOQL7sca1A
@@ -458,24 +448,6 @@ public class PMMParser {
         bone.setPhysicsDisabled(getByte());
         bone.setRowSelected(getByte());
         return bone;
-    }
-
-    public byte getByte() {
-        byte result = byteBuffer.get(offset);
-        this.offset += 1;
-        return result;
-    }
-
-    public int getInt() {
-        int result = byteBuffer.getInt(offset);
-        this.offset += 4;
-        return result;
-    }
-
-    public float getFloat() {
-        float result = byteBuffer.getFloat(offset);
-        this.offset += 4;
-        return result;
     }
 
     public String getVariableString() {

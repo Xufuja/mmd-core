@@ -3,16 +3,11 @@ package dev.xfj.parsing;
 import dev.xfj.format.pmx.PMXFile;
 import dev.xfj.format.pmx.PMXFileGlobals;
 import dev.xfj.format.pmx.PMXFileVertex;
-import dev.xfj.vec.Vec2;
-import dev.xfj.vec.Vec3;
-import dev.xfj.vec.Vec4;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,20 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class PMXParser {
-    private final Path path;
-    private final byte[] bytes;
-    private final ByteBuffer byteBuffer;
-    private int offset;
+public class PMXParser extends Parser{
     private Charset characterEncoding;
     private PMXFileGlobals globals;
 
     public PMXParser(Path path) throws IOException {
-        this.path = path;
-        this.bytes = Files.readAllBytes(this.path);
-        this.byteBuffer = ByteBuffer.wrap(bytes);
-        this.byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        this.offset = 0;
+        super(path);
         this.characterEncoding = StandardCharsets.UTF_8;
     }
 
@@ -120,42 +107,6 @@ public class PMXParser {
         globals.setRigidBodyIndexSize(getByte());
         this.globals = globals;
         return globals;
-    }
-
-    public byte getByte() {
-        byte result = byteBuffer.get(offset);
-        this.offset += 1;
-        return result;
-    }
-
-    public short getShort() {
-        short result = byteBuffer.getShort(offset);
-        this.offset += 2;
-        return result;
-    }
-
-    public int getInt() {
-        int result = byteBuffer.getInt(offset);
-        this.offset += 4;
-        return result;
-    }
-
-    public float getFloat() {
-        float result = byteBuffer.getFloat(offset);
-        this.offset += 4;
-        return result;
-    }
-
-    public Vec2 getVec2() {
-        return new Vec2(getFloat(), getFloat());
-    }
-
-    public Vec3 getVec3() {
-        return new Vec3(getFloat(), getFloat(), getFloat());
-    }
-
-    public Vec4 getVec4() {
-        return new Vec4(getFloat(), getFloat(), getFloat(), getFloat());
     }
 
     public String getVariableString() {
