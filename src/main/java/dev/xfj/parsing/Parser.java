@@ -24,19 +24,37 @@ public abstract class Parser {
 
     public byte getByte() {
         byte result = byteBuffer.get(offset);
-        this.offset += 1;
+        this.offset += Byte.BYTES;
         return result;
     }
 
-    public short getShort() {
+    public int getUByte() {
+        int result = Byte.toUnsignedInt(byteBuffer.get(offset));
+        this.offset += Byte.BYTES;
+        return result;
+    }
+
+    public short getInt16() {
         short result = byteBuffer.getShort(offset);
-        this.offset += 2;
+        this.offset += Short.BYTES;
         return result;
     }
 
-    public int getInt() {
+    public int getUInt16() {
+        int result = Short.toUnsignedInt(byteBuffer.getShort(offset));
+        this.offset += Short.BYTES;
+        return result;
+    }
+
+    public int getInt32() {
         int result = byteBuffer.getInt(offset);
-        this.offset += 4;
+        this.offset += Integer.BYTES;
+        return result;
+    }
+
+    public long getUInt32() {
+        long result = Integer.toUnsignedLong(byteBuffer.getInt(offset));
+        this.offset += Integer.BYTES;
         return result;
     }
 

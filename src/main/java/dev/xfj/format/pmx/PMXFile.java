@@ -13,6 +13,10 @@ public class PMXFile {
     private String commentsEnglish;
     private int vertextCount;
     private List<PMXFileVertex> vertices;
+    private int surfaceCount;
+    private List<PMXFileVertexIndex> surfaces;
+    private int textureCount;
+    private List<String> texturePaths;
 
     public String getSignature() {
         return signature;
@@ -92,5 +96,37 @@ public class PMXFile {
 
     public void setVertices(List<PMXFileVertex> vertices) {
         this.vertices = vertices;
+    }
+
+    public int getSurfaceCount() {
+        return surfaceCount;
+    }
+
+    public void setSurfaceCount(int surfaceCount) {
+        this.surfaceCount = surfaceCount;
+    }
+
+    public List<PMXFileVertexIndex> getSurfaces() {
+        return surfaces;
+    }
+
+    public void setSurfaces(List<PMXFileVertexIndex> surfaces) {
+        this.surfaces = surfaces;
+    }
+
+    public int getTextureCount() {
+        return textureCount;
+    }
+
+    public void setTextureCount(int textureCount) {
+        this.textureCount = textureCount;
+    }
+
+    public List<String> getTexturePaths() {
+        return texturePaths;
+    }
+
+    public void setTexturePaths(List<String> texturePaths) {
+        this.texturePaths = texturePaths;
     }
 }

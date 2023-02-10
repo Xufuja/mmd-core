@@ -17,6 +17,11 @@ public class Main {
         System.out.println(pmxFile.getCommentsEnglish());
         System.out.println(pmxFile.getModelNameJapanese());
         System.out.println(pmxFile.getVertextCount());
+        System.out.println(pmxFile.getSurfaceCount());
+        System.out.println(pmxFile.getSurfaces().get(67406).getVertexIndex2());
+        System.out.println(pmxFile.getSurfaces().get(67407).getVertexIndex2());
+        System.out.println(pmxFile.getTextureCount());
+        pmxFile.getTexturePaths().forEach(System.out::println);
     }
 
 }

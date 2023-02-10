@@ -3,6 +3,7 @@ package dev.xfj.parsing;
 import dev.xfj.format.pmx.PMXFile;
 import dev.xfj.format.pmx.PMXFileGlobals;
 import dev.xfj.format.pmx.PMXFileVertex;
+import dev.xfj.format.pmx.PMXFileVertexIndex;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -36,8 +37,12 @@ public class PMXParser extends Parser{
         pmxFile.setModelNameEnglish(getVariableString());
         pmxFile.setCommentsJapanese(getVariableString());
         pmxFile.setCommentsEnglish(getVariableString());
-        pmxFile.setVertextCount(getInt());
+        pmxFile.setVertextCount(getInt32());
         pmxFile.setVertices(pmxFile.getVertextCount() > 0 ? IntStream.range(0, pmxFile.getVertextCount()).mapToObj(vertex -> parseVertex()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setSurfaceCount(getInt32());
+        pmxFile.setSurfaces(pmxFile.getSurfaceCount() > 0 ? IntStream.range(0, (pmxFile.getSurfaceCount() / 3)).mapToObj(surface -> parseVertexIndex()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setTextureCount(getInt32());
+        pmxFile.setTexturePaths(pmxFile.getTextureCount() > 0 ? IntStream.range(0, pmxFile.getTextureCount()).mapToObj(texture -> getVariableString()).collect(Collectors.toList()) : Collections.emptyList());
 
         return pmxFile;
     }
@@ -62,21 +67,21 @@ public class PMXParser extends Parser{
         List<Float> boneWeight = new ArrayList<>();
         switch (type) {
             case BDEF1 -> {
-                boneIndices.add(getShort());
+                boneIndices.add(getInt16());
                 boneWeight.add(1.0f);
             }
             case BDEF2, SDEF -> {
-                boneIndices.add(getShort());
-                boneIndices.add(getShort());
+                boneIndices.add(getInt16());
+                boneIndices.add(getInt16());
                 float bone1 = getFloat();
                 boneWeight.add(bone1);
                 boneWeight.add(1.0f - bone1);
             }
             case BDEF4, QDEF -> {
-                boneIndices.add(getShort());
-                boneIndices.add(getShort());
-                boneIndices.add(getShort());
-                boneIndices.add(getShort());
+                boneIndices.add(getInt16());
+                boneIndices.add(getInt16());
+                boneIndices.add(getInt16());
+                boneIndices.add(getInt16());
                 boneWeight.add(getFloat());
                 boneWeight.add(getFloat());
                 boneWeight.add(getFloat());
@@ -95,6 +100,10 @@ public class PMXParser extends Parser{
         return vertex;
     }
 
+    public PMXFileVertexIndex parseVertexIndex() {
+        return new PMXFileVertexIndex(getUInt16(), getUInt16(), getUInt16());
+    }
+
     public PMXFileGlobals parseGlobals() {
         PMXFileGlobals globals = new PMXFileGlobals();
         globals.setTextEncoding(getByte());
@@ -111,7 +120,7 @@ public class PMXParser extends Parser{
 
     public String getVariableString() {
         int start = offset;
-        int length = getInt();
+        int length = getInt32();
         start += 4;
         return getFixedString(start, length);
     }
