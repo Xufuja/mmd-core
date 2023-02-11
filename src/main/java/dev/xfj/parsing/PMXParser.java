@@ -1,9 +1,6 @@
 package dev.xfj.parsing;
 
-import dev.xfj.format.pmx.PMXFile;
-import dev.xfj.format.pmx.PMXFileGlobals;
-import dev.xfj.format.pmx.PMXFileVertex;
-import dev.xfj.format.pmx.PMXFileVertexIndex;
+import dev.xfj.format.pmx.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -43,6 +40,8 @@ public class PMXParser extends Parser{
         pmxFile.setSurfaces(pmxFile.getSurfaceCount() > 0 ? IntStream.range(0, (pmxFile.getSurfaceCount() / 3)).mapToObj(surface -> parseVertexIndex()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setTextureCount(getInt32());
         pmxFile.setTexturePaths(pmxFile.getTextureCount() > 0 ? IntStream.range(0, pmxFile.getTextureCount()).mapToObj(texture -> getVariableString()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setMaterialCount(getInt32());
+        pmxFile.setMaterials(pmxFile.getMaterialCount() > 0 ? IntStream.range(0, pmxFile.getMaterialCount()).mapToObj(material -> parseMaterial()).collect(Collectors.toList()) : Collections.emptyList());
 
         return pmxFile;
     }
@@ -63,25 +62,57 @@ public class PMXParser extends Parser{
         vertex.setAdditionalVec4(globals.getAdditionalVec4Count() > 0 ? IntStream.range(0, globals.getAdditionalVec4Count()).mapToObj(vec4 -> getVec4()).collect(Collectors.toList()) : Collections.emptyList());
         vertex.setWeightDeformType(getByte());
         WeightDeformType type = WeightDeformType.values()[vertex.getWeightDeformType()];
-        List<Short> boneIndices = new ArrayList<>();
+        List<Object> boneIndices = new ArrayList<>();
         List<Float> boneWeight = new ArrayList<>();
         switch (type) {
             case BDEF1 -> {
-                boneIndices.add(getInt16());
+                switch (globals.getBoneIndexSize()) {
+                    case 1 -> boneIndices.add(getByte());
+                    case 2 -> boneIndices.add(getInt16());
+                    case 4 -> boneIndices.add(getInt32());
+                }
                 boneWeight.add(1.0f);
             }
             case BDEF2, SDEF -> {
-                boneIndices.add(getInt16());
-                boneIndices.add(getInt16());
+                switch (globals.getBoneIndexSize()) {
+                    case 1 -> {
+                        boneIndices.add(getByte());
+                        boneIndices.add(getByte());
+                    }
+                    case 2 -> {
+                        boneIndices.add(getInt16());
+                        boneIndices.add(getInt16());
+                    }
+                    case 4 -> {
+                        boneIndices.add(getInt32());
+                        boneIndices.add(getInt32());
+                    }
+                }
                 float bone1 = getFloat();
                 boneWeight.add(bone1);
                 boneWeight.add(1.0f - bone1);
             }
             case BDEF4, QDEF -> {
-                boneIndices.add(getInt16());
-                boneIndices.add(getInt16());
-                boneIndices.add(getInt16());
-                boneIndices.add(getInt16());
+                switch (globals.getBoneIndexSize()) {
+                    case 1 -> {
+                        boneIndices.add(getByte());
+                        boneIndices.add(getByte());
+                        boneIndices.add(getByte());
+                        boneIndices.add(getByte());
+                    }
+                    case 2 -> {
+                        boneIndices.add(getInt16());
+                        boneIndices.add(getInt16());
+                        boneIndices.add(getInt16());
+                        boneIndices.add(getInt16());
+                    }
+                    case 4 -> {
+                        boneIndices.add(getInt32());
+                        boneIndices.add(getInt32());
+                        boneIndices.add(getInt32());
+                        boneIndices.add(getInt32());
+                    }
+                }
                 boneWeight.add(getFloat());
                 boneWeight.add(getFloat());
                 boneWeight.add(getFloat());
@@ -101,7 +132,67 @@ public class PMXParser extends Parser{
     }
 
     public PMXFileVertexIndex parseVertexIndex() {
-        return new PMXFileVertexIndex(getUInt16(), getUInt16(), getUInt16());
+        PMXFileVertexIndex vertexIndex = new PMXFileVertexIndex();
+        switch (globals.getVertexIndexSize()) {
+            case 1 -> {
+               vertexIndex.setVertexIndexA(getUByte());
+               vertexIndex.setVertexIndexB(getUByte());
+               vertexIndex.setVertexIndexC(getUByte());
+            }
+            case 2 -> {
+                vertexIndex.setVertexIndexA(getUInt16());
+                vertexIndex.setVertexIndexB(getUInt16());
+                vertexIndex.setVertexIndexC(getUInt16());
+            }
+            case 4 -> {
+                vertexIndex.setVertexIndexA(getInt32());
+                vertexIndex.setVertexIndexB(getInt32());
+                vertexIndex.setVertexIndexC(getInt32());
+            }
+        }
+        return vertexIndex;
+    }
+
+    public PMXFileMaterial parseMaterial() {
+        PMXFileMaterial material = new PMXFileMaterial();
+        material.setMaterialNameJapanese(getVariableString());
+        material.setMaterialNameEnglish(getVariableString());
+        material.setDiffuseColor(getVec4());
+        material.setSpecularColor(getVec3());
+        material.setSpecularStrength(getFloat());
+        material.setAmbientColor(getVec3());
+        material.setMaterialFlags(getByte());
+        material.setEdgeColor(getVec4());
+        material.setEdgeScale(getFloat());
+        switch (globals.getTextureIndexSize()) {
+            case 1 -> {
+                material.setTextureIndex(getByte());
+                material.setEnvironmentIndex(getByte());
+            }
+            case 2 -> {
+                material.setTextureIndex(getInt16());
+                material.setEnvironmentIndex(getInt16());
+            }
+            case 4 -> {
+                material.setTextureIndex(getInt32());
+                material.setEnvironmentIndex(getInt32());
+            }
+        }
+        material.setEnvironmentBlendMode(getByte());
+        material.setToonReference(getByte());
+        if (material.getToonReference() == 1) {
+            material.setToonValue(getByte());
+        } else {
+            switch (globals.getTextureIndexSize()) {
+                case 1 -> material.setToonValue(getByte());
+                case 2 -> material.setToonValue(getInt16());
+                case 4 -> material.setToonValue(getInt32());
+            }
+        }
+        material.setMetaData(getVariableString());
+        material.setSurfaceCount(getInt32());
+
+        return material;
     }
 
     public PMXFileGlobals parseGlobals() {

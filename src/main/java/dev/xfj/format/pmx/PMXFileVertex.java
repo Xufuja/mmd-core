@@ -12,7 +12,7 @@ public class PMXFileVertex {
     private Vec2 uv;
     private List<Vec4> additionalVec4;
     private byte weightDeformType;
-    private List<Short> boneIndices;
+    private List<Object> boneIndices;
     private List<Float> boneWeights;
     private Vec3 c;
     private Vec3 r0;
@@ -59,11 +59,11 @@ public class PMXFileVertex {
         this.weightDeformType = weightDeformType;
     }
 
-    public List<Short> getBoneIndices() {
+    public List<Object> getBoneIndices() {
         return boneIndices;
     }
 
-    public void setBoneIndices(List<Short> boneIndices) {
+    public void setBoneIndices(List<Object> boneIndices) {
         this.boneIndices = boneIndices;
     }
 

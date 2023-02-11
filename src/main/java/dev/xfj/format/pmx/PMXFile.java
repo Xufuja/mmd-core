@@ -17,6 +17,8 @@ public class PMXFile {
     private List<PMXFileVertexIndex> surfaces;
     private int textureCount;
     private List<String> texturePaths;
+    private int materialCount;
+    private List<PMXFileMaterial> materials;
 
     public String getSignature() {
         return signature;
@@ -128,5 +130,21 @@ public class PMXFile {
 
     public void setTexturePaths(List<String> texturePaths) {
         this.texturePaths = texturePaths;
+    }
+
+    public int getMaterialCount() {
+        return materialCount;
+    }
+
+    public void setMaterialCount(int materialCount) {
+        this.materialCount = materialCount;
+    }
+
+    public List<PMXFileMaterial> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<PMXFileMaterial> materials) {
+        this.materials = materials;
     }
 }

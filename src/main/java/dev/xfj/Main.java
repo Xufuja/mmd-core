@@ -18,10 +18,12 @@ public class Main {
         System.out.println(pmxFile.getModelNameJapanese());
         System.out.println(pmxFile.getVertextCount());
         System.out.println(pmxFile.getSurfaceCount());
-        System.out.println(pmxFile.getSurfaces().get(67406).getVertexIndex2());
-        System.out.println(pmxFile.getSurfaces().get(67407).getVertexIndex2());
+        System.out.println(pmxFile.getSurfaces().get(67406).getVertexIndexB());
+        System.out.println(pmxFile.getSurfaces().get(67407).getVertexIndexB());
         System.out.println(pmxFile.getTextureCount());
         pmxFile.getTexturePaths().forEach(System.out::println);
+        pmxFile.getMaterials().forEach(material -> System.out.println(String.format("Name: %1$s\r\nEdge: %2$s %3$s %4$s %5$s\r\nScale: %6$s", material.getMaterialNameJapanese(), material.getEdgeColor().getX(), material.getEdgeColor().getY(), material.getEdgeColor().getZ(), material.getEdgeColor().getW(), material.getEdgeScale())));
+
     }
 
 }
