@@ -42,7 +42,9 @@ public class PMXParser extends Parser{
         pmxFile.setTexturePaths(pmxFile.getTextureCount() > 0 ? IntStream.range(0, pmxFile.getTextureCount()).mapToObj(texture -> getVariableString()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setMaterialCount(getInt32());
         pmxFile.setMaterials(pmxFile.getMaterialCount() > 0 ? IntStream.range(0, pmxFile.getMaterialCount()).mapToObj(material -> parseMaterial()).collect(Collectors.toList()) : Collections.emptyList());
-
+        pmxFile.setBoneCount(getInt32());
+        pmxFile.setBones(pmxFile.getBoneCount() > 0 ? IntStream.range(0, pmxFile.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()) : Collections.emptyList());
+        
         return pmxFile;
     }
 
@@ -193,6 +195,12 @@ public class PMXParser extends Parser{
         material.setSurfaceCount(getInt32());
 
         return material;
+    }
+
+    public PMXFileBone parseBone() {
+        PMXFileBone bone = new PMXFileBone();
+
+        return bone;
     }
 
     public PMXFileGlobals parseGlobals() {

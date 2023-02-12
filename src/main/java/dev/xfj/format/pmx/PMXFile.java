@@ -19,6 +19,8 @@ public class PMXFile {
     private List<String> texturePaths;
     private int materialCount;
     private List<PMXFileMaterial> materials;
+    private int boneCount;
+    private List<PMXFileBone> bones;
 
     public String getSignature() {
         return signature;
@@ -146,5 +148,21 @@ public class PMXFile {
 
     public void setMaterials(List<PMXFileMaterial> materials) {
         this.materials = materials;
+    }
+
+    public int getBoneCount() {
+        return boneCount;
+    }
+
+    public void setBoneCount(int boneCount) {
+        this.boneCount = boneCount;
+    }
+
+    public List<PMXFileBone> getBones() {
+        return bones;
+    }
+
+    public void setBones(List<PMXFileBone> bones) {
+        this.bones = bones;
     }
 }
