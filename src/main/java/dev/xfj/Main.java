@@ -23,7 +23,7 @@ public class Main {
         System.out.println(pmxFile.getTextureCount());
         pmxFile.getTexturePaths().forEach(System.out::println);
         pmxFile.getMaterials().forEach(material -> System.out.println(String.format("Name: %1$s\r\nEdge: %2$s %3$s %4$s %5$s\r\nScale: %6$s", material.getMaterialNameJapanese(), material.getEdgeColor().getX(), material.getEdgeColor().getY(), material.getEdgeColor().getZ(), material.getEdgeColor().getW(), material.getEdgeScale())));
-
+        pmxFile.getBones().forEach(bone -> System.out.println(bone.getBoneNameJapanese()));
     }
 
 }

@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static dev.xfj.format.pmx.PMXFileFlags.BoneFlagsFirst.INDEXEDTAILPOSITION;
-
 public class PMXParser extends Parser{
     private Charset characterEncoding;
     private PMXFileGlobals globals;
@@ -214,9 +212,73 @@ public class PMXParser extends Parser{
         bone.setFlags(IntStream.range(0, 2).mapToObj(flags -> getUByte()).collect(Collectors.toList()));
 
         PMXFileFlags flagParser = new PMXFileFlags();
-        System.out.println(flagParser.getBoneFlagsSecond(bone.getFlags().get(1)));
+        EnumSet<PMXFileFlags.BoneFlagsFirst> firstFlags = flagParser.getBoneFlagsFirst(bone.getFlags().get(0));
+        EnumSet<PMXFileFlags.BoneFlagsSecond> secondFlags = flagParser.getBoneFlagsSecond(bone.getFlags().get(1));
+
+        if (!firstFlags.contains(PMXFileFlags.BoneFlagsFirst.INDEXEDTAILPOSITION)) {
+            bone.setTailPosition(getVec3());
+        } else {
+            switch (globals.getBoneIndexSize()) {
+                case 1 -> bone.setTailPosition(getByte());
+                case 2 -> bone.setTailPosition(getInt16());
+                case 4 -> bone.setTailPosition(getInt32());
+            }
+        }
+
+        if (secondFlags.contains(PMXFileFlags.BoneFlagsSecond.INHERITROTATION) || secondFlags.contains(PMXFileFlags.BoneFlagsSecond.INHERITTRANSLATION)) {
+            switch (globals.getBoneIndexSize()) {
+                case 1 -> bone.setInheritParentIndex(getByte());
+                case 2 -> bone.setInheritParentIndex(getInt16());
+                case 4 -> bone.setInheritParentIndex(getInt32());
+            }
+            bone.setInheritParentInfluence(getFloat());
+        }
+
+        if (secondFlags.contains(PMXFileFlags.BoneFlagsSecond.FIXEDAXIS)) {
+            bone.setAxisDirection(getVec3());
+        }
+
+        if (secondFlags.contains(PMXFileFlags.BoneFlagsSecond.LOCALCOORDINATE)) {
+            bone.setxVector(getVec3());
+            bone.setzVector(getVec3());
+        }
+
+        if (secondFlags.contains(PMXFileFlags.BoneFlagsSecond.EXTERNALPARENTDEFORM)) {
+            switch (globals.getBoneIndexSize()) {
+                case 1 -> bone.setExternalParentIndex(getByte());
+                case 2 -> bone.setExternalParentIndex(getInt16());
+                case 4 -> bone.setExternalParentIndex(getInt32());
+            }
+        }
+
+        if (firstFlags.contains(PMXFileFlags.BoneFlagsFirst.IK)) {
+            switch (globals.getBoneIndexSize()) {
+                case 1 -> bone.setTargetIndex(getByte());
+                case 2 -> bone.setTargetIndex(getInt16());
+                case 4 -> bone.setTargetIndex(getInt32());
+            }
+            bone.setLoopCount(getInt32());
+            bone.setLimitRadian(getFloat());
+            bone.setLinkCount(getInt32());
+            bone.setIkLinks(bone.getLinkCount() > 0 ? IntStream.range(0, bone.getLinkCount()).mapToObj(ik -> parseLink()).collect(Collectors.toList()) : Collections.emptyList());
+        }
 
         return bone;
+    }
+
+    public PMXFileBoneLink parseLink() {
+        PMXFileBoneLink link = new PMXFileBoneLink();
+        switch (globals.getBoneIndexSize()) {
+            case 1 -> link.setBoneIndex(getByte());
+            case 2 -> link.setBoneIndex(getInt16());
+            case 4 -> link.setBoneIndex(getInt32());
+        }
+        link.setHasLimits(getByte());
+        if (link.getHasLimits() == 1) {
+            link.setLimitMin(getVec3());
+            link.setLimitMax(getVec3());
+        }
+        return link;
     }
 
     private boolean isBitSet(int in, int bit) {
