@@ -9,9 +9,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static dev.xfj.format.pmx.PMXFileFlags.BoneFlagsFirst.INDEXEDTAILPOSITION;
 
 public class PMXParser extends Parser{
     private Charset characterEncoding;
@@ -44,7 +47,7 @@ public class PMXParser extends Parser{
         pmxFile.setMaterials(pmxFile.getMaterialCount() > 0 ? IntStream.range(0, pmxFile.getMaterialCount()).mapToObj(material -> parseMaterial()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setBoneCount(getInt32());
         pmxFile.setBones(pmxFile.getBoneCount() > 0 ? IntStream.range(0, pmxFile.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()) : Collections.emptyList());
-        
+
         return pmxFile;
     }
 
@@ -199,9 +202,27 @@ public class PMXParser extends Parser{
 
     public PMXFileBone parseBone() {
         PMXFileBone bone = new PMXFileBone();
+        bone.setBoneNameJapanese(getVariableString());
+        bone.setBonenameEnglish(getVariableString());
+        bone.setPosition(getVec3());
+        switch (globals.getBoneIndexSize()) {
+            case 1 -> bone.setParentBoneIndex(getByte());
+            case 2 -> bone.setParentBoneIndex(getInt16());
+            case 4 -> bone.setParentBoneIndex(getInt32());
+        }
+        bone.setLayer(getInt32());
+        bone.setFlags(IntStream.range(0, 2).mapToObj(flags -> getUByte()).collect(Collectors.toList()));
+
+        PMXFileFlags flagParser = new PMXFileFlags();
+        System.out.println(flagParser.getBoneFlagsSecond(bone.getFlags().get(1)));
 
         return bone;
     }
+
+    private boolean isBitSet(int in, int bit) {
+        return ((in >> bit) & 1) == 1;
+    }
+
 
     public PMXFileGlobals parseGlobals() {
         PMXFileGlobals globals = new PMXFileGlobals();
