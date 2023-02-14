@@ -21,6 +21,8 @@ public class PMXFile {
     private List<PMXFileMaterial> materials;
     private int boneCount;
     private List<PMXFileBone> bones;
+    private int morphCount;
+    private List<PMXFileMorph> morphs;
 
     public String getSignature() {
         return signature;
@@ -164,5 +166,21 @@ public class PMXFile {
 
     public void setBones(List<PMXFileBone> bones) {
         this.bones = bones;
+    }
+
+    public int getMorphCount() {
+        return morphCount;
+    }
+
+    public void setMorphCount(int morphCount) {
+        this.morphCount = morphCount;
+    }
+
+    public List<PMXFileMorph> getMorphs() {
+        return morphs;
+    }
+
+    public void setMorphs(List<PMXFileMorph> morphs) {
+        this.morphs = morphs;
     }
 }

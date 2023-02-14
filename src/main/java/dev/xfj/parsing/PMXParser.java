@@ -45,6 +45,8 @@ public class PMXParser extends Parser{
         pmxFile.setMaterials(pmxFile.getMaterialCount() > 0 ? IntStream.range(0, pmxFile.getMaterialCount()).mapToObj(material -> parseMaterial()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setBoneCount(getInt32());
         pmxFile.setBones(pmxFile.getBoneCount() > 0 ? IntStream.range(0, pmxFile.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setMorphCount(getInt32());
+        pmxFile.setMorphs(pmxFile.getMorphCount() > 0 ? IntStream.range(0, pmxFile.getMorphCount()).mapToObj(morph -> parseMorph()).collect(Collectors.toList()) : Collections.emptyList());
 
         return pmxFile;
     }
@@ -281,8 +283,121 @@ public class PMXParser extends Parser{
         return link;
     }
 
-    private boolean isBitSet(int in, int bit) {
-        return ((in >> bit) & 1) == 1;
+    public enum MorphType {
+        GROUP,
+        VERTEX,
+        BONE,
+        UV,
+        UVEXT1,
+        UVEXT2,
+        UVEXT3,
+        UVEXT4,
+        MATERIAL,
+        FLIP,
+        IMPULSE
+    }
+    public PMXFileMorph parseMorph() {
+        PMXFileMorph morph = new PMXFileMorph();
+        morph.setMorphNameJapanese(getVariableString());
+        morph.setMorphNameEnglish(getVariableString());
+        morph.setPanelType(getByte());
+        morph.setMorphType(getByte());
+        morph.setOffsetSize(getInt32());
+
+        MorphType type = MorphType.values()[morph.getMorphType()];
+        List<Object> data = Collections.emptyList();
+        if (morph.getOffsetSize() > 0) {
+            data = new ArrayList<>();
+            for (int i = 0; i < morph.getOffsetSize(); i++) {
+                switch (type) {
+                    case GROUP -> {
+                        PMXFileMorphGroup group = new PMXFileMorphGroup();
+                        switch (globals.getMorphIndexSize()) {
+                            case 1 -> group.setMorphIndex(getByte());
+                            case 2 -> group.setMorphIndex(getInt16());
+                            case 4 -> group.setMorphIndex(getInt32());
+                        }
+                        group.setInfluence(getFloat());
+                        data.add(group);
+                    }
+                    case VERTEX -> {
+                        PMXFileMorphVertex vertex = new PMXFileMorphVertex();
+                        switch (globals.getVertexIndexSize()) {
+                            case 1 -> vertex.setVertexIndex(getUByte());
+                            case 2 -> vertex.setVertexIndex(getUInt16());
+                            case 4 -> vertex.setVertexIndex(getInt32());
+                        }
+                        vertex.setTranslation(getVec3());
+                        data.add(vertex);
+                    }
+                    case BONE -> {
+                        PMXFileMorphBone bone = new PMXFileMorphBone();
+                        switch (globals.getBoneIndexSize()) {
+                            case 1 -> bone.setBoneIndex(getByte());
+                            case 2 -> bone.setBoneIndex(getInt16());
+                            case 4 -> bone.setBoneIndex(getInt32());
+                        }
+                        bone.setTranslation(getVec3());
+                        bone.setRotation(getVec4());
+                        data.add(bone);
+                    }
+                    case UV, UVEXT1, UVEXT2, UVEXT3, UVEXT4 -> {
+                        PMXFileMorphUV uv = new PMXFileMorphUV();
+                        switch (globals.getVertexIndexSize()) {
+                            case 1 -> uv.setVertexIndex(getUByte());
+                            case 2 -> uv.setVertexIndex(getUInt16());
+                            case 4 -> uv.setVertexIndex(getInt32());
+                        }
+                        uv.setFloats(getVec4());
+                        data.add(uv);
+                    }
+                    case MATERIAL -> {
+                        PMXFileMorphMaterial material = new PMXFileMorphMaterial();
+                        switch (globals.getMaterialIndexSize()) {
+                            case 1 -> material.setMaterialIndex(getUByte());
+                            case 2 -> material.setMaterialIndex(getUInt16());
+                            case 4 -> material.setMaterialIndex(getInt32());
+                        }
+                        material.setOperationType(getByte());
+                        material.setDiffuse(getVec4());
+                        material.setSpecular(getVec3());
+                        material.setSpecularity(getFloat());
+                        material.setAmbient(getVec3());
+                        material.setEdgeColor(getVec4());
+                        material.setEdgeSize(getFloat());
+                        material.setTextureTint(getVec4());
+                        material.setEnvironmentTint(getVec4());
+                        material.setToonTint(getVec4());
+                        data.add(material);
+                    }
+                    case FLIP -> {
+                        PMXFileMorphFlip flip = new PMXFileMorphFlip();
+                        switch (globals.getMorphIndexSize()) {
+                            case 1 -> flip.setMorphIndex(getByte());
+                            case 2 -> flip.setMorphIndex(getInt16());
+                            case 4 -> flip.setMorphIndex(getInt32());
+                        }
+                        flip.setInfluence(getFloat());
+                        data.add(flip);
+                    }
+                    case IMPULSE -> {
+                        PMXFileMorphImpulse impulse = new PMXFileMorphImpulse();
+                        switch (globals.getRigidBodyIndexSize()) {
+                            case 1 -> impulse.setRigidBodyIndex(getByte());
+                            case 2 -> impulse.setRigidBodyIndex(getInt16());
+                            case 4 -> impulse.setRigidBodyIndex(getInt32());
+                        }
+                        impulse.setLocalFlag(getByte());
+                        impulse.setMovementSpeed(getVec3());
+                        impulse.setRotationTorque(getVec3());
+                        data.add(impulse);
+                    }
+                }
+            }
+        }
+        morph.setOffsetData(data);
+
+        return morph;
     }
 
 
