@@ -47,6 +47,10 @@ public class PMXParser extends Parser{
         pmxFile.setBones(pmxFile.getBoneCount() > 0 ? IntStream.range(0, pmxFile.getBoneCount()).mapToObj(bone -> parseBone()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setMorphCount(getInt32());
         pmxFile.setMorphs(pmxFile.getMorphCount() > 0 ? IntStream.range(0, pmxFile.getMorphCount()).mapToObj(morph -> parseMorph()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setDisplayFrameCount(getInt32());
+        pmxFile.setDisplayFrames(pmxFile.getDisplayFrameCount() > 0 ? IntStream.range(0, pmxFile.getDisplayFrameCount()).mapToObj(frame -> parseDisplayFrame()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setRigidBodyCount(getInt32());
+        pmxFile.setRigidBodies(pmxFile.getRigidBodyCount() > 0 ? IntStream.range(0, pmxFile.getRigidBodyCount()).mapToObj(body -> parseRigidBody()).collect(Collectors.toList()) : Collections.emptyList());
 
         return pmxFile;
     }
@@ -398,6 +402,66 @@ public class PMXParser extends Parser{
         morph.setOffsetData(data);
 
         return morph;
+    }
+
+    public PMXFileDisplayFrame parseDisplayFrame() {
+        PMXFileDisplayFrame frame = new PMXFileDisplayFrame();
+        frame.setDisplayFrameNameJapanese(getVariableString());
+        frame.setDisplayFrameNameEnglish(getVariableString());
+        frame.setSpecialFlag(getByte());
+        frame.setFrameCount(getInt32());
+        List<PMXFileDisplayFrameData> data = Collections.emptyList();
+        if (frame.getFrameCount() > 0) {
+            data = new ArrayList<>();
+            for (int i = 0; i < frame.getFrameCount(); i++) {
+                PMXFileDisplayFrameData frameData = new PMXFileDisplayFrameData();
+                frameData.setFrameType(getByte());
+                switch (frameData.getFrameType()) {
+                    case 0 -> {
+                        switch (globals.getBoneIndexSize()) {
+                            case 1 -> frameData.setFrameData(getByte());
+                            case 2 -> frameData.setFrameData(getInt16());
+                            case 4 -> frameData.setFrameData(getInt32());
+                        }
+                        data.add(frameData);
+                    }
+                    case 1 -> {
+                        switch (globals.getMorphIndexSize()) {
+                            case 1 -> frameData.setFrameData(getByte());
+                            case 2 -> frameData.setFrameData(getInt16());
+                            case 4 -> frameData.setFrameData(getInt32());
+                        }
+                        data.add(frameData);
+                    }
+                }
+            }
+        }
+        frame.setFrames(data);
+        return frame;
+    }
+
+    public PMXFileRigidBody parseRigidBody() {
+        PMXFileRigidBody body = new PMXFileRigidBody();
+        body.setRigidBodyNameJapanese(getVariableString());
+        body.setRigidBodyNameEnglish(getVariableString());
+        switch (globals.getBoneIndexSize()) {
+            case 1 -> body.setRelatedBoneIndex(getByte());
+            case 2 -> body.setRelatedBoneIndex(getInt16());
+            case 4 -> body.setRelatedBoneIndex(getInt32());
+        }
+        body.setGroupId(getByte());
+        body.setNonCollisionGroup(getInt16());
+        body.setShape(getByte());
+        body.setShapeSize(getVec3());
+        body.setShapePosition(getVec3());
+        body.setShapeRotation(getVec3());
+        body.setMass(getFloat());
+        body.setMoveAttenuation(getFloat());
+        body.setRotationDamping(getFloat());
+        body.setRepulsion(getFloat());
+        body.setFrictionForce(getFloat());
+        body.setPhysicsMode(getByte());
+        return body;
     }
 
 

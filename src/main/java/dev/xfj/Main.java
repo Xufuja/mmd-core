@@ -25,6 +25,8 @@ public class Main {
         pmxFile.getMaterials().forEach(material -> System.out.println(String.format("Name: %1$s\r\nEdge: %2$s %3$s %4$s %5$s\r\nScale: %6$s", material.getMaterialNameJapanese(), material.getEdgeColor().getX(), material.getEdgeColor().getY(), material.getEdgeColor().getZ(), material.getEdgeColor().getW(), material.getEdgeScale())));
         pmxFile.getBones().forEach(bone -> System.out.println(bone.getBoneNameJapanese()));
         pmxFile.getMorphs().forEach(morph -> System.out.println(morph.getMorphNameJapanese()));
+        pmxFile.getDisplayFrames().forEach(frame -> System.out.println(String.format("Frame: %1$s (%2$s), special: %3$s", frame.getDisplayFrameNameJapanese(), frame.getDisplayFrameNameEnglish(), frame.getSpecialFlag())));
+        pmxFile.getRigidBodies().forEach(body -> System.out.println(body.getRigidBodyNameJapanese()));
     }
 
 }

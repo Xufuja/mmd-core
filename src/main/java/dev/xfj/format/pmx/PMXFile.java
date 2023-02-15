@@ -23,6 +23,10 @@ public class PMXFile {
     private List<PMXFileBone> bones;
     private int morphCount;
     private List<PMXFileMorph> morphs;
+    private int displayFrameCount;
+    private List<PMXFileDisplayFrame> displayFrames;
+    private int rigidBodyCount;
+    private List<PMXFileRigidBody> rigidBodies;
 
     public String getSignature() {
         return signature;
@@ -182,5 +186,37 @@ public class PMXFile {
 
     public void setMorphs(List<PMXFileMorph> morphs) {
         this.morphs = morphs;
+    }
+
+    public int getDisplayFrameCount() {
+        return displayFrameCount;
+    }
+
+    public void setDisplayFrameCount(int displayFrameCount) {
+        this.displayFrameCount = displayFrameCount;
+    }
+
+    public List<PMXFileDisplayFrame> getDisplayFrames() {
+        return displayFrames;
+    }
+
+    public void setDisplayFrames(List<PMXFileDisplayFrame> displayFrames) {
+        this.displayFrames = displayFrames;
+    }
+
+    public int getRigidBodyCount() {
+        return rigidBodyCount;
+    }
+
+    public void setRigidBodyCount(int rigidBodyCount) {
+        this.rigidBodyCount = rigidBodyCount;
+    }
+
+    public List<PMXFileRigidBody> getRigidBodies() {
+        return rigidBodies;
+    }
+
+    public void setRigidBodies(List<PMXFileRigidBody> rigidBodies) {
+        this.rigidBodies = rigidBodies;
     }
 }
