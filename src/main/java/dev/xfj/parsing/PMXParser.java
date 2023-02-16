@@ -51,6 +51,8 @@ public class PMXParser extends Parser{
         pmxFile.setDisplayFrames(pmxFile.getDisplayFrameCount() > 0 ? IntStream.range(0, pmxFile.getDisplayFrameCount()).mapToObj(frame -> parseDisplayFrame()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setRigidBodyCount(getInt32());
         pmxFile.setRigidBodies(pmxFile.getRigidBodyCount() > 0 ? IntStream.range(0, pmxFile.getRigidBodyCount()).mapToObj(body -> parseRigidBody()).collect(Collectors.toList()) : Collections.emptyList());
+        pmxFile.setJointCount(getInt32());
+        pmxFile.setJoints(pmxFile.getJointCount() > 0 ? IntStream.range(0, pmxFile.getJointCount()).mapToObj(body -> parseJoint()).collect(Collectors.toList()) : Collections.emptyList());
 
         return pmxFile;
     }
@@ -462,6 +464,37 @@ public class PMXParser extends Parser{
         body.setFrictionForce(getFloat());
         body.setPhysicsMode(getByte());
         return body;
+    }
+
+    public PMXFileJoint parseJoint() {
+        PMXFileJoint joint = new PMXFileJoint();
+        joint.setJointNameJapanese(getVariableString());
+        joint.setJointNameEnglish(getVariableString());
+        joint.setType(getByte());
+        switch (globals.getRigidBodyIndexSize()) {
+            case 1 -> {
+                joint.setRigidBodyIndexA(getByte());
+                joint.setRigidBodyIndexB(getByte());
+            }
+            case 2 -> {
+                joint.setRigidBodyIndexA(getInt16());
+                joint.setRigidBodyIndexB(getInt16());
+            }
+            case 4 -> {
+                joint.setRigidBodyIndexA(getInt32());
+                joint.setRigidBodyIndexB(getInt32());
+            }
+        }
+        joint.setPosition(getVec3());
+        joint.setRotation(getVec3());
+        joint.setPositionMinimum(getVec3());
+        joint.setPositionMaximum(getVec3());
+        joint.setRotationMinimum(getVec3());
+        joint.setRotationMaximum(getVec3());
+        joint.setPositionSpring(getVec3());
+        joint.setRotationSpring(getVec3());
+
+        return joint;
     }
 
 

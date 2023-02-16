@@ -27,6 +27,8 @@ public class PMXFile {
     private List<PMXFileDisplayFrame> displayFrames;
     private int rigidBodyCount;
     private List<PMXFileRigidBody> rigidBodies;
+    private int jointCount;
+    private List<PMXFileJoint> joints;
 
     public String getSignature() {
         return signature;
@@ -218,5 +220,21 @@ public class PMXFile {
 
     public void setRigidBodies(List<PMXFileRigidBody> rigidBodies) {
         this.rigidBodies = rigidBodies;
+    }
+
+    public int getJointCount() {
+        return jointCount;
+    }
+
+    public void setJointCount(int jointCount) {
+        this.jointCount = jointCount;
+    }
+
+    public List<PMXFileJoint> getJoints() {
+        return joints;
+    }
+
+    public void setJoints(List<PMXFileJoint> joints) {
+        this.joints = joints;
     }
 }

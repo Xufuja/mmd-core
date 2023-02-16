@@ -27,6 +27,7 @@ public class Main {
         pmxFile.getMorphs().forEach(morph -> System.out.println(morph.getMorphNameJapanese()));
         pmxFile.getDisplayFrames().forEach(frame -> System.out.println(String.format("Frame: %1$s (%2$s), special: %3$s", frame.getDisplayFrameNameJapanese(), frame.getDisplayFrameNameEnglish(), frame.getSpecialFlag())));
         pmxFile.getRigidBodies().forEach(body -> System.out.println(body.getRigidBodyNameJapanese()));
+        pmxFile.getJoints().forEach(joint -> System.out.println(joint.getJointNameJapanese()));
     }
 
 }
