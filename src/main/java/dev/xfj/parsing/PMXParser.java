@@ -53,7 +53,10 @@ public class PMXParser extends Parser{
         pmxFile.setRigidBodies(pmxFile.getRigidBodyCount() > 0 ? IntStream.range(0, pmxFile.getRigidBodyCount()).mapToObj(body -> parseRigidBody()).collect(Collectors.toList()) : Collections.emptyList());
         pmxFile.setJointCount(getInt32());
         pmxFile.setJoints(pmxFile.getJointCount() > 0 ? IntStream.range(0, pmxFile.getJointCount()).mapToObj(body -> parseJoint()).collect(Collectors.toList()) : Collections.emptyList());
-
+        if (pmxFile.getVersion() == 2.1f) {
+            pmxFile.setSoftBodyCount(getInt32());
+            pmxFile.setSoftBodies(pmxFile.getSoftBodyCount() > 0 ? IntStream.range(0, pmxFile.getSoftBodyCount()).mapToObj(body -> parseSoftBody()).collect(Collectors.toList()) : Collections.emptyList());
+        }
         return pmxFile;
     }
 
@@ -495,6 +498,87 @@ public class PMXParser extends Parser{
         joint.setRotationSpring(getVec3());
 
         return joint;
+    }
+
+    public PMXFileSoftBody parseSoftBody() {
+        PMXFileSoftBody body = new PMXFileSoftBody();
+        body.setSoftBodyNameJapanese(getVariableString());
+        body.setSoftBodyNameEnglish(getVariableString());
+        body.setShape(getByte());
+        switch (globals.getMaterialIndexSize()) {
+            case 1 -> body.setMaterialIndex(getUByte());
+            case 2 -> body.setMaterialIndex(getUInt16());
+            case 4 -> body.setMaterialIndex(getInt32());
+        }
+        body.setGroupId(getByte());
+        body.setNonCollisionGroup(getInt16());
+        body.setFlags(getByte());
+        body.setbLinkCreateDistance(getInt32());
+        body.setClusterCount(getInt32());
+        body.setTotalMass(getFloat());
+        body.setCollisionMargin(getFloat());
+        body.setAerodynamicsModel(getInt32());
+        body.setVelocityCorrectionFactor(getFloat());
+        body.setDampingCoefficient(getFloat());
+        body.setDragCoefficient(getFloat());
+        body.setLiftCoefficient(getFloat());
+        body.setPressureCoefficient(getFloat());
+        body.setVolumeConversationCoefficient(getFloat());
+        body.setDynamicFrictionCoefficient(getFloat());
+        body.setPoseMatchingCoefficient(getFloat());
+        body.setRigidContactHardness(getFloat());
+        body.setKineticContactHardness(getFloat());
+        body.setSoftContactHardness(getFloat());
+        body.setAnchorHardness(getFloat());
+        body.setSoftRigidHardness(getFloat());
+        body.setSoftKineticHardness(getFloat());
+        body.setSoftSoftHardness(getFloat());
+        body.setSoftRigidImpulseSplit(getFloat());
+        body.setSoftKineticImpulseSplit(getFloat());
+        body.setSoftSoftImpulseSplit(getFloat());
+        body.setVelocitySolverIterations(getInt32());
+        body.setPositionSolverIterations(getInt32());
+        body.setDriftSolverIterations(getInt32());
+        body.setClusterSolverIterations(getInt32());
+        body.setLinearStiffnessCoefficient(getInt32());
+        body.setAngularStiffnessCoefficient(getInt32());
+        body.setVolumeStiffnessCoefficient(getInt32());
+        body.setAnchorRigidBodyCount(getInt32());
+        body.setAnchorRigidBodies(body.getAnchorRigidBodyCount() > 0 ? IntStream.range(0, body.getAnchorRigidBodyCount()).mapToObj(anchor -> parseSoftBodyAnchorRigidBody()).collect(Collectors.toList()) : Collections.emptyList());
+        body.setVertexPinCount(getInt32());
+        body.setVertexPins(body.getVertexPinCount() > 0 ? IntStream.range(0, body.getVertexPinCount()).mapToObj(anchor -> {
+            Object result = new Object();
+            switch (globals.getVertexIndexSize()) {
+                case 1 -> {
+                    result = getUByte();
+                }
+                case 2 -> {
+                    result = getUInt16();
+                }
+                case 4 -> {
+                    result = getInt32();
+                }
+            }
+            return result;
+        }).collect(Collectors.toList()) : Collections.emptyList());
+
+        return body;
+    }
+
+    public PMXFileSoftBodyAnchorRigidBody parseSoftBodyAnchorRigidBody() {
+        PMXFileSoftBodyAnchorRigidBody anchor = new PMXFileSoftBodyAnchorRigidBody();
+        switch (globals.getRigidBodyIndexSize()) {
+            case 1 -> anchor.setRigidBodyIndex(getUByte());
+            case 2 -> anchor.setRigidBodyIndex(getUInt16());
+            case 4 -> anchor.setRigidBodyIndex(getInt32());
+        }
+        switch (globals.getVertexIndexSize()) {
+            case 1 -> anchor.setVertexIndex(getUByte());
+            case 2 -> anchor.setVertexIndex(getUInt16());
+            case 4 -> anchor.setVertexIndex(getInt32());
+        }
+        anchor.setNearMode(getByte());
+        return anchor;
     }
 
 
