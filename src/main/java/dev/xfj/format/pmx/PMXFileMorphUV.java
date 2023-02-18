@@ -4,14 +4,14 @@ import dev.xfj.types.index.IndexType;
 import dev.xfj.types.vec.Vec4;
 
 public class PMXFileMorphUV implements PMXFileMorphType {
-    private IndexType vertexIndex;
+    private IndexType<?> vertexIndex;
     private Vec4 floats;
 
-    public IndexType getVertexIndex() {
+    public IndexType<?> getVertexIndex() {
         return vertexIndex;
     }
 
-    public void setVertexIndex(IndexType vertexIndex) {
+    public void setVertexIndex(IndexType<?> vertexIndex) {
         this.vertexIndex = vertexIndex;
     }
 

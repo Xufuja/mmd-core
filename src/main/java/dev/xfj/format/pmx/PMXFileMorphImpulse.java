@@ -4,16 +4,16 @@ import dev.xfj.types.index.IndexType;
 import dev.xfj.types.vec.Vec3;
 
 public class PMXFileMorphImpulse implements PMXFileMorphType {
-    private IndexType rigidBodyIndex;
+    private IndexType<?> rigidBodyIndex;
     private byte localFlag;
     private Vec3 movementSpeed;
     private Vec3 rotationTorque;
 
-    public IndexType getRigidBodyIndex() {
+    public IndexType<?> getRigidBodyIndex() {
         return rigidBodyIndex;
     }
 
-    public void setRigidBodyIndex(IndexType rigidBodyIndex) {
+    public void setRigidBodyIndex(IndexType<?> rigidBodyIndex) {
         this.rigidBodyIndex = rigidBodyIndex;
     }
 

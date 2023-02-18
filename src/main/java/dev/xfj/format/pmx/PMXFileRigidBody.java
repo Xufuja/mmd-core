@@ -6,7 +6,7 @@ import dev.xfj.types.vec.Vec3;
 public class PMXFileRigidBody {
     private String rigidBodyNameJapanese;
     private String rigidBodyNameEnglish;
-    private IndexType relatedBoneIndex;
+    private IndexType<?> relatedBoneIndex;
     private byte groupId;
     private short nonCollisionGroup;
     private byte shape;
@@ -36,11 +36,11 @@ public class PMXFileRigidBody {
         this.rigidBodyNameEnglish = rigidBodyNameEnglish;
     }
 
-    public IndexType getRelatedBoneIndex() {
+    public IndexType<?> getRelatedBoneIndex() {
         return relatedBoneIndex;
     }
 
-    public void setRelatedBoneIndex(IndexType relatedBoneIndex) {
+    public void setRelatedBoneIndex(IndexType<?> relatedBoneIndex) {
         this.relatedBoneIndex = relatedBoneIndex;
     }
 

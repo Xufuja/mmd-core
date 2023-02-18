@@ -14,8 +14,8 @@ public class PMXFileMaterial {
     private byte materialFlags;
     private Vec4 edgeColor;
     private float edgeScale;
-    private IndexType textureIndex;
-    private IndexType environmentIndex;
+    private IndexType<?> textureIndex;
+    private IndexType<?> environmentIndex;
     private byte environmentBlendMode;
     private byte toonReference;
     private Object toonValue;
@@ -94,19 +94,19 @@ public class PMXFileMaterial {
         this.edgeScale = edgeScale;
     }
 
-    public IndexType getTextureIndex() {
+    public IndexType<?> getTextureIndex() {
         return textureIndex;
     }
 
-    public void setTextureIndex(IndexType textureIndex) {
+    public void setTextureIndex(IndexType<?> textureIndex) {
         this.textureIndex = textureIndex;
     }
 
-    public IndexType getEnvironmentIndex() {
+    public IndexType<?> getEnvironmentIndex() {
         return environmentIndex;
     }
 
-    public void setEnvironmentIndex(IndexType environmentIndex) {
+    public void setEnvironmentIndex(IndexType<?> environmentIndex) {
         this.environmentIndex = environmentIndex;
     }
 

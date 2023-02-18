@@ -8,7 +8,7 @@ public class PMXFileSoftBody {
     private String softBodyNameJapanese;
     private String softBodyNameEnglish;
     private byte shape;
-    private IndexType materialIndex;
+    private IndexType<?> materialIndex;
     private byte groupId;
     private short nonCollisionGroup;
     private byte flags;
@@ -71,11 +71,11 @@ public class PMXFileSoftBody {
         this.shape = shape;
     }
 
-    public IndexType getMaterialIndex() {
+    public IndexType<?> getMaterialIndex() {
         return materialIndex;
     }
 
-    public void setMaterialIndex(IndexType materialIndex) {
+    public void setMaterialIndex(IndexType<?> materialIndex) {
         this.materialIndex = materialIndex;
     }
 

@@ -77,7 +77,7 @@ public class PMXParser extends Parser {
         vertex.setAdditionalVec4(globals.getAdditionalVec4Count() > 0 ? IntStream.range(0, globals.getAdditionalVec4Count()).mapToObj(vec4 -> getVec4()).collect(Collectors.toList()) : Collections.emptyList());
         vertex.setWeightDeformType(getByte());
         WeightDeformTypes type = WeightDeformTypes.values()[vertex.getWeightDeformType()];
-        List<dev.xfj.types.index.IndexType> boneIndices = new ArrayList<>();
+        List<IndexType<?>> boneIndices = new ArrayList<>();
         List<Float> boneWeight = new ArrayList<>();
         switch (type) {
             case BDEF1 -> {
@@ -443,8 +443,8 @@ public class PMXParser extends Parser {
         RIGIDBODY
     }
 
-    public dev.xfj.types.index.IndexType parseIndex(IndexTypes index) {
-        dev.xfj.types.index.IndexType result = null;
+    public IndexType<?> parseIndex(IndexTypes index) {
+        IndexType<?> result = null;
         int type = -1;
 
         switch (index) {

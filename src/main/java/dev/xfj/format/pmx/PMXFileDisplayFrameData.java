@@ -4,7 +4,7 @@ import dev.xfj.types.index.IndexType;
 
 public class PMXFileDisplayFrameData {
     private byte frameType;
-    private IndexType frameData;
+    private IndexType<?> frameData;
 
     public byte getFrameType() {
         return frameType;
@@ -14,11 +14,11 @@ public class PMXFileDisplayFrameData {
         this.frameType = frameType;
     }
 
-    public IndexType getFrameData() {
+    public IndexType<?> getFrameData() {
         return frameData;
     }
 
-    public void setFrameData(IndexType frameData) {
+    public void setFrameData(IndexType<?> frameData) {
         this.frameData = frameData;
     }
 }

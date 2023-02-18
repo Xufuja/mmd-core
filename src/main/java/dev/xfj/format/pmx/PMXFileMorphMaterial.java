@@ -5,7 +5,7 @@ import dev.xfj.types.vec.Vec3;
 import dev.xfj.types.vec.Vec4;
 
 public class PMXFileMorphMaterial implements PMXFileMorphType {
-    private IndexType materialIndex;
+    private IndexType<?> materialIndex;
     private byte operationType;
     private Vec4 diffuse;
     private Vec3 specular;
@@ -17,11 +17,11 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
     private Vec4 environmentTint;
     private Vec4 toonTint;
 
-    public IndexType getMaterialIndex() {
+    public IndexType<?> getMaterialIndex() {
         return materialIndex;
     }
 
-    public void setMaterialIndex(IndexType materialIndex) {
+    public void setMaterialIndex(IndexType<?> materialIndex) {
         this.materialIndex = materialIndex;
     }
 

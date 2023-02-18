@@ -7,8 +7,8 @@ public class PMXFileJoint {
     private String jointNameJapanese;
     private String jointNameEnglish;
     private byte type;
-    private IndexType rigidBodyIndexA;
-    private IndexType rigidBodyIndexB;
+    private IndexType<?> rigidBodyIndexA;
+    private IndexType<?> rigidBodyIndexB;
     private Vec3 position;
     private Vec3 rotation;
     private Vec3 positionMinimum;
@@ -42,19 +42,19 @@ public class PMXFileJoint {
         this.type = type;
     }
 
-    public IndexType getRigidBodyIndexA() {
+    public IndexType<?> getRigidBodyIndexA() {
         return rigidBodyIndexA;
     }
 
-    public void setRigidBodyIndexA(IndexType rigidBodyIndexA) {
+    public void setRigidBodyIndexA(IndexType<?> rigidBodyIndexA) {
         this.rigidBodyIndexA = rigidBodyIndexA;
     }
 
-    public IndexType getRigidBodyIndexB() {
+    public IndexType<?> getRigidBodyIndexB() {
         return rigidBodyIndexB;
     }
 
-    public void setRigidBodyIndexB(IndexType rigidBodyIndexB) {
+    public void setRigidBodyIndexB(IndexType<?> rigidBodyIndexB) {
         this.rigidBodyIndexB = rigidBodyIndexB;
     }
 
