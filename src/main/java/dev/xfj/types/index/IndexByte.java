@@ -1,17 +1,19 @@
 package dev.xfj.types.index;
 
-public class IndexByte implements IndexType {
-    private byte indexByte;
+public class IndexByte implements IndexType<Byte> {
+    private byte value;
 
-    public IndexByte(byte indexByte) {
-        this.indexByte = indexByte;
+    public IndexByte(byte value) {
+        this.value = value;
     }
 
-    public byte getIndexByte() {
-        return indexByte;
+    @Override
+    public Byte getValue() {
+        return value;
     }
 
-    public void setIndexByte(byte indexByte) {
-        this.indexByte = indexByte;
+    @Override
+    public void setValue(Byte value) {
+        this.value = value;
     }
 }

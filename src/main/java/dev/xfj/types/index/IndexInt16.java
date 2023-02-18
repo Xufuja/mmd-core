@@ -1,17 +1,19 @@
 package dev.xfj.types.index;
 
-public class IndexInt16 implements IndexType {
-    private short indexInt16;
+public class IndexInt16 implements IndexType<Short> {
+    private short value;
 
-    public IndexInt16(short indexInt16) {
-        this.indexInt16 = indexInt16;
+    public IndexInt16(short value) {
+        this.value = value;
     }
 
-    public short getIndexInt16() {
-        return indexInt16;
+    @Override
+    public Short getValue() {
+        return value;
     }
 
-    public void setIndexInt16(short indexInt16) {
-        this.indexInt16 = indexInt16;
+    @Override
+    public void setValue(Short value) {
+        this.value = value;
     }
 }

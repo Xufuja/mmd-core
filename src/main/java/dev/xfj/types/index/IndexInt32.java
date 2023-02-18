@@ -1,17 +1,19 @@
 package dev.xfj.types.index;
 
-public class IndexInt32 implements IndexType {
-    private int indexInt32;
+public class IndexInt32 implements IndexType<Integer> {
+    private int value;
 
-    public IndexInt32(int indexInt32) {
-        this.indexInt32 = indexInt32;
+    public IndexInt32(int value) {
+        this.value = value;
     }
 
-    public int getIndexInt32() {
-        return indexInt32;
+    @Override
+    public Integer getValue() {
+        return value;
     }
 
-    public void setIndexInt32(int indexInt32) {
-        this.indexInt32 = indexInt32;
+    @Override
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }

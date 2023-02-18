@@ -5,15 +5,15 @@ import dev.xfj.types.vec.Vec3;
 import dev.xfj.types.vec.Vec4;
 
 public class PMXFileMorphBone implements PMXFileMorphType {
-    private IndexType boneIndex;
+    private IndexType<?> boneIndex;
     private Vec3 translation;
     private Vec4 rotation;
 
-    public IndexType getBoneIndex() {
+    public IndexType<?> getBoneIndex() {
         return boneIndex;
     }
 
-    public void setBoneIndex(IndexType boneIndex) {
+    public void setBoneIndex(IndexType<?> boneIndex) {
         this.boneIndex = boneIndex;
     }
 

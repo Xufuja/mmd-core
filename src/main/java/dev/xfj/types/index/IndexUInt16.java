@@ -1,17 +1,19 @@
 package dev.xfj.types.index;
 
-public class IndexUInt16 implements IndexType {
-    private int indexUInt16;
+public class IndexUInt16 implements IndexType<Integer> {
+    private int value;
 
-    public IndexUInt16(int indexUInt16) {
-        this.indexUInt16 = indexUInt16;
+    public IndexUInt16(int value) {
+        this.value = value;
     }
 
-    public int getIndexUInt16() {
-        return indexUInt16;
+    @Override
+    public Integer getValue() {
+        return value;
     }
 
-    public void setIndexUInt16(int indexUInt16) {
-        this.indexUInt16 = indexUInt16;
+    @Override
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }

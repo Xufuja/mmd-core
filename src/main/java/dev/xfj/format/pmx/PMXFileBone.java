@@ -9,17 +9,17 @@ public class PMXFileBone {
     private String boneNameJapanese;
     private String bonenameEnglish;
     private Vec3 position;
-    private IndexType parentBoneIndex;
+    private IndexType<?> parentBoneIndex;
     private int layer;
     private List<Integer> flags;
     private Object tailPosition;
-    private IndexType inheritParentIndex;
+    private IndexType<?> inheritParentIndex;
     private float inheritParentInfluence;
     private Vec3 axisDirection;
     private Vec3 xVector;
     private Vec3 zVector;
-    private IndexType externalParentIndex;
-    private IndexType targetIndex;
+    private IndexType<?> externalParentIndex;
+    private IndexType<?> targetIndex;
     private int loopCount;
     private float limitRadian;
     private int linkCount;
@@ -49,11 +49,11 @@ public class PMXFileBone {
         this.position = position;
     }
 
-    public IndexType getParentBoneIndex() {
+    public IndexType<?> getParentBoneIndex() {
         return parentBoneIndex;
     }
 
-    public void setParentBoneIndex(IndexType parentBoneIndex) {
+    public void setParentBoneIndex(IndexType<?> parentBoneIndex) {
         this.parentBoneIndex = parentBoneIndex;
     }
 
@@ -81,11 +81,11 @@ public class PMXFileBone {
         this.tailPosition = tailPosition;
     }
 
-    public IndexType getInheritParentIndex() {
+    public IndexType<?> getInheritParentIndex() {
         return inheritParentIndex;
     }
 
-    public void setInheritParentIndex(IndexType inheritParentIndex) {
+    public void setInheritParentIndex(IndexType<?> inheritParentIndex) {
         this.inheritParentIndex = inheritParentIndex;
     }
 
@@ -121,19 +121,19 @@ public class PMXFileBone {
         this.zVector = zVector;
     }
 
-    public IndexType getExternalParentIndex() {
+    public IndexType<?> getExternalParentIndex() {
         return externalParentIndex;
     }
 
-    public void setExternalParentIndex(IndexType externalParentIndex) {
+    public void setExternalParentIndex(IndexType<?> externalParentIndex) {
         this.externalParentIndex = externalParentIndex;
     }
 
-    public IndexType getTargetIndex() {
+    public IndexType<?> getTargetIndex() {
         return targetIndex;
     }
 
-    public void setTargetIndex(IndexType targetIndex) {
+    public void setTargetIndex(IndexType<?> targetIndex) {
         this.targetIndex = targetIndex;
     }
 

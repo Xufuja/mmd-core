@@ -1,17 +1,19 @@
 package dev.xfj.types.index;
 
-public class IndexUByte implements IndexType {
-    private int indexUByte;
+public class IndexUByte implements IndexType<Integer> {
+    private int value;
 
-    public IndexUByte(int indexUByte) {
-        this.indexUByte = indexUByte;
+    public IndexUByte(int value) {
+        this.value = value;
     }
 
-    public int getIndexUByte() {
-        return indexUByte;
+    @Override
+    public Integer getValue() {
+        return value;
     }
 
-    public void setIndexUByte(int indexUByte) {
-        this.indexUByte = indexUByte;
+    @Override
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }
