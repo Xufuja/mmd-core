@@ -1,11 +1,12 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec3;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec3;
 
 public class PMXFileRigidBody {
     private String rigidBodyNameJapanese;
     private String rigidBodyNameEnglish;
-    private Object relatedBoneIndex;
+    private IndexType relatedBoneIndex;
     private byte groupId;
     private short nonCollisionGroup;
     private byte shape;
@@ -35,11 +36,11 @@ public class PMXFileRigidBody {
         this.rigidBodyNameEnglish = rigidBodyNameEnglish;
     }
 
-    public Object getRelatedBoneIndex() {
+    public IndexType getRelatedBoneIndex() {
         return relatedBoneIndex;
     }
 
-    public void setRelatedBoneIndex(Object relatedBoneIndex) {
+    public void setRelatedBoneIndex(IndexType relatedBoneIndex) {
         this.relatedBoneIndex = relatedBoneIndex;
     }
 

@@ -1,16 +1,14 @@
-package dev.xfj.vec;
+package dev.xfj.types.vec;
 
-public class Vec4 {
+public class Vec3 {
     private float x;
     private float y;
     private float z;
-    private float w;
 
-    public Vec4(float x, float y, float z, float w) {
+    public Vec3(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.w = w;
     }
 
     public float getX() {
@@ -35,13 +33,5 @@ public class Vec4 {
 
     public void setZ(float z) {
         this.z = z;
-    }
-
-    public float getW() {
-        return w;
-    }
-
-    public void setW(float w) {
-        this.w = w;
     }
 }

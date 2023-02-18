@@ -1,6 +1,7 @@
 package dev.xfj.parsing;
 
 import dev.xfj.format.pmx.*;
+import dev.xfj.types.index.*;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class PMXParser extends Parser{
+public class PMXParser extends Parser {
     private Charset characterEncoding;
     private PMXFileGlobals globals;
 
@@ -60,7 +61,7 @@ public class PMXParser extends Parser{
         return pmxFile;
     }
 
-    public enum WeightDeformType {
+    public enum WeightDeformTypes {
         BDEF1,
         BDEF2,
         BDEF4,
@@ -75,58 +76,26 @@ public class PMXParser extends Parser{
         vertex.setUv(getVec2());
         vertex.setAdditionalVec4(globals.getAdditionalVec4Count() > 0 ? IntStream.range(0, globals.getAdditionalVec4Count()).mapToObj(vec4 -> getVec4()).collect(Collectors.toList()) : Collections.emptyList());
         vertex.setWeightDeformType(getByte());
-        WeightDeformType type = WeightDeformType.values()[vertex.getWeightDeformType()];
-        List<Object> boneIndices = new ArrayList<>();
+        WeightDeformTypes type = WeightDeformTypes.values()[vertex.getWeightDeformType()];
+        List<dev.xfj.types.index.IndexType> boneIndices = new ArrayList<>();
         List<Float> boneWeight = new ArrayList<>();
         switch (type) {
             case BDEF1 -> {
-                switch (globals.getBoneIndexSize()) {
-                    case 1 -> boneIndices.add(getByte());
-                    case 2 -> boneIndices.add(getInt16());
-                    case 4 -> boneIndices.add(getInt32());
-                }
+                boneIndices.add(parseIndex(IndexTypes.BONE));
                 boneWeight.add(1.0f);
             }
             case BDEF2, SDEF -> {
-                switch (globals.getBoneIndexSize()) {
-                    case 1 -> {
-                        boneIndices.add(getByte());
-                        boneIndices.add(getByte());
-                    }
-                    case 2 -> {
-                        boneIndices.add(getInt16());
-                        boneIndices.add(getInt16());
-                    }
-                    case 4 -> {
-                        boneIndices.add(getInt32());
-                        boneIndices.add(getInt32());
-                    }
-                }
+                boneIndices.add(parseIndex(IndexTypes.BONE));
+                boneIndices.add(parseIndex(IndexTypes.BONE));
                 float bone1 = getFloat();
                 boneWeight.add(bone1);
                 boneWeight.add(1.0f - bone1);
             }
             case BDEF4, QDEF -> {
-                switch (globals.getBoneIndexSize()) {
-                    case 1 -> {
-                        boneIndices.add(getByte());
-                        boneIndices.add(getByte());
-                        boneIndices.add(getByte());
-                        boneIndices.add(getByte());
-                    }
-                    case 2 -> {
-                        boneIndices.add(getInt16());
-                        boneIndices.add(getInt16());
-                        boneIndices.add(getInt16());
-                        boneIndices.add(getInt16());
-                    }
-                    case 4 -> {
-                        boneIndices.add(getInt32());
-                        boneIndices.add(getInt32());
-                        boneIndices.add(getInt32());
-                        boneIndices.add(getInt32());
-                    }
-                }
+                boneIndices.add(parseIndex(IndexTypes.BONE));
+                boneIndices.add(parseIndex(IndexTypes.BONE));
+                boneIndices.add(parseIndex(IndexTypes.BONE));
+                boneIndices.add(parseIndex(IndexTypes.BONE));
                 boneWeight.add(getFloat());
                 boneWeight.add(getFloat());
                 boneWeight.add(getFloat());
@@ -135,7 +104,7 @@ public class PMXParser extends Parser{
         }
         vertex.setBoneIndices(boneIndices);
         vertex.setBoneWeights(boneWeight);
-        if (type == WeightDeformType.SDEF) {
+        if (type == WeightDeformTypes.SDEF) {
             vertex.setC(getVec3());
             vertex.setR0(getVec3());
             vertex.setR1(getVec3());
@@ -147,23 +116,9 @@ public class PMXParser extends Parser{
 
     public PMXFileVertexIndex parseVertexIndex() {
         PMXFileVertexIndex vertexIndex = new PMXFileVertexIndex();
-        switch (globals.getVertexIndexSize()) {
-            case 1 -> {
-               vertexIndex.setVertexIndexA(getUByte());
-               vertexIndex.setVertexIndexB(getUByte());
-               vertexIndex.setVertexIndexC(getUByte());
-            }
-            case 2 -> {
-                vertexIndex.setVertexIndexA(getUInt16());
-                vertexIndex.setVertexIndexB(getUInt16());
-                vertexIndex.setVertexIndexC(getUInt16());
-            }
-            case 4 -> {
-                vertexIndex.setVertexIndexA(getInt32());
-                vertexIndex.setVertexIndexB(getInt32());
-                vertexIndex.setVertexIndexC(getInt32());
-            }
-        }
+        vertexIndex.setVertexIndexA(parseIndex(IndexTypes.VERTEX));
+        vertexIndex.setVertexIndexB(parseIndex(IndexTypes.VERTEX));
+        vertexIndex.setVertexIndexC(parseIndex(IndexTypes.VERTEX));
         return vertexIndex;
     }
 
@@ -178,30 +133,14 @@ public class PMXParser extends Parser{
         material.setMaterialFlags(getByte());
         material.setEdgeColor(getVec4());
         material.setEdgeScale(getFloat());
-        switch (globals.getTextureIndexSize()) {
-            case 1 -> {
-                material.setTextureIndex(getByte());
-                material.setEnvironmentIndex(getByte());
-            }
-            case 2 -> {
-                material.setTextureIndex(getInt16());
-                material.setEnvironmentIndex(getInt16());
-            }
-            case 4 -> {
-                material.setTextureIndex(getInt32());
-                material.setEnvironmentIndex(getInt32());
-            }
-        }
+        material.setTextureIndex(parseIndex(IndexTypes.TEXTURE));
+        material.setEnvironmentIndex(parseIndex(IndexTypes.TEXTURE));
         material.setEnvironmentBlendMode(getByte());
         material.setToonReference(getByte());
         if (material.getToonReference() == 1) {
             material.setToonValue(getByte());
         } else {
-            switch (globals.getTextureIndexSize()) {
-                case 1 -> material.setToonValue(getByte());
-                case 2 -> material.setToonValue(getInt16());
-                case 4 -> material.setToonValue(getInt32());
-            }
+            material.setToonValue(parseIndex(IndexTypes.TEXTURE));
         }
         material.setMetaData(getVariableString());
         material.setSurfaceCount(getInt32());
@@ -214,11 +153,7 @@ public class PMXParser extends Parser{
         bone.setBoneNameJapanese(getVariableString());
         bone.setBonenameEnglish(getVariableString());
         bone.setPosition(getVec3());
-        switch (globals.getBoneIndexSize()) {
-            case 1 -> bone.setParentBoneIndex(getByte());
-            case 2 -> bone.setParentBoneIndex(getInt16());
-            case 4 -> bone.setParentBoneIndex(getInt32());
-        }
+        bone.setParentBoneIndex(parseIndex(IndexTypes.BONE));
         bone.setLayer(getInt32());
         bone.setFlags(IntStream.range(0, 2).mapToObj(flags -> getUByte()).collect(Collectors.toList()));
 
@@ -229,19 +164,11 @@ public class PMXParser extends Parser{
         if (!firstFlags.contains(PMXFileFlags.BoneFlagsFirst.INDEXEDTAILPOSITION)) {
             bone.setTailPosition(getVec3());
         } else {
-            switch (globals.getBoneIndexSize()) {
-                case 1 -> bone.setTailPosition(getByte());
-                case 2 -> bone.setTailPosition(getInt16());
-                case 4 -> bone.setTailPosition(getInt32());
-            }
+            bone.setTailPosition(parseIndex(IndexTypes.BONE));
         }
 
         if (secondFlags.contains(PMXFileFlags.BoneFlagsSecond.INHERITROTATION) || secondFlags.contains(PMXFileFlags.BoneFlagsSecond.INHERITTRANSLATION)) {
-            switch (globals.getBoneIndexSize()) {
-                case 1 -> bone.setInheritParentIndex(getByte());
-                case 2 -> bone.setInheritParentIndex(getInt16());
-                case 4 -> bone.setInheritParentIndex(getInt32());
-            }
+            bone.setInheritParentIndex(parseIndex(IndexTypes.BONE));
             bone.setInheritParentInfluence(getFloat());
         }
 
@@ -255,19 +182,11 @@ public class PMXParser extends Parser{
         }
 
         if (secondFlags.contains(PMXFileFlags.BoneFlagsSecond.EXTERNALPARENTDEFORM)) {
-            switch (globals.getBoneIndexSize()) {
-                case 1 -> bone.setExternalParentIndex(getByte());
-                case 2 -> bone.setExternalParentIndex(getInt16());
-                case 4 -> bone.setExternalParentIndex(getInt32());
-            }
+            bone.setExternalParentIndex(parseIndex(IndexTypes.BONE));
         }
 
         if (firstFlags.contains(PMXFileFlags.BoneFlagsFirst.IK)) {
-            switch (globals.getBoneIndexSize()) {
-                case 1 -> bone.setTargetIndex(getByte());
-                case 2 -> bone.setTargetIndex(getInt16());
-                case 4 -> bone.setTargetIndex(getInt32());
-            }
+            bone.setTargetIndex(parseIndex(IndexTypes.BONE));
             bone.setLoopCount(getInt32());
             bone.setLimitRadian(getFloat());
             bone.setLinkCount(getInt32());
@@ -279,11 +198,7 @@ public class PMXParser extends Parser{
 
     public PMXFileBoneLink parseLink() {
         PMXFileBoneLink link = new PMXFileBoneLink();
-        switch (globals.getBoneIndexSize()) {
-            case 1 -> link.setBoneIndex(getByte());
-            case 2 -> link.setBoneIndex(getInt16());
-            case 4 -> link.setBoneIndex(getInt32());
-        }
+        link.setBoneIndex(parseIndex(IndexTypes.BONE));
         link.setHasLimits(getByte());
         if (link.getHasLimits() == 1) {
             link.setLimitMin(getVec3());
@@ -292,7 +207,7 @@ public class PMXParser extends Parser{
         return link;
     }
 
-    public enum MorphType {
+    public enum MorphTypes {
         GROUP,
         VERTEX,
         BONE,
@@ -305,6 +220,7 @@ public class PMXParser extends Parser{
         FLIP,
         IMPULSE
     }
+
     public PMXFileMorph parseMorph() {
         PMXFileMorph morph = new PMXFileMorph();
         morph.setMorphNameJapanese(getVariableString());
@@ -313,60 +229,40 @@ public class PMXParser extends Parser{
         morph.setMorphType(getByte());
         morph.setOffsetSize(getInt32());
 
-        MorphType type = MorphType.values()[morph.getMorphType()];
-        List<Object> data = Collections.emptyList();
+        MorphTypes type = MorphTypes.values()[morph.getMorphType()];
+        List<PMXFileMorphType> data = Collections.emptyList();
         if (morph.getOffsetSize() > 0) {
             data = new ArrayList<>();
             for (int i = 0; i < morph.getOffsetSize(); i++) {
                 switch (type) {
                     case GROUP -> {
                         PMXFileMorphGroup group = new PMXFileMorphGroup();
-                        switch (globals.getMorphIndexSize()) {
-                            case 1 -> group.setMorphIndex(getByte());
-                            case 2 -> group.setMorphIndex(getInt16());
-                            case 4 -> group.setMorphIndex(getInt32());
-                        }
+                        group.setMorphIndex(parseIndex(IndexTypes.MORPH));
                         group.setInfluence(getFloat());
                         data.add(group);
                     }
                     case VERTEX -> {
                         PMXFileMorphVertex vertex = new PMXFileMorphVertex();
-                        switch (globals.getVertexIndexSize()) {
-                            case 1 -> vertex.setVertexIndex(getUByte());
-                            case 2 -> vertex.setVertexIndex(getUInt16());
-                            case 4 -> vertex.setVertexIndex(getInt32());
-                        }
+                        vertex.setVertexIndex(parseIndex(IndexTypes.VERTEX));
                         vertex.setTranslation(getVec3());
                         data.add(vertex);
                     }
                     case BONE -> {
                         PMXFileMorphBone bone = new PMXFileMorphBone();
-                        switch (globals.getBoneIndexSize()) {
-                            case 1 -> bone.setBoneIndex(getByte());
-                            case 2 -> bone.setBoneIndex(getInt16());
-                            case 4 -> bone.setBoneIndex(getInt32());
-                        }
+                        bone.setBoneIndex(parseIndex(IndexTypes.BONE));
                         bone.setTranslation(getVec3());
                         bone.setRotation(getVec4());
                         data.add(bone);
                     }
                     case UV, UVEXT1, UVEXT2, UVEXT3, UVEXT4 -> {
                         PMXFileMorphUV uv = new PMXFileMorphUV();
-                        switch (globals.getVertexIndexSize()) {
-                            case 1 -> uv.setVertexIndex(getUByte());
-                            case 2 -> uv.setVertexIndex(getUInt16());
-                            case 4 -> uv.setVertexIndex(getInt32());
-                        }
+                        uv.setVertexIndex(parseIndex(IndexTypes.VERTEX));
                         uv.setFloats(getVec4());
                         data.add(uv);
                     }
                     case MATERIAL -> {
                         PMXFileMorphMaterial material = new PMXFileMorphMaterial();
-                        switch (globals.getMaterialIndexSize()) {
-                            case 1 -> material.setMaterialIndex(getUByte());
-                            case 2 -> material.setMaterialIndex(getUInt16());
-                            case 4 -> material.setMaterialIndex(getInt32());
-                        }
+                        material.setMaterialIndex(parseIndex(IndexTypes.MATERIAL));
                         material.setOperationType(getByte());
                         material.setDiffuse(getVec4());
                         material.setSpecular(getVec3());
@@ -381,21 +277,13 @@ public class PMXParser extends Parser{
                     }
                     case FLIP -> {
                         PMXFileMorphFlip flip = new PMXFileMorphFlip();
-                        switch (globals.getMorphIndexSize()) {
-                            case 1 -> flip.setMorphIndex(getByte());
-                            case 2 -> flip.setMorphIndex(getInt16());
-                            case 4 -> flip.setMorphIndex(getInt32());
-                        }
+                        flip.setMorphIndex(parseIndex(IndexTypes.MORPH));
                         flip.setInfluence(getFloat());
                         data.add(flip);
                     }
                     case IMPULSE -> {
                         PMXFileMorphImpulse impulse = new PMXFileMorphImpulse();
-                        switch (globals.getRigidBodyIndexSize()) {
-                            case 1 -> impulse.setRigidBodyIndex(getByte());
-                            case 2 -> impulse.setRigidBodyIndex(getInt16());
-                            case 4 -> impulse.setRigidBodyIndex(getInt32());
-                        }
+                        impulse.setRigidBodyIndex(parseIndex(IndexTypes.RIGIDBODY));
                         impulse.setLocalFlag(getByte());
                         impulse.setMovementSpeed(getVec3());
                         impulse.setRotationTorque(getVec3());
@@ -423,19 +311,11 @@ public class PMXParser extends Parser{
                 frameData.setFrameType(getByte());
                 switch (frameData.getFrameType()) {
                     case 0 -> {
-                        switch (globals.getBoneIndexSize()) {
-                            case 1 -> frameData.setFrameData(getByte());
-                            case 2 -> frameData.setFrameData(getInt16());
-                            case 4 -> frameData.setFrameData(getInt32());
-                        }
+                        frameData.setFrameData(parseIndex(IndexTypes.BONE));
                         data.add(frameData);
                     }
                     case 1 -> {
-                        switch (globals.getMorphIndexSize()) {
-                            case 1 -> frameData.setFrameData(getByte());
-                            case 2 -> frameData.setFrameData(getInt16());
-                            case 4 -> frameData.setFrameData(getInt32());
-                        }
+                        frameData.setFrameData(parseIndex(IndexTypes.MORPH));
                         data.add(frameData);
                     }
                 }
@@ -449,11 +329,7 @@ public class PMXParser extends Parser{
         PMXFileRigidBody body = new PMXFileRigidBody();
         body.setRigidBodyNameJapanese(getVariableString());
         body.setRigidBodyNameEnglish(getVariableString());
-        switch (globals.getBoneIndexSize()) {
-            case 1 -> body.setRelatedBoneIndex(getByte());
-            case 2 -> body.setRelatedBoneIndex(getInt16());
-            case 4 -> body.setRelatedBoneIndex(getInt32());
-        }
+        body.setRelatedBoneIndex(parseIndex(IndexTypes.BONE));
         body.setGroupId(getByte());
         body.setNonCollisionGroup(getInt16());
         body.setShape(getByte());
@@ -474,20 +350,8 @@ public class PMXParser extends Parser{
         joint.setJointNameJapanese(getVariableString());
         joint.setJointNameEnglish(getVariableString());
         joint.setType(getByte());
-        switch (globals.getRigidBodyIndexSize()) {
-            case 1 -> {
-                joint.setRigidBodyIndexA(getByte());
-                joint.setRigidBodyIndexB(getByte());
-            }
-            case 2 -> {
-                joint.setRigidBodyIndexA(getInt16());
-                joint.setRigidBodyIndexB(getInt16());
-            }
-            case 4 -> {
-                joint.setRigidBodyIndexA(getInt32());
-                joint.setRigidBodyIndexB(getInt32());
-            }
-        }
+        joint.setRigidBodyIndexA(parseIndex(IndexTypes.RIGIDBODY));
+        joint.setRigidBodyIndexB(parseIndex(IndexTypes.RIGIDBODY));
         joint.setPosition(getVec3());
         joint.setRotation(getVec3());
         joint.setPositionMinimum(getVec3());
@@ -505,11 +369,7 @@ public class PMXParser extends Parser{
         body.setSoftBodyNameJapanese(getVariableString());
         body.setSoftBodyNameEnglish(getVariableString());
         body.setShape(getByte());
-        switch (globals.getMaterialIndexSize()) {
-            case 1 -> body.setMaterialIndex(getUByte());
-            case 2 -> body.setMaterialIndex(getUInt16());
-            case 4 -> body.setMaterialIndex(getInt32());
-        }
+        body.setMaterialIndex(parseIndex(IndexTypes.MATERIAL));
         body.setGroupId(getByte());
         body.setNonCollisionGroup(getInt16());
         body.setFlags(getByte());
@@ -546,37 +406,15 @@ public class PMXParser extends Parser{
         body.setAnchorRigidBodyCount(getInt32());
         body.setAnchorRigidBodies(body.getAnchorRigidBodyCount() > 0 ? IntStream.range(0, body.getAnchorRigidBodyCount()).mapToObj(anchor -> parseSoftBodyAnchorRigidBody()).collect(Collectors.toList()) : Collections.emptyList());
         body.setVertexPinCount(getInt32());
-        body.setVertexPins(body.getVertexPinCount() > 0 ? IntStream.range(0, body.getVertexPinCount()).mapToObj(anchor -> {
-            Object result = new Object();
-            switch (globals.getVertexIndexSize()) {
-                case 1 -> {
-                    result = getUByte();
-                }
-                case 2 -> {
-                    result = getUInt16();
-                }
-                case 4 -> {
-                    result = getInt32();
-                }
-            }
-            return result;
-        }).collect(Collectors.toList()) : Collections.emptyList());
+        body.setVertexPins(body.getVertexPinCount() > 0 ? IntStream.range(0, body.getVertexPinCount()).mapToObj(anchor -> parseIndex(IndexTypes.VERTEX)).collect(Collectors.toList()) : Collections.emptyList());
 
         return body;
     }
 
     public PMXFileSoftBodyAnchorRigidBody parseSoftBodyAnchorRigidBody() {
         PMXFileSoftBodyAnchorRigidBody anchor = new PMXFileSoftBodyAnchorRigidBody();
-        switch (globals.getRigidBodyIndexSize()) {
-            case 1 -> anchor.setRigidBodyIndex(getUByte());
-            case 2 -> anchor.setRigidBodyIndex(getUInt16());
-            case 4 -> anchor.setRigidBodyIndex(getInt32());
-        }
-        switch (globals.getVertexIndexSize()) {
-            case 1 -> anchor.setVertexIndex(getUByte());
-            case 2 -> anchor.setVertexIndex(getUInt16());
-            case 4 -> anchor.setVertexIndex(getInt32());
-        }
+        anchor.setRigidBodyIndex(parseIndex(IndexTypes.RIGIDBODY));
+        anchor.setVertexIndex(parseIndex(IndexTypes.VERTEX));
         anchor.setNearMode(getByte());
         return anchor;
     }
@@ -594,6 +432,49 @@ public class PMXParser extends Parser{
         globals.setRigidBodyIndexSize(getByte());
         this.globals = globals;
         return globals;
+    }
+
+    public enum IndexTypes {
+        VERTEX,
+        BONE,
+        TEXTURE,
+        MATERIAL,
+        MORPH,
+        RIGIDBODY
+    }
+
+    public dev.xfj.types.index.IndexType parseIndex(IndexTypes index) {
+        dev.xfj.types.index.IndexType result = null;
+        int type = -1;
+
+        switch (index) {
+            case VERTEX -> type = globals.getVertexIndexSize();
+            case BONE -> type = globals.getBoneIndexSize();
+            case TEXTURE -> type = globals.getTextureIndexSize();
+            case MATERIAL -> type = globals.getMaterialIndexSize();
+            case MORPH -> type = globals.getMorphIndexSize();
+            case RIGIDBODY -> type = globals.getRigidBodyIndexSize();
+        }
+
+        switch (type) {
+            case 1 -> {
+                if (index == IndexTypes.VERTEX) {
+                    result = new IndexUByte(getUByte());
+                } else {
+                    result = new IndexByte(getByte());
+                }
+            }
+            case 2 -> {
+                if (index == IndexTypes.VERTEX) {
+                    result = new IndexUInt16(getUInt16());
+                } else {
+                    result = new IndexInt16(getInt16());
+                }
+            }
+            case 4 -> result = new IndexInt32(getInt32());
+        }
+
+        return result;
     }
 
     public String getVariableString() {

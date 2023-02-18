@@ -1,8 +1,8 @@
 package dev.xfj.parsing;
 
-import dev.xfj.vec.Vec2;
-import dev.xfj.vec.Vec3;
-import dev.xfj.vec.Vec4;
+import dev.xfj.types.vec.Vec2;
+import dev.xfj.types.vec.Vec3;
+import dev.xfj.types.vec.Vec4;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

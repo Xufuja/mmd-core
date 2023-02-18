@@ -1,7 +1,8 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec3;
-import dev.xfj.vec.Vec4;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec3;
+import dev.xfj.types.vec.Vec4;
 
 public class PMXFileMaterial {
     private String materialNameJapanese;
@@ -13,8 +14,8 @@ public class PMXFileMaterial {
     private byte materialFlags;
     private Vec4 edgeColor;
     private float edgeScale;
-    private Object textureIndex;
-    private Object environmentIndex;
+    private IndexType textureIndex;
+    private IndexType environmentIndex;
     private byte environmentBlendMode;
     private byte toonReference;
     private Object toonValue;
@@ -93,19 +94,19 @@ public class PMXFileMaterial {
         this.edgeScale = edgeScale;
     }
 
-    public Object getTextureIndex() {
+    public IndexType getTextureIndex() {
         return textureIndex;
     }
 
-    public void setTextureIndex(Object textureIndex) {
+    public void setTextureIndex(IndexType textureIndex) {
         this.textureIndex = textureIndex;
     }
 
-    public Object getEnvironmentIndex() {
+    public IndexType getEnvironmentIndex() {
         return environmentIndex;
     }
 
-    public void setEnvironmentIndex(Object environmentIndex) {
+    public void setEnvironmentIndex(IndexType environmentIndex) {
         this.environmentIndex = environmentIndex;
     }
 

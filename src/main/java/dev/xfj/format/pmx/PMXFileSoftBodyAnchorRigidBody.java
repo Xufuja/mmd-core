@@ -1,23 +1,25 @@
 package dev.xfj.format.pmx;
 
+import dev.xfj.types.index.IndexType;
+
 public class PMXFileSoftBodyAnchorRigidBody {
-    private Object rigidBodyIndex;
-    private Object vertexIndex;
+    private IndexType rigidBodyIndex;
+    private IndexType vertexIndex;
     private byte nearMode;
 
-    public Object getRigidBodyIndex() {
+    public IndexType getRigidBodyIndex() {
         return rigidBodyIndex;
     }
 
-    public void setRigidBodyIndex(Object rigidBodyIndex) {
+    public void setRigidBodyIndex(IndexType rigidBodyIndex) {
         this.rigidBodyIndex = rigidBodyIndex;
     }
 
-    public Object getVertexIndex() {
+    public IndexType getVertexIndex() {
         return vertexIndex;
     }
 
-    public void setVertexIndex(Object vertexIndex) {
+    public void setVertexIndex(IndexType vertexIndex) {
         this.vertexIndex = vertexIndex;
     }
 

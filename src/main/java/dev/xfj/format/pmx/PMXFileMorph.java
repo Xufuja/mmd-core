@@ -8,7 +8,7 @@ public class PMXFileMorph {
     private byte panelType;
     private byte morphType;
     private int offsetSize;
-    private List<Object> offsetData;
+    private List<PMXFileMorphType> offsetData;
 
     public String getMorphNameJapanese() {
         return morphNameJapanese;
@@ -50,11 +50,11 @@ public class PMXFileMorph {
         this.offsetSize = offsetSize;
     }
 
-    public List<Object> getOffsetData() {
+    public List<PMXFileMorphType> getOffsetData() {
         return offsetData;
     }
 
-    public void setOffsetData(List<Object> offsetData) {
+    public void setOffsetData(List<PMXFileMorphType> offsetData) {
         this.offsetData = offsetData;
     }
 }

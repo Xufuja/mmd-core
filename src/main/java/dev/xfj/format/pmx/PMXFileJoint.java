@@ -1,13 +1,14 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec3;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec3;
 
 public class PMXFileJoint {
     private String jointNameJapanese;
     private String jointNameEnglish;
     private byte type;
-    private Object rigidBodyIndexA;
-    private Object rigidBodyIndexB;
+    private IndexType rigidBodyIndexA;
+    private IndexType rigidBodyIndexB;
     private Vec3 position;
     private Vec3 rotation;
     private Vec3 positionMinimum;
@@ -41,19 +42,19 @@ public class PMXFileJoint {
         this.type = type;
     }
 
-    public Object getRigidBodyIndexA() {
+    public IndexType getRigidBodyIndexA() {
         return rigidBodyIndexA;
     }
 
-    public void setRigidBodyIndexA(Object rigidBodyIndexA) {
+    public void setRigidBodyIndexA(IndexType rigidBodyIndexA) {
         this.rigidBodyIndexA = rigidBodyIndexA;
     }
 
-    public Object getRigidBodyIndexB() {
+    public IndexType getRigidBodyIndexB() {
         return rigidBodyIndexB;
     }
 
-    public void setRigidBodyIndexB(Object rigidBodyIndexB) {
+    public void setRigidBodyIndexB(IndexType rigidBodyIndexB) {
         this.rigidBodyIndexB = rigidBodyIndexB;
     }
 

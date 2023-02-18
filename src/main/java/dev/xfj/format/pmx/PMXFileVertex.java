@@ -1,8 +1,9 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec2;
-import dev.xfj.vec.Vec3;
-import dev.xfj.vec.Vec4;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec2;
+import dev.xfj.types.vec.Vec3;
+import dev.xfj.types.vec.Vec4;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class PMXFileVertex {
     private Vec2 uv;
     private List<Vec4> additionalVec4;
     private byte weightDeformType;
-    private List<Object> boneIndices;
+    private List<IndexType> boneIndices;
     private List<Float> boneWeights;
     private Vec3 c;
     private Vec3 r0;
@@ -59,11 +60,11 @@ public class PMXFileVertex {
         this.weightDeformType = weightDeformType;
     }
 
-    public List<Object> getBoneIndices() {
+    public List<IndexType> getBoneIndices() {
         return boneIndices;
     }
 
-    public void setBoneIndices(List<Object> boneIndices) {
+    public void setBoneIndices(List<IndexType> boneIndices) {
         this.boneIndices = boneIndices;
     }
 

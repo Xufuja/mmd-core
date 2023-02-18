@@ -1,10 +1,11 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec3;
-import dev.xfj.vec.Vec4;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec3;
+import dev.xfj.types.vec.Vec4;
 
-public class PMXFileMorphMaterial {
-    private Object materialIndex;
+public class PMXFileMorphMaterial implements PMXFileMorphType {
+    private IndexType materialIndex;
     private byte operationType;
     private Vec4 diffuse;
     private Vec3 specular;
@@ -16,11 +17,11 @@ public class PMXFileMorphMaterial {
     private Vec4 environmentTint;
     private Vec4 toonTint;
 
-    public Object getMaterialIndex() {
+    public IndexType getMaterialIndex() {
         return materialIndex;
     }
 
-    public void setMaterialIndex(Object materialIndex) {
+    public void setMaterialIndex(IndexType materialIndex) {
         this.materialIndex = materialIndex;
     }
 

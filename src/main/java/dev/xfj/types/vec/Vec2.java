@@ -1,4 +1,4 @@
-package dev.xfj.vec;
+package dev.xfj.types.vec;
 
 public class Vec2 {
     private float x;

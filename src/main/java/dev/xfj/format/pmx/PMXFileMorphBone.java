@@ -1,18 +1,19 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec3;
-import dev.xfj.vec.Vec4;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec3;
+import dev.xfj.types.vec.Vec4;
 
-public class PMXFileMorphBone {
-    private Object boneIndex;
+public class PMXFileMorphBone implements PMXFileMorphType {
+    private IndexType boneIndex;
     private Vec3 translation;
     private Vec4 rotation;
 
-    public Object getBoneIndex() {
+    public IndexType getBoneIndex() {
         return boneIndex;
     }
 
-    public void setBoneIndex(Object boneIndex) {
+    public void setBoneIndex(IndexType boneIndex) {
         this.boneIndex = boneIndex;
     }
 

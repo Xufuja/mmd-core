@@ -1,31 +1,33 @@
 package dev.xfj.format.pmx;
 
-public class PMXFileVertexIndex {
-    private Object vertexIndexA;
-    private Object vertexIndexB;
-    private Object vertexIndexC;
+import dev.xfj.types.index.IndexType;
 
-    public Object getVertexIndexA() {
+public class PMXFileVertexIndex {
+    private IndexType vertexIndexA;
+    private IndexType vertexIndexB;
+    private IndexType vertexIndexC;
+
+    public IndexType getVertexIndexA() {
         return vertexIndexA;
     }
 
-    public void setVertexIndexA(Object vertexIndexA) {
+    public void setVertexIndexA(IndexType vertexIndexA) {
         this.vertexIndexA = vertexIndexA;
     }
 
-    public Object getVertexIndexB() {
+    public IndexType getVertexIndexB() {
         return vertexIndexB;
     }
 
-    public void setVertexIndexB(Object vertexIndexB) {
+    public void setVertexIndexB(IndexType vertexIndexB) {
         this.vertexIndexB = vertexIndexB;
     }
 
-    public Object getVertexIndexC() {
+    public IndexType getVertexIndexC() {
         return vertexIndexC;
     }
 
-    public void setVertexIndexC(Object vertexIndexC) {
+    public void setVertexIndexC(IndexType vertexIndexC) {
         this.vertexIndexC = vertexIndexC;
     }
 }

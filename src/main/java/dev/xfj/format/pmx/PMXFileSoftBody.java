@@ -1,12 +1,14 @@
 package dev.xfj.format.pmx;
 
+import dev.xfj.types.index.IndexType;
+
 import java.util.List;
 
 public class PMXFileSoftBody {
     private String softBodyNameJapanese;
     private String softBodyNameEnglish;
     private byte shape;
-    private Object materialIndex;
+    private IndexType materialIndex;
     private byte groupId;
     private short nonCollisionGroup;
     private byte flags;
@@ -43,7 +45,7 @@ public class PMXFileSoftBody {
     private int anchorRigidBodyCount;
     private List<PMXFileSoftBodyAnchorRigidBody> anchorRigidBodies;
     private int vertexPinCount;
-    private List<Object> vertexPins;
+    private List<IndexType> vertexPins;
 
     public String getSoftBodyNameJapanese() {
         return softBodyNameJapanese;
@@ -69,11 +71,11 @@ public class PMXFileSoftBody {
         this.shape = shape;
     }
 
-    public Object getMaterialIndex() {
+    public IndexType getMaterialIndex() {
         return materialIndex;
     }
 
-    public void setMaterialIndex(Object materialIndex) {
+    public void setMaterialIndex(IndexType materialIndex) {
         this.materialIndex = materialIndex;
     }
 
@@ -365,11 +367,11 @@ public class PMXFileSoftBody {
         this.vertexPinCount = vertexPinCount;
     }
 
-    public List<Object> getVertexPins() {
+    public List<IndexType> getVertexPins() {
         return vertexPins;
     }
 
-    public void setVertexPins(List<Object> vertexPins) {
+    public void setVertexPins(List<IndexType> vertexPins) {
         this.vertexPins = vertexPins;
     }
 }

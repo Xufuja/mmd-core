@@ -1,18 +1,19 @@
 package dev.xfj.format.pmx;
 
-import dev.xfj.vec.Vec3;
+import dev.xfj.types.index.IndexType;
+import dev.xfj.types.vec.Vec3;
 
 public class PMXFileBoneLink {
-    private Object boneIndex;
+    private IndexType boneIndex;
     private byte hasLimits;
     private Vec3 limitMin;
     private Vec3 limitMax;
 
-    public Object getBoneIndex() {
+    public IndexType getBoneIndex() {
         return boneIndex;
     }
 
-    public void setBoneIndex(Object boneIndex) {
+    public void setBoneIndex(IndexType boneIndex) {
         this.boneIndex = boneIndex;
     }
 
