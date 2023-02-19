@@ -61,7 +61,7 @@ public class PMXParser extends Parser {
         return pmxFile;
     }
 
-    public enum WeightDeformTypes {
+    private enum WeightDeformTypes {
         BDEF1,
         BDEF2,
         BDEF4,
@@ -69,7 +69,7 @@ public class PMXParser extends Parser {
         QDEF
     }
 
-    public PMXFileVertex parseVertex() {
+    private PMXFileVertex parseVertex() {
         PMXFileVertex vertex = new PMXFileVertex();
         vertex.setPosition(getVec3());
         vertex.setNormal(getVec3());
@@ -114,7 +114,7 @@ public class PMXParser extends Parser {
         return vertex;
     }
 
-    public PMXFileVertexIndex parseVertexIndex() {
+    private PMXFileVertexIndex parseVertexIndex() {
         PMXFileVertexIndex vertexIndex = new PMXFileVertexIndex();
         vertexIndex.setVertexIndexA(parseIndex(IndexTypes.VERTEX));
         vertexIndex.setVertexIndexB(parseIndex(IndexTypes.VERTEX));
@@ -122,7 +122,7 @@ public class PMXParser extends Parser {
         return vertexIndex;
     }
 
-    public PMXFileMaterial parseMaterial() {
+    private PMXFileMaterial parseMaterial() {
         PMXFileMaterial material = new PMXFileMaterial();
         material.setMaterialNameJapanese(getVariableString());
         material.setMaterialNameEnglish(getVariableString());
@@ -148,7 +148,7 @@ public class PMXParser extends Parser {
         return material;
     }
 
-    public PMXFileBone parseBone() {
+    private PMXFileBone parseBone() {
         PMXFileBone bone = new PMXFileBone();
         bone.setBoneNameJapanese(getVariableString());
         bone.setBonenameEnglish(getVariableString());
@@ -196,7 +196,7 @@ public class PMXParser extends Parser {
         return bone;
     }
 
-    public PMXFileBoneLink parseLink() {
+    private PMXFileBoneLink parseLink() {
         PMXFileBoneLink link = new PMXFileBoneLink();
         link.setBoneIndex(parseIndex(IndexTypes.BONE));
         link.setHasLimits(getByte());
@@ -207,7 +207,7 @@ public class PMXParser extends Parser {
         return link;
     }
 
-    public enum MorphTypes {
+    private enum MorphTypes {
         GROUP,
         VERTEX,
         BONE,
@@ -221,7 +221,7 @@ public class PMXParser extends Parser {
         IMPULSE
     }
 
-    public PMXFileMorph parseMorph() {
+    private PMXFileMorph parseMorph() {
         PMXFileMorph morph = new PMXFileMorph();
         morph.setMorphNameJapanese(getVariableString());
         morph.setMorphNameEnglish(getVariableString());
@@ -297,7 +297,7 @@ public class PMXParser extends Parser {
         return morph;
     }
 
-    public PMXFileDisplayFrame parseDisplayFrame() {
+    private PMXFileDisplayFrame parseDisplayFrame() {
         PMXFileDisplayFrame frame = new PMXFileDisplayFrame();
         frame.setDisplayFrameNameJapanese(getVariableString());
         frame.setDisplayFrameNameEnglish(getVariableString());
@@ -325,7 +325,7 @@ public class PMXParser extends Parser {
         return frame;
     }
 
-    public PMXFileRigidBody parseRigidBody() {
+    private PMXFileRigidBody parseRigidBody() {
         PMXFileRigidBody body = new PMXFileRigidBody();
         body.setRigidBodyNameJapanese(getVariableString());
         body.setRigidBodyNameEnglish(getVariableString());
@@ -345,7 +345,7 @@ public class PMXParser extends Parser {
         return body;
     }
 
-    public PMXFileJoint parseJoint() {
+    private PMXFileJoint parseJoint() {
         PMXFileJoint joint = new PMXFileJoint();
         joint.setJointNameJapanese(getVariableString());
         joint.setJointNameEnglish(getVariableString());
@@ -364,7 +364,7 @@ public class PMXParser extends Parser {
         return joint;
     }
 
-    public PMXFileSoftBody parseSoftBody() {
+    private PMXFileSoftBody parseSoftBody() {
         PMXFileSoftBody body = new PMXFileSoftBody();
         body.setSoftBodyNameJapanese(getVariableString());
         body.setSoftBodyNameEnglish(getVariableString());
@@ -411,7 +411,7 @@ public class PMXParser extends Parser {
         return body;
     }
 
-    public PMXFileSoftBodyAnchorRigidBody parseSoftBodyAnchorRigidBody() {
+    private PMXFileSoftBodyAnchorRigidBody parseSoftBodyAnchorRigidBody() {
         PMXFileSoftBodyAnchorRigidBody anchor = new PMXFileSoftBodyAnchorRigidBody();
         anchor.setRigidBodyIndex(parseIndex(IndexTypes.RIGIDBODY));
         anchor.setVertexIndex(parseIndex(IndexTypes.VERTEX));
@@ -420,7 +420,7 @@ public class PMXParser extends Parser {
     }
 
 
-    public PMXFileGlobals parseGlobals() {
+    private PMXFileGlobals parseGlobals() {
         PMXFileGlobals globals = new PMXFileGlobals();
         globals.setTextEncoding(getByte());
         globals.setAdditionalVec4Count(getByte());
@@ -434,7 +434,7 @@ public class PMXParser extends Parser {
         return globals;
     }
 
-    public enum IndexTypes {
+    private enum IndexTypes {
         VERTEX,
         BONE,
         TEXTURE,
@@ -443,7 +443,7 @@ public class PMXParser extends Parser {
         RIGIDBODY
     }
 
-    public IndexType<?> parseIndex(IndexTypes index) {
+    private IndexType<?> parseIndex(IndexTypes index) {
         IndexType<?> result = null;
         int type = -1;
 
@@ -477,14 +477,14 @@ public class PMXParser extends Parser {
         return result;
     }
 
-    public String getVariableString() {
+    private String getVariableString() {
         int start = offset;
         int length = getInt32();
         start += 4;
         return getFixedString(start, length);
     }
 
-    public String getFixedString(int start, int length) {
+    private String getFixedString(int start, int length) {
         int end = start + length;
         byte[] result = new byte[length];
         for (int i = start; i < end; i++) {
@@ -498,7 +498,7 @@ public class PMXParser extends Parser {
         return characterEncoding.decode(buffer).toString();
     }
 
-    public String getFixedString(int length) {
+    private String getFixedString(int length) {
         return getFixedString(offset, length);
     }
 }

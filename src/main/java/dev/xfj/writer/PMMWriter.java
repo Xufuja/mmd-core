@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static dev.xfj.parsing.PMMParser.*;
 
-public class PMMWriter {
+public class PMMWriter implements Writer{
     private final PMMFile pmmFile;
     private ByteBuffer byteBuffer;
     private int pmmFileSizeIn;
@@ -24,10 +24,8 @@ public class PMMWriter {
         this.pmmFileSizeIn = 0;
         this.pmmFileSizeOut = 0;
     }
-    public void write() throws IOException {
-        write(true);
-    }
 
+    @Override
     public void write(boolean dryRun) throws IOException {
         pmmFileSizeIn += getSize(this.pmmFile);
         byteBuffer = ByteBuffer.allocate(pmmFileSizeIn);
