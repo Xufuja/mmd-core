@@ -1,6 +1,6 @@
 package dev.xfj.types.index;
 
-public class IndexUByte implements IndexType<Integer> {
+public final class IndexUByte implements IndexType<Integer> {
     private int value;
 
     public IndexUByte(int value) {

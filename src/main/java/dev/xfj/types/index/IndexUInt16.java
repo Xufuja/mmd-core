@@ -1,6 +1,6 @@
 package dev.xfj.types.index;
 
-public class IndexUInt16 implements IndexType<Integer> {
+public final class IndexUInt16 implements IndexType<Integer> {
     private int value;
 
     public IndexUInt16(int value) {

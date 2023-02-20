@@ -1,6 +1,6 @@
 package dev.xfj.types.index;
 
-public class IndexByte implements IndexType<Byte> {
+public final class IndexByte implements IndexType<Byte> {
     private byte value;
 
     public IndexByte(byte value) {

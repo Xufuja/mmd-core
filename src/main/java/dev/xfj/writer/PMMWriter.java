@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static dev.xfj.parsing.PMMParser.*;
 
-public class PMMWriter implements Writer{
+public final class PMMWriter implements Writer{
     private final PMMFile pmmFile;
     private ByteBuffer byteBuffer;
     private int pmmFileSizeIn;

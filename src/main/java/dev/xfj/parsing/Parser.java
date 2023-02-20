@@ -60,7 +60,7 @@ public abstract class Parser {
 
     public float getFloat() {
         float result = byteBuffer.getFloat(offset);
-        this.offset += 4;
+        this.offset += Float.BYTES;
         return result;
     }
 

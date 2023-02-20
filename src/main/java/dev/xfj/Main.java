@@ -2,6 +2,7 @@ package dev.xfj;
 
 import dev.xfj.format.pmx.PMXFile;
 import dev.xfj.parsing.PMXParser;
+import dev.xfj.writer.PMXWriter;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,6 +29,9 @@ public class Main {
         pmxFile.getDisplayFrames().forEach(frame -> System.out.println(String.format("Frame: %1$s (%2$s), special: %3$s", frame.getDisplayFrameNameJapanese(), frame.getDisplayFrameNameEnglish(), frame.getSpecialFlag())));
         pmxFile.getRigidBodies().forEach(body -> System.out.println(body.getRigidBodyNameJapanese()));
         pmxFile.getJoints().forEach(joint -> System.out.println(joint.getJointNameJapanese()));
+        PMXWriter pmxWriter = new PMXWriter(pmxFile);
+        pmxWriter.write();
+        System.out.println(pmxWriter.getPmxFileSizeIn());
     }
 
 }
