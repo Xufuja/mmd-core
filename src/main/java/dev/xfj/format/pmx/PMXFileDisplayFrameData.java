@@ -3,14 +3,14 @@ package dev.xfj.format.pmx;
 import dev.xfj.types.index.IndexType;
 
 public class PMXFileDisplayFrameData {
-    private byte frameType;
+    private Byte frameType;
     private IndexType<?> frameData;
 
-    public byte getFrameType() {
+    public Byte getFrameType() {
         return frameType;
     }
 
-    public void setFrameType(byte frameType) {
+    public void setFrameType(Byte frameType) {
         this.frameType = frameType;
     }
 

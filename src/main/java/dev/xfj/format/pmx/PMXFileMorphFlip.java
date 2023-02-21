@@ -4,7 +4,7 @@ import dev.xfj.types.index.IndexType;
 
 public class PMXFileMorphFlip implements PMXFileMorphType {
     private IndexType<?> morphIndex;
-    private float influence;
+    private Float influence;
 
     public IndexType<?> getMorphIndex() {
         return morphIndex;
@@ -14,11 +14,11 @@ public class PMXFileMorphFlip implements PMXFileMorphType {
         this.morphIndex = morphIndex;
     }
 
-    public float getInfluence() {
+    public Float getInfluence() {
         return influence;
     }
 
-    public void setInfluence(float influence) {
+    public void setInfluence(Float influence) {
         this.influence = influence;
     }
 }

@@ -5,7 +5,7 @@ import dev.xfj.types.vec.Vec3;
 
 public class PMXFileMorphImpulse implements PMXFileMorphType {
     private IndexType<?> rigidBodyIndex;
-    private byte localFlag;
+    private Byte localFlag;
     private Vec3 movementSpeed;
     private Vec3 rotationTorque;
 
@@ -17,11 +17,11 @@ public class PMXFileMorphImpulse implements PMXFileMorphType {
         this.rigidBodyIndex = rigidBodyIndex;
     }
 
-    public byte getLocalFlag() {
+    public Byte getLocalFlag() {
         return localFlag;
     }
 
-    public void setLocalFlag(byte localFlag) {
+    public void setLocalFlag(Byte localFlag) {
         this.localFlag = localFlag;
     }
 

@@ -6,7 +6,7 @@ import dev.xfj.types.vec.Vec3;
 public class PMXFileJoint {
     private String jointNameJapanese;
     private String jointNameEnglish;
-    private byte type;
+    private Byte type;
     private IndexType<?> rigidBodyIndexA;
     private IndexType<?> rigidBodyIndexB;
     private Vec3 position;
@@ -34,11 +34,11 @@ public class PMXFileJoint {
         this.jointNameEnglish = jointNameEnglish;
     }
 
-    public byte getType() {
+    public Byte getType() {
         return type;
     }
 
-    public void setType(byte type) {
+    public void setType(Byte type) {
         this.type = type;
     }
 

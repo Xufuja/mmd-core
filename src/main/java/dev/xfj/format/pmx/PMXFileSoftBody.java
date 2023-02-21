@@ -7,45 +7,45 @@ import java.util.List;
 public class PMXFileSoftBody {
     private String softBodyNameJapanese;
     private String softBodyNameEnglish;
-    private byte shape;
+    private Byte shape;
     private IndexType<?> materialIndex;
-    private byte groupId;
-    private short nonCollisionGroup;
-    private byte flags;
-    private int bLinkCreateDistance;
-    private int clusterCount;
-    private float totalMass;
-    private float collisionMargin;
-    private int aerodynamicsModel;
-    private float velocityCorrectionFactor;
-    private float dampingCoefficient;
-    private float dragCoefficient;
-    private float liftCoefficient;
-    private float pressureCoefficient;
-    private float volumeConversationCoefficient;
-    private float dynamicFrictionCoefficient;
-    private float poseMatchingCoefficient;
-    private float rigidContactHardness;
-    private float kineticContactHardness;
-    private float softContactHardness;
-    private float anchorHardness;
-    private float softRigidHardness;
-    private float softKineticHardness;
-    private float softSoftHardness;
-    private float softRigidImpulseSplit;
-    private float softKineticImpulseSplit;
-    private float softSoftImpulseSplit;
-    private int velocitySolverIterations;
-    private int positionSolverIterations;
-    private int driftSolverIterations;
-    private int clusterSolverIterations;
-    private int linearStiffnessCoefficient;
-    private int angularStiffnessCoefficient;
-    private int volumeStiffnessCoefficient;
-    private int anchorRigidBodyCount;
+    private Byte groupId;
+    private Short nonCollisionGroup;
+    private Byte flags;
+    private Integer bLinkCreateDistance;
+    private Integer clusterCount;
+    private Float totalMass;
+    private Float collisionMargin;
+    private Integer aerodynamicsModel;
+    private Float velocityCorrectionFactor;
+    private Float dampingCoefficient;
+    private Float dragCoefficient;
+    private Float liftCoefficient;
+    private Float pressureCoefficient;
+    private Float volumeConversationCoefficient;
+    private Float dynamicFrictionCoefficient;
+    private Float poseMatchingCoefficient;
+    private Float rigidContactHardness;
+    private Float kineticContactHardness;
+    private Float softContactHardness;
+    private Float anchorHardness;
+    private Float softRigidHardness;
+    private Float softKineticHardness;
+    private Float softSoftHardness;
+    private Float softRigidImpulseSplit;
+    private Float softKineticImpulseSplit;
+    private Float softSoftImpulseSplit;
+    private Integer velocitySolverIterations;
+    private Integer positionSolverIterations;
+    private Integer driftSolverIterations;
+    private Integer clusterSolverIterations;
+    private Integer linearStiffnessCoefficient;
+    private Integer angularStiffnessCoefficient;
+    private Integer volumeStiffnessCoefficient;
+    private Integer anchorRigidBodyCount;
     private List<PMXFileSoftBodyAnchorRigidBody> anchorRigidBodies;
-    private int vertexPinCount;
-    private List<IndexType> vertexPins;
+    private Integer vertexPinCount;
+    private List<IndexType<?>> vertexPins;
 
     public String getSoftBodyNameJapanese() {
         return softBodyNameJapanese;
@@ -63,11 +63,11 @@ public class PMXFileSoftBody {
         this.softBodyNameEnglish = softBodyNameEnglish;
     }
 
-    public byte getShape() {
+    public Byte getShape() {
         return shape;
     }
 
-    public void setShape(byte shape) {
+    public void setShape(Byte shape) {
         this.shape = shape;
     }
 
@@ -79,275 +79,275 @@ public class PMXFileSoftBody {
         this.materialIndex = materialIndex;
     }
 
-    public byte getGroupId() {
+    public Byte getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(byte groupId) {
+    public void setGroupId(Byte groupId) {
         this.groupId = groupId;
     }
 
-    public short getNonCollisionGroup() {
+    public Short getNonCollisionGroup() {
         return nonCollisionGroup;
     }
 
-    public void setNonCollisionGroup(short nonCollisionGroup) {
+    public void setNonCollisionGroup(Short nonCollisionGroup) {
         this.nonCollisionGroup = nonCollisionGroup;
     }
 
-    public byte getFlags() {
+    public Byte getFlags() {
         return flags;
     }
 
-    public void setFlags(byte flags) {
+    public void setFlags(Byte flags) {
         this.flags = flags;
     }
 
-    public int getbLinkCreateDistance() {
+    public Integer getbLinkCreateDistance() {
         return bLinkCreateDistance;
     }
 
-    public void setbLinkCreateDistance(int bLinkCreateDistance) {
+    public void setbLinkCreateDistance(Integer bLinkCreateDistance) {
         this.bLinkCreateDistance = bLinkCreateDistance;
     }
 
-    public int getClusterCount() {
+    public Integer getClusterCount() {
         return clusterCount;
     }
 
-    public void setClusterCount(int clusterCount) {
+    public void setClusterCount(Integer clusterCount) {
         this.clusterCount = clusterCount;
     }
 
-    public float getTotalMass() {
+    public Float getTotalMass() {
         return totalMass;
     }
 
-    public void setTotalMass(float totalMass) {
+    public void setTotalMass(Float totalMass) {
         this.totalMass = totalMass;
     }
 
-    public float getCollisionMargin() {
+    public Float getCollisionMargin() {
         return collisionMargin;
     }
 
-    public void setCollisionMargin(float collisionMargin) {
+    public void setCollisionMargin(Float collisionMargin) {
         this.collisionMargin = collisionMargin;
     }
 
-    public int getAerodynamicsModel() {
+    public Integer getAerodynamicsModel() {
         return aerodynamicsModel;
     }
 
-    public void setAerodynamicsModel(int aerodynamicsModel) {
+    public void setAerodynamicsModel(Integer aerodynamicsModel) {
         this.aerodynamicsModel = aerodynamicsModel;
     }
 
-    public float getVelocityCorrectionFactor() {
+    public Float getVelocityCorrectionFactor() {
         return velocityCorrectionFactor;
     }
 
-    public void setVelocityCorrectionFactor(float velocityCorrectionFactor) {
+    public void setVelocityCorrectionFactor(Float velocityCorrectionFactor) {
         this.velocityCorrectionFactor = velocityCorrectionFactor;
     }
 
-    public float getDampingCoefficient() {
+    public Float getDampingCoefficient() {
         return dampingCoefficient;
     }
 
-    public void setDampingCoefficient(float dampingCoefficient) {
+    public void setDampingCoefficient(Float dampingCoefficient) {
         this.dampingCoefficient = dampingCoefficient;
     }
 
-    public float getDragCoefficient() {
+    public Float getDragCoefficient() {
         return dragCoefficient;
     }
 
-    public void setDragCoefficient(float dragCoefficient) {
+    public void setDragCoefficient(Float dragCoefficient) {
         this.dragCoefficient = dragCoefficient;
     }
 
-    public float getLiftCoefficient() {
+    public Float getLiftCoefficient() {
         return liftCoefficient;
     }
 
-    public void setLiftCoefficient(float liftCoefficient) {
+    public void setLiftCoefficient(Float liftCoefficient) {
         this.liftCoefficient = liftCoefficient;
     }
 
-    public float getPressureCoefficient() {
+    public Float getPressureCoefficient() {
         return pressureCoefficient;
     }
 
-    public void setPressureCoefficient(float pressureCoefficient) {
+    public void setPressureCoefficient(Float pressureCoefficient) {
         this.pressureCoefficient = pressureCoefficient;
     }
 
-    public float getVolumeConversationCoefficient() {
+    public Float getVolumeConversationCoefficient() {
         return volumeConversationCoefficient;
     }
 
-    public void setVolumeConversationCoefficient(float volumeConversationCoefficient) {
+    public void setVolumeConversationCoefficient(Float volumeConversationCoefficient) {
         this.volumeConversationCoefficient = volumeConversationCoefficient;
     }
 
-    public float getDynamicFrictionCoefficient() {
+    public Float getDynamicFrictionCoefficient() {
         return dynamicFrictionCoefficient;
     }
 
-    public void setDynamicFrictionCoefficient(float dynamicFrictionCoefficient) {
+    public void setDynamicFrictionCoefficient(Float dynamicFrictionCoefficient) {
         this.dynamicFrictionCoefficient = dynamicFrictionCoefficient;
     }
 
-    public float getPoseMatchingCoefficient() {
+    public Float getPoseMatchingCoefficient() {
         return poseMatchingCoefficient;
     }
 
-    public void setPoseMatchingCoefficient(float poseMatchingCoefficient) {
+    public void setPoseMatchingCoefficient(Float poseMatchingCoefficient) {
         this.poseMatchingCoefficient = poseMatchingCoefficient;
     }
 
-    public float getRigidContactHardness() {
+    public Float getRigidContactHardness() {
         return rigidContactHardness;
     }
 
-    public void setRigidContactHardness(float rigidContactHardness) {
+    public void setRigidContactHardness(Float rigidContactHardness) {
         this.rigidContactHardness = rigidContactHardness;
     }
 
-    public float getKineticContactHardness() {
+    public Float getKineticContactHardness() {
         return kineticContactHardness;
     }
 
-    public void setKineticContactHardness(float kineticContactHardness) {
+    public void setKineticContactHardness(Float kineticContactHardness) {
         this.kineticContactHardness = kineticContactHardness;
     }
 
-    public float getSoftContactHardness() {
+    public Float getSoftContactHardness() {
         return softContactHardness;
     }
 
-    public void setSoftContactHardness(float softContactHardness) {
+    public void setSoftContactHardness(Float softContactHardness) {
         this.softContactHardness = softContactHardness;
     }
 
-    public float getAnchorHardness() {
+    public Float getAnchorHardness() {
         return anchorHardness;
     }
 
-    public void setAnchorHardness(float anchorHardness) {
+    public void setAnchorHardness(Float anchorHardness) {
         this.anchorHardness = anchorHardness;
     }
 
-    public float getSoftRigidHardness() {
+    public Float getSoftRigidHardness() {
         return softRigidHardness;
     }
 
-    public void setSoftRigidHardness(float softRigidHardness) {
+    public void setSoftRigidHardness(Float softRigidHardness) {
         this.softRigidHardness = softRigidHardness;
     }
 
-    public float getSoftKineticHardness() {
+    public Float getSoftKineticHardness() {
         return softKineticHardness;
     }
 
-    public void setSoftKineticHardness(float softKineticHardness) {
+    public void setSoftKineticHardness(Float softKineticHardness) {
         this.softKineticHardness = softKineticHardness;
     }
 
-    public float getSoftSoftHardness() {
+    public Float getSoftSoftHardness() {
         return softSoftHardness;
     }
 
-    public void setSoftSoftHardness(float softSoftHardness) {
+    public void setSoftSoftHardness(Float softSoftHardness) {
         this.softSoftHardness = softSoftHardness;
     }
 
-    public float getSoftRigidImpulseSplit() {
+    public Float getSoftRigidImpulseSplit() {
         return softRigidImpulseSplit;
     }
 
-    public void setSoftRigidImpulseSplit(float softRigidImpulseSplit) {
+    public void setSoftRigidImpulseSplit(Float softRigidImpulseSplit) {
         this.softRigidImpulseSplit = softRigidImpulseSplit;
     }
 
-    public float getSoftKineticImpulseSplit() {
+    public Float getSoftKineticImpulseSplit() {
         return softKineticImpulseSplit;
     }
 
-    public void setSoftKineticImpulseSplit(float softKineticImpulseSplit) {
+    public void setSoftKineticImpulseSplit(Float softKineticImpulseSplit) {
         this.softKineticImpulseSplit = softKineticImpulseSplit;
     }
 
-    public float getSoftSoftImpulseSplit() {
+    public Float getSoftSoftImpulseSplit() {
         return softSoftImpulseSplit;
     }
 
-    public void setSoftSoftImpulseSplit(float softSoftImpulseSplit) {
+    public void setSoftSoftImpulseSplit(Float softSoftImpulseSplit) {
         this.softSoftImpulseSplit = softSoftImpulseSplit;
     }
 
-    public int getVelocitySolverIterations() {
+    public Integer getVelocitySolverIterations() {
         return velocitySolverIterations;
     }
 
-    public void setVelocitySolverIterations(int velocitySolverIterations) {
+    public void setVelocitySolverIterations(Integer velocitySolverIterations) {
         this.velocitySolverIterations = velocitySolverIterations;
     }
 
-    public int getPositionSolverIterations() {
+    public Integer getPositionSolverIterations() {
         return positionSolverIterations;
     }
 
-    public void setPositionSolverIterations(int positionSolverIterations) {
+    public void setPositionSolverIterations(Integer positionSolverIterations) {
         this.positionSolverIterations = positionSolverIterations;
     }
 
-    public int getDriftSolverIterations() {
+    public Integer getDriftSolverIterations() {
         return driftSolverIterations;
     }
 
-    public void setDriftSolverIterations(int driftSolverIterations) {
+    public void setDriftSolverIterations(Integer driftSolverIterations) {
         this.driftSolverIterations = driftSolverIterations;
     }
 
-    public int getClusterSolverIterations() {
+    public Integer getClusterSolverIterations() {
         return clusterSolverIterations;
     }
 
-    public void setClusterSolverIterations(int clusterSolverIterations) {
+    public void setClusterSolverIterations(Integer clusterSolverIterations) {
         this.clusterSolverIterations = clusterSolverIterations;
     }
 
-    public int getLinearStiffnessCoefficient() {
+    public Integer getLinearStiffnessCoefficient() {
         return linearStiffnessCoefficient;
     }
 
-    public void setLinearStiffnessCoefficient(int linearStiffnessCoefficient) {
+    public void setLinearStiffnessCoefficient(Integer linearStiffnessCoefficient) {
         this.linearStiffnessCoefficient = linearStiffnessCoefficient;
     }
 
-    public int getAngularStiffnessCoefficient() {
+    public Integer getAngularStiffnessCoefficient() {
         return angularStiffnessCoefficient;
     }
 
-    public void setAngularStiffnessCoefficient(int angularStiffnessCoefficient) {
+    public void setAngularStiffnessCoefficient(Integer angularStiffnessCoefficient) {
         this.angularStiffnessCoefficient = angularStiffnessCoefficient;
     }
 
-    public int getVolumeStiffnessCoefficient() {
+    public Integer getVolumeStiffnessCoefficient() {
         return volumeStiffnessCoefficient;
     }
 
-    public void setVolumeStiffnessCoefficient(int volumeStiffnessCoefficient) {
+    public void setVolumeStiffnessCoefficient(Integer volumeStiffnessCoefficient) {
         this.volumeStiffnessCoefficient = volumeStiffnessCoefficient;
     }
 
-    public int getAnchorRigidBodyCount() {
+    public Integer getAnchorRigidBodyCount() {
         return anchorRigidBodyCount;
     }
 
-    public void setAnchorRigidBodyCount(int anchorRigidBodyCount) {
+    public void setAnchorRigidBodyCount(Integer anchorRigidBodyCount) {
         this.anchorRigidBodyCount = anchorRigidBodyCount;
     }
 
@@ -359,19 +359,19 @@ public class PMXFileSoftBody {
         this.anchorRigidBodies = anchorRigidBodies;
     }
 
-    public int getVertexPinCount() {
+    public Integer getVertexPinCount() {
         return vertexPinCount;
     }
 
-    public void setVertexPinCount(int vertexPinCount) {
+    public void setVertexPinCount(Integer vertexPinCount) {
         this.vertexPinCount = vertexPinCount;
     }
 
-    public List<IndexType> getVertexPins() {
+    public List<IndexType<?>> getVertexPins() {
         return vertexPins;
     }
 
-    public void setVertexPins(List<IndexType> vertexPins) {
+    public void setVertexPins(List<IndexType<?>> vertexPins) {
         this.vertexPins = vertexPins;
     }
 }

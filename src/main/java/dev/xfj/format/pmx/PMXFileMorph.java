@@ -5,9 +5,9 @@ import java.util.List;
 public class PMXFileMorph {
     private String morphNameJapanese;
     private String morphNameEnglish;
-    private byte panelType;
-    private byte morphType;
-    private int offsetSize;
+    private Byte panelType;
+    private Byte morphType;
+    private Integer offsetSize;
     private List<PMXFileMorphType> offsetData;
 
     public String getMorphNameJapanese() {
@@ -26,27 +26,27 @@ public class PMXFileMorph {
         this.morphNameEnglish = morphNameEnglish;
     }
 
-    public byte getPanelType() {
+    public Byte getPanelType() {
         return panelType;
     }
 
-    public void setPanelType(byte panelType) {
+    public void setPanelType(Byte panelType) {
         this.panelType = panelType;
     }
 
-    public byte getMorphType() {
+    public Byte getMorphType() {
         return morphType;
     }
 
-    public void setMorphType(byte morphType) {
+    public void setMorphType(Byte morphType) {
         this.morphType = morphType;
     }
 
-    public int getOffsetSize() {
+    public Integer getOffsetSize() {
         return offsetSize;
     }
 
-    public void setOffsetSize(int offsetSize) {
+    public void setOffsetSize(Integer offsetSize) {
         this.offsetSize = offsetSize;
     }
 

@@ -6,13 +6,13 @@ import dev.xfj.types.vec.Vec4;
 
 public class PMXFileMorphMaterial implements PMXFileMorphType {
     private IndexType<?> materialIndex;
-    private byte operationType;
+    private Byte operationType;
     private Vec4 diffuse;
     private Vec3 specular;
-    private float specularity;
+    private Float specularity;
     private Vec3 ambient;
     private Vec4 edgeColor;
-    private float edgeSize;
+    private Float edgeSize;
     private Vec4 textureTint;
     private Vec4 environmentTint;
     private Vec4 toonTint;
@@ -25,11 +25,11 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
         this.materialIndex = materialIndex;
     }
 
-    public byte getOperationType() {
+    public Byte getOperationType() {
         return operationType;
     }
 
-    public void setOperationType(byte operationType) {
+    public void setOperationType(Byte operationType) {
         this.operationType = operationType;
     }
 
@@ -49,11 +49,11 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
         this.specular = specular;
     }
 
-    public float getSpecularity() {
+    public Float getSpecularity() {
         return specularity;
     }
 
-    public void setSpecularity(float specularity) {
+    public void setSpecularity(Float specularity) {
         this.specularity = specularity;
     }
 
@@ -73,11 +73,11 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
         this.edgeColor = edgeColor;
     }
 
-    public float getEdgeSize() {
+    public Float getEdgeSize() {
         return edgeSize;
     }
 
-    public void setEdgeSize(float edgeSize) {
+    public void setEdgeSize(Float edgeSize) {
         this.edgeSize = edgeSize;
     }
 

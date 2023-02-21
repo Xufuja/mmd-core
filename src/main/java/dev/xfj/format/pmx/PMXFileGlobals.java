@@ -1,76 +1,76 @@
 package dev.xfj.format.pmx;
 
 public class PMXFileGlobals {
-    private byte textEncoding;
-    private byte additionalVec4Count;
-    private byte vertexIndexSize;
-    private byte textureIndexSize;
-    private byte materialIndexSize;
-    private byte boneIndexSize;
-    private byte morphIndexSize;
-    private byte rigidBodyIndexSize;
+    private Byte textEncoding;
+    private Byte additionalVec4Count;
+    private Byte vertexIndexSize;
+    private Byte textureIndexSize;
+    private Byte materialIndexSize;
+    private Byte boneIndexSize;
+    private Byte morphIndexSize;
+    private Byte rigidBodyIndexSize;
 
-    public byte getTextEncoding() {
+    public Byte getTextEncoding() {
         return textEncoding;
     }
 
-    public void setTextEncoding(byte textEncoding) {
+    public void setTextEncoding(Byte textEncoding) {
         this.textEncoding = textEncoding;
     }
 
-    public byte getAdditionalVec4Count() {
+    public Byte getAdditionalVec4Count() {
         return additionalVec4Count;
     }
 
-    public void setAdditionalVec4Count(byte additionalVec4Count) {
+    public void setAdditionalVec4Count(Byte additionalVec4Count) {
         this.additionalVec4Count = additionalVec4Count;
     }
 
-    public byte getVertexIndexSize() {
+    public Byte getVertexIndexSize() {
         return vertexIndexSize;
     }
 
-    public void setVertexIndexSize(byte vertexIndexSize) {
+    public void setVertexIndexSize(Byte vertexIndexSize) {
         this.vertexIndexSize = vertexIndexSize;
     }
 
-    public byte getTextureIndexSize() {
+    public Byte getTextureIndexSize() {
         return textureIndexSize;
     }
 
-    public void setTextureIndexSize(byte textureIndexSize) {
+    public void setTextureIndexSize(Byte textureIndexSize) {
         this.textureIndexSize = textureIndexSize;
     }
 
-    public byte getMaterialIndexSize() {
+    public Byte getMaterialIndexSize() {
         return materialIndexSize;
     }
 
-    public void setMaterialIndexSize(byte materialIndexSize) {
+    public void setMaterialIndexSize(Byte materialIndexSize) {
         this.materialIndexSize = materialIndexSize;
     }
 
-    public byte getBoneIndexSize() {
+    public Byte getBoneIndexSize() {
         return boneIndexSize;
     }
 
-    public void setBoneIndexSize(byte boneIndexSize) {
+    public void setBoneIndexSize(Byte boneIndexSize) {
         this.boneIndexSize = boneIndexSize;
     }
 
-    public byte getMorphIndexSize() {
+    public Byte getMorphIndexSize() {
         return morphIndexSize;
     }
 
-    public void setMorphIndexSize(byte morphIndexSize) {
+    public void setMorphIndexSize(Byte morphIndexSize) {
         this.morphIndexSize = morphIndexSize;
     }
 
-    public byte getRigidBodyIndexSize() {
+    public Byte getRigidBodyIndexSize() {
         return rigidBodyIndexSize;
     }
 
-    public void setRigidBodyIndexSize(byte rigidBodyIndexSize) {
+    public void setRigidBodyIndexSize(Byte rigidBodyIndexSize) {
         this.rigidBodyIndexSize = rigidBodyIndexSize;
     }
 }

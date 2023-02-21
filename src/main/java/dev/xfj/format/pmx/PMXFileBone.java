@@ -10,19 +10,19 @@ public class PMXFileBone {
     private String bonenameEnglish;
     private Vec3 position;
     private IndexType<?> parentBoneIndex;
-    private int layer;
+    private Integer layer;
     private List<Integer> flags;
     private Object tailPosition;
     private IndexType<?> inheritParentIndex;
-    private float inheritParentInfluence;
+    private Float inheritParentInfluence;
     private Vec3 axisDirection;
     private Vec3 xVector;
     private Vec3 zVector;
     private IndexType<?> externalParentIndex;
     private IndexType<?> targetIndex;
-    private int loopCount;
-    private float limitRadian;
-    private int linkCount;
+    private Integer loopCount;
+    private Float limitRadian;
+    private Integer linkCount;
     private List<PMXFileBoneLink> ikLinks;
 
     public String getBoneNameJapanese() {
@@ -57,11 +57,11 @@ public class PMXFileBone {
         this.parentBoneIndex = parentBoneIndex;
     }
 
-    public int getLayer() {
+    public Integer getLayer() {
         return layer;
     }
 
-    public void setLayer(int layer) {
+    public void setLayer(Integer layer) {
         this.layer = layer;
     }
 
@@ -89,11 +89,11 @@ public class PMXFileBone {
         this.inheritParentIndex = inheritParentIndex;
     }
 
-    public float getInheritParentInfluence() {
+    public Float getInheritParentInfluence() {
         return inheritParentInfluence;
     }
 
-    public void setInheritParentInfluence(float inheritParentInfluence) {
+    public void setInheritParentInfluence(Float inheritParentInfluence) {
         this.inheritParentInfluence = inheritParentInfluence;
     }
 
@@ -137,27 +137,27 @@ public class PMXFileBone {
         this.targetIndex = targetIndex;
     }
 
-    public int getLoopCount() {
+    public Integer getLoopCount() {
         return loopCount;
     }
 
-    public void setLoopCount(int loopCount) {
+    public void setLoopCount(Integer loopCount) {
         this.loopCount = loopCount;
     }
 
-    public float getLimitRadian() {
+    public Float getLimitRadian() {
         return limitRadian;
     }
 
-    public void setLimitRadian(float limitRadian) {
+    public void setLimitRadian(Float limitRadian) {
         this.limitRadian = limitRadian;
     }
 
-    public int getLinkCount() {
+    public Integer getLinkCount() {
         return linkCount;
     }
 
-    public void setLinkCount(int linkCount) {
+    public void setLinkCount(Integer linkCount) {
         this.linkCount = linkCount;
     }
 

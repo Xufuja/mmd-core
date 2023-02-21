@@ -82,14 +82,14 @@ public class PMXParser extends Parser {
         switch (type) {
             case BDEF1 -> {
                 boneIndices.add(parseIndex(IndexTypes.BONE));
-                boneWeight.add(1.0f);
+                //boneWeight.add(1.0f);
             }
             case BDEF2, SDEF -> {
                 boneIndices.add(parseIndex(IndexTypes.BONE));
                 boneIndices.add(parseIndex(IndexTypes.BONE));
                 float bone1 = getFloat();
                 boneWeight.add(bone1);
-                boneWeight.add(1.0f - bone1);
+                //boneWeight.add(1.0f - bone1);
             }
             case BDEF4, QDEF -> {
                 boneIndices.add(parseIndex(IndexTypes.BONE));
@@ -110,7 +110,6 @@ public class PMXParser extends Parser {
             vertex.setR1(getVec3());
         }
         vertex.setEdgeScale(getFloat());
-
         return vertex;
     }
 
@@ -192,7 +191,6 @@ public class PMXParser extends Parser {
             bone.setLinkCount(getInt32());
             bone.setIkLinks(bone.getLinkCount() > 0 ? IntStream.range(0, bone.getLinkCount()).mapToObj(ik -> parseLink()).collect(Collectors.toList()) : Collections.emptyList());
         }
-
         return bone;
     }
 

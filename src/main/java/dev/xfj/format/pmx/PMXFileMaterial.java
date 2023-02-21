@@ -9,18 +9,18 @@ public class PMXFileMaterial {
     private String materialNameEnglish;
     private Vec4 diffuseColor;
     private Vec3 specularColor;
-    private float specularStrength;
+    private Float specularStrength;
     private Vec3 ambientColor;
-    private byte materialFlags;
+    private Byte materialFlags;
     private Vec4 edgeColor;
-    private float edgeScale;
+    private Float edgeScale;
     private IndexType<?> textureIndex;
     private IndexType<?> environmentIndex;
-    private byte environmentBlendMode;
-    private byte toonReference;
+    private Byte environmentBlendMode;
+    private Byte toonReference;
     private Object toonValue;
     private String metaData;
-    private int surfaceCount;
+    private Integer surfaceCount;
 
     public String getMaterialNameJapanese() {
         return materialNameJapanese;
@@ -54,11 +54,11 @@ public class PMXFileMaterial {
         this.specularColor = specularColor;
     }
 
-    public float getSpecularStrength() {
+    public Float getSpecularStrength() {
         return specularStrength;
     }
 
-    public void setSpecularStrength(float specularStrength) {
+    public void setSpecularStrength(Float specularStrength) {
         this.specularStrength = specularStrength;
     }
 
@@ -70,11 +70,11 @@ public class PMXFileMaterial {
         this.ambientColor = ambientColor;
     }
 
-    public byte getMaterialFlags() {
+    public Byte getMaterialFlags() {
         return materialFlags;
     }
 
-    public void setMaterialFlags(byte materialFlags) {
+    public void setMaterialFlags(Byte materialFlags) {
         this.materialFlags = materialFlags;
     }
 
@@ -86,11 +86,11 @@ public class PMXFileMaterial {
         this.edgeColor = edgeColor;
     }
 
-    public float getEdgeScale() {
+    public Float getEdgeScale() {
         return edgeScale;
     }
 
-    public void setEdgeScale(float edgeScale) {
+    public void setEdgeScale(Float edgeScale) {
         this.edgeScale = edgeScale;
     }
 
@@ -110,19 +110,19 @@ public class PMXFileMaterial {
         this.environmentIndex = environmentIndex;
     }
 
-    public byte getEnvironmentBlendMode() {
+    public Byte getEnvironmentBlendMode() {
         return environmentBlendMode;
     }
 
-    public void setEnvironmentBlendMode(byte environmentBlendMode) {
+    public void setEnvironmentBlendMode(Byte environmentBlendMode) {
         this.environmentBlendMode = environmentBlendMode;
     }
 
-    public byte getToonReference() {
+    public Byte getToonReference() {
         return toonReference;
     }
 
-    public void setToonReference(byte toonReference) {
+    public void setToonReference(Byte toonReference) {
         this.toonReference = toonReference;
     }
 
@@ -142,11 +142,11 @@ public class PMXFileMaterial {
         this.metaData = metaData;
     }
 
-    public int getSurfaceCount() {
+    public Integer getSurfaceCount() {
         return surfaceCount;
     }
 
-    public void setSurfaceCount(int surfaceCount) {
+    public void setSurfaceCount(Integer surfaceCount) {
         this.surfaceCount = surfaceCount;
     }
 }

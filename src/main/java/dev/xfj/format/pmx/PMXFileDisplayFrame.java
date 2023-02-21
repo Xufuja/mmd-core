@@ -5,8 +5,8 @@ import java.util.List;
 public class PMXFileDisplayFrame {
     private String displayFrameNameJapanese;
     private String displayFrameNameEnglish;
-    private byte specialFlag;
-    private int frameCount;
+    private Byte specialFlag;
+    private Integer frameCount;
     private List<PMXFileDisplayFrameData> frames;
 
     public String getDisplayFrameNameJapanese() {
@@ -25,19 +25,19 @@ public class PMXFileDisplayFrame {
         this.displayFrameNameEnglish = displayFrameNameEnglish;
     }
 
-    public byte getSpecialFlag() {
+    public Byte getSpecialFlag() {
         return specialFlag;
     }
 
-    public void setSpecialFlag(byte specialFlag) {
+    public void setSpecialFlag(Byte specialFlag) {
         this.specialFlag = specialFlag;
     }
 
-    public int getFrameCount() {
+    public Integer getFrameCount() {
         return frameCount;
     }
 
-    public void setFrameCount(int frameCount) {
+    public void setFrameCount(Integer frameCount) {
         this.frameCount = frameCount;
     }
 

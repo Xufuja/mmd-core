@@ -7,18 +7,18 @@ public class PMXFileRigidBody {
     private String rigidBodyNameJapanese;
     private String rigidBodyNameEnglish;
     private IndexType<?> relatedBoneIndex;
-    private byte groupId;
-    private short nonCollisionGroup;
-    private byte shape;
+    private Byte groupId;
+    private Short nonCollisionGroup;
+    private Byte shape;
     private Vec3 shapeSize;
     private Vec3 shapePosition;
     private Vec3 shapeRotation;
-    private float mass;
-    private float moveAttenuation;
-    private float rotationDamping;
-    private float repulsion;
-    private float frictionForce;
-    private byte physicsMode;
+    private Float mass;
+    private Float moveAttenuation;
+    private Float rotationDamping;
+    private Float repulsion;
+    private Float frictionForce;
+    private Byte physicsMode;
 
     public String getRigidBodyNameJapanese() {
         return rigidBodyNameJapanese;
@@ -44,27 +44,27 @@ public class PMXFileRigidBody {
         this.relatedBoneIndex = relatedBoneIndex;
     }
 
-    public byte getGroupId() {
+    public Byte getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(byte groupId) {
+    public void setGroupId(Byte groupId) {
         this.groupId = groupId;
     }
 
-    public short getNonCollisionGroup() {
+    public Short getNonCollisionGroup() {
         return nonCollisionGroup;
     }
 
-    public void setNonCollisionGroup(short nonCollisionGroup) {
+    public void setNonCollisionGroup(Short nonCollisionGroup) {
         this.nonCollisionGroup = nonCollisionGroup;
     }
 
-    public byte getShape() {
+    public Byte getShape() {
         return shape;
     }
 
-    public void setShape(byte shape) {
+    public void setShape(Byte shape) {
         this.shape = shape;
     }
 
@@ -92,51 +92,51 @@ public class PMXFileRigidBody {
         this.shapeRotation = shapeRotation;
     }
 
-    public float getMass() {
+    public Float getMass() {
         return mass;
     }
 
-    public void setMass(float mass) {
+    public void setMass(Float mass) {
         this.mass = mass;
     }
 
-    public float getMoveAttenuation() {
+    public Float getMoveAttenuation() {
         return moveAttenuation;
     }
 
-    public void setMoveAttenuation(float moveAttenuation) {
+    public void setMoveAttenuation(Float moveAttenuation) {
         this.moveAttenuation = moveAttenuation;
     }
 
-    public float getRotationDamping() {
+    public Float getRotationDamping() {
         return rotationDamping;
     }
 
-    public void setRotationDamping(float rotationDamping) {
+    public void setRotationDamping(Float rotationDamping) {
         this.rotationDamping = rotationDamping;
     }
 
-    public float getRepulsion() {
+    public Float getRepulsion() {
         return repulsion;
     }
 
-    public void setRepulsion(float repulsion) {
+    public void setRepulsion(Float repulsion) {
         this.repulsion = repulsion;
     }
 
-    public float getFrictionForce() {
+    public Float getFrictionForce() {
         return frictionForce;
     }
 
-    public void setFrictionForce(float frictionForce) {
+    public void setFrictionForce(Float frictionForce) {
         this.frictionForce = frictionForce;
     }
 
-    public byte getPhysicsMode() {
+    public Byte getPhysicsMode() {
         return physicsMode;
     }
 
-    public void setPhysicsMode(byte physicsMode) {
+    public void setPhysicsMode(Byte physicsMode) {
         this.physicsMode = physicsMode;
     }
 }

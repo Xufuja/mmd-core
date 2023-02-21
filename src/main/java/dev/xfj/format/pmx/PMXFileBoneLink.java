@@ -5,7 +5,7 @@ import dev.xfj.types.vec.Vec3;
 
 public class PMXFileBoneLink {
     private IndexType<?> boneIndex;
-    private byte hasLimits;
+    private Byte hasLimits;
     private Vec3 limitMin;
     private Vec3 limitMax;
 
@@ -17,11 +17,11 @@ public class PMXFileBoneLink {
         this.boneIndex = boneIndex;
     }
 
-    public byte getHasLimits() {
+    public Byte getHasLimits() {
         return hasLimits;
     }
 
-    public void setHasLimits(byte hasLimits) {
+    public void setHasLimits(Byte hasLimits) {
         this.hasLimits = hasLimits;
     }
 

@@ -4,32 +4,32 @@ import java.util.List;
 
 public class PMXFile {
     private String signature;
-    private float version;
-    private byte globalsCount;
+    private Float version;
+    private Byte globalsCount;
     private PMXFileGlobals globals;
     private String modelNameJapanese;
     private String modelNameEnglish;
     private String commentsJapanese;
     private String commentsEnglish;
-    private int vertextCount;
+    private Integer vertextCount;
     private List<PMXFileVertex> vertices;
-    private int surfaceCount;
+    private Integer surfaceCount;
     private List<PMXFileVertexIndex> surfaces;
-    private int textureCount;
+    private Integer textureCount;
     private List<String> texturePaths;
-    private int materialCount;
+    private Integer materialCount;
     private List<PMXFileMaterial> materials;
-    private int boneCount;
+    private Integer boneCount;
     private List<PMXFileBone> bones;
-    private int morphCount;
+    private Integer morphCount;
     private List<PMXFileMorph> morphs;
-    private int displayFrameCount;
+    private Integer displayFrameCount;
     private List<PMXFileDisplayFrame> displayFrames;
-    private int rigidBodyCount;
+    private Integer rigidBodyCount;
     private List<PMXFileRigidBody> rigidBodies;
-    private int jointCount;
+    private Integer jointCount;
     private List<PMXFileJoint> joints;
-    private int softBodyCount;
+    private Integer softBodyCount;
     private List<PMXFileSoftBody> softBodies;
 
     public String getSignature() {
@@ -40,19 +40,19 @@ public class PMXFile {
         this.signature = signature;
     }
 
-    public float getVersion() {
+    public Float getVersion() {
         return version;
     }
 
-    public void setVersion(float version) {
+    public void setVersion(Float version) {
         this.version = version;
     }
 
-    public byte getGlobalsCount() {
+    public Byte getGlobalsCount() {
         return globalsCount;
     }
 
-    public void setGlobalsCount(byte globalsCount) {
+    public void setGlobalsCount(Byte globalsCount) {
         this.globalsCount = globalsCount;
     }
 
@@ -96,11 +96,11 @@ public class PMXFile {
         this.commentsEnglish = commentsEnglish;
     }
 
-    public int getVertextCount() {
+    public Integer getVertextCount() {
         return vertextCount;
     }
 
-    public void setVertextCount(int vertextCount) {
+    public void setVertextCount(Integer vertextCount) {
         this.vertextCount = vertextCount;
     }
 
@@ -112,11 +112,11 @@ public class PMXFile {
         this.vertices = vertices;
     }
 
-    public int getSurfaceCount() {
+    public Integer getSurfaceCount() {
         return surfaceCount;
     }
 
-    public void setSurfaceCount(int surfaceCount) {
+    public void setSurfaceCount(Integer surfaceCount) {
         this.surfaceCount = surfaceCount;
     }
 
@@ -128,11 +128,11 @@ public class PMXFile {
         this.surfaces = surfaces;
     }
 
-    public int getTextureCount() {
+    public Integer getTextureCount() {
         return textureCount;
     }
 
-    public void setTextureCount(int textureCount) {
+    public void setTextureCount(Integer textureCount) {
         this.textureCount = textureCount;
     }
 
@@ -144,11 +144,11 @@ public class PMXFile {
         this.texturePaths = texturePaths;
     }
 
-    public int getMaterialCount() {
+    public Integer getMaterialCount() {
         return materialCount;
     }
 
-    public void setMaterialCount(int materialCount) {
+    public void setMaterialCount(Integer materialCount) {
         this.materialCount = materialCount;
     }
 
@@ -160,11 +160,11 @@ public class PMXFile {
         this.materials = materials;
     }
 
-    public int getBoneCount() {
+    public Integer getBoneCount() {
         return boneCount;
     }
 
-    public void setBoneCount(int boneCount) {
+    public void setBoneCount(Integer boneCount) {
         this.boneCount = boneCount;
     }
 
@@ -176,11 +176,11 @@ public class PMXFile {
         this.bones = bones;
     }
 
-    public int getMorphCount() {
+    public Integer getMorphCount() {
         return morphCount;
     }
 
-    public void setMorphCount(int morphCount) {
+    public void setMorphCount(Integer morphCount) {
         this.morphCount = morphCount;
     }
 
@@ -192,11 +192,11 @@ public class PMXFile {
         this.morphs = morphs;
     }
 
-    public int getDisplayFrameCount() {
+    public Integer getDisplayFrameCount() {
         return displayFrameCount;
     }
 
-    public void setDisplayFrameCount(int displayFrameCount) {
+    public void setDisplayFrameCount(Integer displayFrameCount) {
         this.displayFrameCount = displayFrameCount;
     }
 
@@ -208,11 +208,11 @@ public class PMXFile {
         this.displayFrames = displayFrames;
     }
 
-    public int getRigidBodyCount() {
+    public Integer getRigidBodyCount() {
         return rigidBodyCount;
     }
 
-    public void setRigidBodyCount(int rigidBodyCount) {
+    public void setRigidBodyCount(Integer rigidBodyCount) {
         this.rigidBodyCount = rigidBodyCount;
     }
 
@@ -224,11 +224,11 @@ public class PMXFile {
         this.rigidBodies = rigidBodies;
     }
 
-    public int getJointCount() {
+    public Integer getJointCount() {
         return jointCount;
     }
 
-    public void setJointCount(int jointCount) {
+    public void setJointCount(Integer jointCount) {
         this.jointCount = jointCount;
     }
 
@@ -240,11 +240,11 @@ public class PMXFile {
         this.joints = joints;
     }
 
-    public int getSoftBodyCount() {
+    public Integer getSoftBodyCount() {
         return softBodyCount;
     }
 
-    public void setSoftBodyCount(int softBodyCount) {
+    public void setSoftBodyCount(Integer softBodyCount) {
         this.softBodyCount = softBodyCount;
     }
 

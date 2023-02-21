@@ -65,24 +65,14 @@ public final class PMXWriter implements Writer {
                 String fieldValueName = field.getName();
                 //System.out.println(className + " " + fieldValueName);
                 Class<?> fieldValueClass = fieldValue.getClass();
-                if (fieldValueClass.equals(Integer.class)) {
+                if (fieldValueClass.equals(Integer.class) || fieldValueClass.equals(IndexInt32.class)) {
                     size += Integer.BYTES;
                 } else if (fieldValueClass.equals(Float.class)) {
                     size += Float.BYTES;
-                } else if (fieldValueClass.equals(Short.class)) {
+                } else if (fieldValueClass.equals(Short.class) || fieldValueClass.equals(IndexInt16.class) || fieldValueClass.equals(IndexUInt16.class)) {
                     size += Short.BYTES;
-                } else if (fieldValueClass.equals(Byte.class)) {
+                } else if (fieldValueClass.equals(Byte.class) || fieldValueClass.equals(IndexByte.class) || fieldValueClass.equals(IndexUByte.class)) {
                     size += Byte.BYTES;
-                } else if (fieldValueClass.equals(IndexByte.class)) {
-                    size += Byte.BYTES;
-                } else if (fieldValueClass.equals(IndexUByte.class)) {
-                    size += Byte.BYTES;
-                } else if (fieldValueClass.equals(IndexInt16.class)) {
-                    size += Short.BYTES;
-                } else if (fieldValueClass.equals(IndexUInt16.class)) {
-                    size += Short.BYTES;
-                } else if (fieldValueClass.equals(IndexInt32.class)) {
-                    size += Integer.BYTES;
                 } else if (fieldValueClass.equals(Vec2.class)) {
                     size += Float.BYTES * 2;
                 } else if (fieldValueClass.equals(Vec3.class)) {
@@ -97,20 +87,26 @@ public final class PMXWriter implements Writer {
                         if (fieldValueName.equals("signature")) {
                             size += 4;
                         } else if (fieldValueName.contains("Japanese") || fieldValueName.contains("English") || fieldValueName.equals("metaData")) {
-                            size += (((String) fieldValue).getBytes(characterEncoding).length + 1);
+                            size += (((String) fieldValue).getBytes(characterEncoding).length + 4);
                         }
                     } else if (fieldValueClass.equals(ArrayList.class)) {
                         ArrayList<?> fieldValues = (ArrayList<?>) fieldValue;
                         if (!fieldValues.isEmpty()) {
                             for (Object value : fieldValues) {
-                                if (value instanceof Integer) {
-                                    size += Integer.BYTES;
+                                if (value instanceof Integer || value instanceof IndexInt32) {
+                                    if (fieldValueName.equals("flags")) { //Need to store the unsigned Byte as Integer
+                                        size += Byte.BYTES;
+                                    } else {
+                                        size += Integer.BYTES;
+                                    }
+                                } else if (value instanceof Short) {
+                                    size += Short.BYTES;
                                 } else if (value instanceof Byte) {
                                     size += Byte.BYTES;
                                 } else if (value instanceof Float) {
                                     size += Float.BYTES;
                                 } else if (value instanceof String) {
-                                    size += (((String) value).getBytes(characterEncoding).length + 1);
+                                    size += (((String) value).getBytes(characterEncoding).length + 4);
                                 } else {
                                     size += getSize(value);
                                 }
