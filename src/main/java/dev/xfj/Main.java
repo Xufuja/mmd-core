@@ -30,7 +30,7 @@ public class Main {
         //pmxFile.getRigidBodies().forEach(body -> System.out.println(body.getRigidBodyNameJapanese()));
         //pmxFile.getJoints().forEach(joint -> System.out.println(joint.getJointNameJapanese()));
         PMXWriter pmxWriter = new PMXWriter(pmxFile);
-        pmxWriter.write();
+        pmxWriter.write(false);
         System.out.println(pmxWriter.getPmxFileSizeIn());
     }
 
