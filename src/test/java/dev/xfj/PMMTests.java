@@ -27,35 +27,35 @@ public class PMMTests {
     @DisplayName("Check if fixed length string can be read")
     void parseFixedLengthString() {
         System.out.println(pmmFile.getVersion());
-        assertEquals(pmmFile.getVersion().trim(), "Polygon Movie maker 0002".trim());
+        assertEquals("Polygon Movie maker 0002".trim(), pmmFile.getVersion().trim());
     }
 
     @Test
     @DisplayName("Check if variable length string can be read")
     void parseVariableLengthString() {
         System.out.println(pmmFile.getPmmFileModels().get(0).getMorphNames().get(0));
-        assertEquals(pmmFile.getPmmFileModels().get(0).getMorphNames().get(0), "SunRadius+");
+        assertEquals("SunRadius+", pmmFile.getPmmFileModels().get(0).getMorphNames().get(0));
     }
 
     @Test
     @DisplayName("Check if byte can be read")
     void parseByte() {
         System.out.println(pmmFile.getModelCount());
-        assertEquals(pmmFile.getModelCount(), 9);
+        assertEquals(9, pmmFile.getModelCount());
     }
 
     @Test
     @DisplayName("Check if float can be read")
     void parseFloat() {
         System.out.println(pmmFile.getCurrentAngleOfView());
-        assertEquals(pmmFile.getCurrentAngleOfView(), 30.0f);
+        assertEquals(30.0f, pmmFile.getCurrentAngleOfView());
     }
 
     @Test
     @DisplayName("Check if int can be read")
     void parseInt() {
         System.out.println(pmmFile.getOutputWidth());
-        assertEquals(pmmFile.getOutputWidth(), 3840);
+        assertEquals(3840, pmmFile.getOutputWidth());
     }
 
     @Test
@@ -66,10 +66,9 @@ public class PMMTests {
         PMMWriter pmmWriter = new PMMWriter(pmmFile);
         pmmWriter.write();
         int pmmFileSizeIn = pmmWriter.getPmmFileSizeIn();
-        ;
         int pmmFileSizeOut = pmmWriter.getPmmFileSizeOut();
         System.out.println(String.format("Read:  %1$s bytes from file", pmmFileSizeIn));
         System.out.println(String.format("Wrote: %1$s bytes to buffer", pmmFileSizeOut));
-        assertEquals(pmmWriter.getPmmFileSizeIn(), pmmWriter.getPmmFileSizeOut());
+        assertEquals(pmmWriter.getPmmFileSizeOut(), pmmWriter.getPmmFileSizeIn());
     }
 }
