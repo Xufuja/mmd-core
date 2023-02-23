@@ -22,57 +22,57 @@ public abstract class Parser {
         this.offset = 0;
     }
 
-    public byte getByte() {
+    protected byte getByte() {
         byte result = byteBuffer.get(offset);
         this.offset += Byte.BYTES;
         return result;
     }
 
-    public int getUByte() {
+    protected int getUByte() {
         int result = Byte.toUnsignedInt(byteBuffer.get(offset));
         this.offset += Byte.BYTES;
         return result;
     }
 
-    public short getInt16() {
+    protected short getInt16() {
         short result = byteBuffer.getShort(offset);
         this.offset += Short.BYTES;
         return result;
     }
 
-    public int getUInt16() {
+    protected int getUInt16() {
         int result = Short.toUnsignedInt(byteBuffer.getShort(offset));
         this.offset += Short.BYTES;
         return result;
     }
 
-    public int getInt32() {
+    protected int getInt32() {
         int result = byteBuffer.getInt(offset);
         this.offset += Integer.BYTES;
         return result;
     }
 
-    public long getUInt32() {
+    protected long getUInt32() {
         long result = Integer.toUnsignedLong(byteBuffer.getInt(offset));
         this.offset += Integer.BYTES;
         return result;
     }
 
-    public float getFloat() {
+    protected float getFloat() {
         float result = byteBuffer.getFloat(offset);
         this.offset += Float.BYTES;
         return result;
     }
 
-    public Vec2 getVec2() {
+    protected Vec2 getVec2() {
         return new Vec2(getFloat(), getFloat());
     }
 
-    public Vec3 getVec3() {
+    protected Vec3 getVec3() {
         return new Vec3(getFloat(), getFloat(), getFloat());
     }
 
-    public Vec4 getVec4() {
+    protected Vec4 getVec4() {
         return new Vec4(getFloat(), getFloat(), getFloat(), getFloat());
     }
 }

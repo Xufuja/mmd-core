@@ -40,7 +40,7 @@ public final class PMMWriter implements Writer{
     }
 
     //Tried to make it as generic as possible for maintainability but still ended with several exceptions
-    public int getSize(Object object) {
+    private int getSize(Object object) {
         String className = object.getClass().getName();
         int size = 0;
         for (Field field : object.getClass().getDeclaredFields()) {
@@ -103,7 +103,7 @@ public final class PMMWriter implements Writer{
         return size;
     }
 
-    public void writeBytes(Object object) {
+    private void writeBytes(Object object) {
         String className = object.getClass().getName();
         for (Field field : object.getClass().getDeclaredFields()) {
             Object fieldValue;
@@ -191,7 +191,7 @@ public final class PMMWriter implements Writer{
         }
         //System.out.println(className + " "  + size);
     }
-    public byte[] bytesFromString(String input) {
+    private byte[] bytesFromString(String input) {
         return input.getBytes(Charset.forName("Shift-JIS"));
     }
 

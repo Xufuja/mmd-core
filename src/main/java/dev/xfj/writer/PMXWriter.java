@@ -44,7 +44,7 @@ public final class PMXWriter implements Writer {
         }
     }
 
-    public int getSize(Object object) {
+    private int getSize(Object object) {
         String className = object.getClass().getName();
         int size = 0;
         for (Field field : object.getClass().getDeclaredFields()) {
@@ -118,7 +118,7 @@ public final class PMXWriter implements Writer {
         return size;
     }
 
-    public void writeBytes(Object object) {
+    private void writeBytes(Object object) {
         String className = object.getClass().getName();
         int size = 0;
         for (Field field : object.getClass().getDeclaredFields()) {
@@ -222,7 +222,7 @@ public final class PMXWriter implements Writer {
         //System.out.println(className + " "  + size);
     }
 
-    public byte[] bytesFromString(String input) {
+    private byte[] bytesFromString(String input) {
         return input.getBytes(characterEncoding);
     }
 
@@ -230,15 +230,7 @@ public final class PMXWriter implements Writer {
         return pmxFileSizeIn;
     }
 
-    public void setPmxFileSizeIn(int pmxFileSizeIn) {
-        this.pmxFileSizeIn = pmxFileSizeIn;
-    }
-
     public int getPmxFileSizeOut() {
         return pmxFileSizeOut;
-    }
-
-    public void setPmxFileSizeOut(int pmxFileSizeOut) {
-        this.pmxFileSizeOut = pmxFileSizeOut;
     }
 }
