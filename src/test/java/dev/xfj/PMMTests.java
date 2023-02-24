@@ -63,8 +63,8 @@ public class PMMTests {
     void bytesReadEqualsBytesWrittenWithoutChanges() throws IOException {
         PMMParser pmmParser = new PMMParser(Path.of("test_in_01.pmm"));
         PMMFile pmmFile = pmmParser.parse();
-        PMMWriter pmmWriter = new PMMWriter(pmmFile);
-        pmmWriter.write();
+        PMMWriter pmmWriter = new PMMWriter(pmmFile, true);
+        pmmWriter.write(Path.of("test.pmm"));
         int pmmFileSizeIn = pmmWriter.getPmmFileSizeIn();
         int pmmFileSizeOut = pmmWriter.getPmmFileSizeOut();
         System.out.println(String.format("Read:  %1$s bytes from file", pmmFileSizeIn));

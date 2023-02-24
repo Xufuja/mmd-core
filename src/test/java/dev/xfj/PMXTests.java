@@ -91,8 +91,8 @@ public class PMXTests {
     void bytesReadEqualsBytesWrittenWithoutChanges() throws IOException {
         PMXParser pmxParser = new PMXParser(Path.of("test_in_01.pmx"));
         PMXFile pmxFile = pmxParser.parse();
-        PMXWriter pmxWriter = new PMXWriter(pmxFile);
-        pmxWriter.write();
+        PMXWriter pmxWriter = new PMXWriter(pmxFile, true);
+        pmxWriter.write(Path.of("test.pmx"));
         int pmxFileSizeIn = pmxWriter.getPmxFileSizeIn();
 
         int pmxFileSizeOut = pmxWriter.getPmxFileSizeOut();

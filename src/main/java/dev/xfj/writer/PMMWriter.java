@@ -18,22 +18,24 @@ public final class PMMWriter implements Writer{
     private ByteBuffer byteBuffer;
     private int pmmFileSizeIn;
     private int pmmFileSizeOut;
+    private final boolean dryRun;
 
-    public PMMWriter(PMMFile pmmFile) {
+    public PMMWriter(PMMFile pmmFile, boolean dryRun) {
         this.pmmFile = pmmFile;
         this.pmmFileSizeIn = 0;
         this.pmmFileSizeOut = 0;
+        this.dryRun = dryRun;
     }
 
     @Override
-    public void write(boolean dryRun) throws IOException {
+    public void write(Path path) throws IOException {
         pmmFileSizeIn += getSize(this.pmmFile);
         byteBuffer = ByteBuffer.allocate(pmmFileSizeIn);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
         writeBytes(this.pmmFile);
         pmmFileSizeOut = byteBuffer.array().length;
         if (!dryRun) {
-            Files.write(Path.of("test.pmm"), byteBuffer.array());
+            Files.write(path, byteBuffer.array());
         } else {
             System.out.println("Dry run");
         }

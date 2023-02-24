@@ -22,15 +22,17 @@ public final class PMXWriter implements Writer {
     private int pmxFileSizeIn;
     private int pmxFileSizeOut;
     private Charset characterEncoding;
+    private final boolean dryRun;
 
-    public PMXWriter(PMXFile pmxFile) {
+    public PMXWriter(PMXFile pmxFile, boolean dryRun) {
         this.pmxFile = pmxFile;
         this.pmxFileSizeIn = 0;
         this.pmxFileSizeOut = 0;
+        this.dryRun = dryRun;
     }
 
     @Override
-    public void write(boolean dryRun) throws IOException {
+    public void write(Path path) throws IOException {
         this.characterEncoding = pmxFile.getGlobals().getTextEncoding() == 1 ? StandardCharsets.UTF_8 : StandardCharsets.UTF_16LE;
         pmxFileSizeIn += getSize(this.pmxFile);
         byteBuffer = ByteBuffer.allocate(pmxFileSizeIn);
@@ -38,7 +40,7 @@ public final class PMXWriter implements Writer {
         writeBytes(this.pmxFile);
         pmxFileSizeOut = byteBuffer.array().length;
         if (!dryRun) {
-            Files.write(Path.of("test.pmx"), byteBuffer.array());
+            Files.write(path, byteBuffer.array());
         } else {
             System.out.println("Dry run");
         }
