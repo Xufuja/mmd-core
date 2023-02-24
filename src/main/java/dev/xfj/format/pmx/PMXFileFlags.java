@@ -26,7 +26,7 @@ public class PMXFileFlags {
         }
     }
     public EnumSet<BoneFlagsFirst> getBoneFlagsFirst(long statusValue) {
-        EnumSet statusFlags = EnumSet.noneOf(BoneFlagsFirst.class);
+        EnumSet<BoneFlagsFirst> statusFlags = EnumSet.noneOf(BoneFlagsFirst.class);
         for (BoneFlagsFirst statusFlag : BoneFlagsFirst.values()) {
             long flagValue = statusFlag.getBoneFlagValue();
             if ((flagValue & statusValue) == flagValue) {
@@ -64,7 +64,7 @@ public class PMXFileFlags {
         }
     }
     public EnumSet<BoneFlagsSecond> getBoneFlagsSecond(long statusValue) {
-        EnumSet statusFlags = EnumSet.noneOf(BoneFlagsSecond.class);
+        EnumSet<BoneFlagsSecond> statusFlags = EnumSet.noneOf(BoneFlagsSecond.class);
         for (BoneFlagsSecond statusFlag : BoneFlagsSecond.values()) {
             long flagValue = statusFlag.getBoneFlagValue();
             if ((flagValue & statusValue) == flagValue) {
