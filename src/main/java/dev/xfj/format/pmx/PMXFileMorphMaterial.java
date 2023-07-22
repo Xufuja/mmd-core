@@ -1,21 +1,21 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
-import dev.xfj.types.vec.Vec4;
+import org.joml.Vector3f;
+import org.joml.Vector4f;;
 
 public class PMXFileMorphMaterial implements PMXFileMorphType {
     private IndexType<?> materialIndex;
     private Byte operationType;
-    private Vec4 diffuse;
-    private Vec3 specular;
+    private Vector4f diffuse;
+    private Vector3f specular;
     private Float specularity;
-    private Vec3 ambient;
-    private Vec4 edgeColor;
+    private Vector3f ambient;
+    private Vector4f edgeColor;
     private Float edgeSize;
-    private Vec4 textureTint;
-    private Vec4 environmentTint;
-    private Vec4 toonTint;
+    private Vector4f textureTint;
+    private Vector4f environmentTint;
+    private Vector4f toonTint;
 
     public IndexType<?> getMaterialIndex() {
         return materialIndex;
@@ -33,19 +33,19 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
         this.operationType = operationType;
     }
 
-    public Vec4 getDiffuse() {
+    public Vector4f getDiffuse() {
         return diffuse;
     }
 
-    public void setDiffuse(Vec4 diffuse) {
+    public void setDiffuse(Vector4f diffuse) {
         this.diffuse = diffuse;
     }
 
-    public Vec3 getSpecular() {
+    public Vector3f getSpecular() {
         return specular;
     }
 
-    public void setSpecular(Vec3 specular) {
+    public void setSpecular(Vector3f specular) {
         this.specular = specular;
     }
 
@@ -57,19 +57,19 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
         this.specularity = specularity;
     }
 
-    public Vec3 getAmbient() {
+    public Vector3f getAmbient() {
         return ambient;
     }
 
-    public void setAmbient(Vec3 ambient) {
+    public void setAmbient(Vector3f ambient) {
         this.ambient = ambient;
     }
 
-    public Vec4 getEdgeColor() {
+    public Vector4f getEdgeColor() {
         return edgeColor;
     }
 
-    public void setEdgeColor(Vec4 edgeColor) {
+    public void setEdgeColor(Vector4f edgeColor) {
         this.edgeColor = edgeColor;
     }
 
@@ -81,27 +81,27 @@ public class PMXFileMorphMaterial implements PMXFileMorphType {
         this.edgeSize = edgeSize;
     }
 
-    public Vec4 getTextureTint() {
+    public Vector4f getTextureTint() {
         return textureTint;
     }
 
-    public void setTextureTint(Vec4 textureTint) {
+    public void setTextureTint(Vector4f textureTint) {
         this.textureTint = textureTint;
     }
 
-    public Vec4 getEnvironmentTint() {
+    public Vector4f getEnvironmentTint() {
         return environmentTint;
     }
 
-    public void setEnvironmentTint(Vec4 environmentTint) {
+    public void setEnvironmentTint(Vector4f environmentTint) {
         this.environmentTint = environmentTint;
     }
 
-    public Vec4 getToonTint() {
+    public Vector4f getToonTint() {
         return toonTint;
     }
 
-    public void setToonTint(Vec4 toonTint) {
+    public void setToonTint(Vector4f toonTint) {
         this.toonTint = toonTint;
     }
 }

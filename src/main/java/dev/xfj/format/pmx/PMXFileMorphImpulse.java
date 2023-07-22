@@ -1,13 +1,13 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
+import org.joml.Vector3f;
 
 public class PMXFileMorphImpulse implements PMXFileMorphType {
     private IndexType<?> rigidBodyIndex;
     private Byte localFlag;
-    private Vec3 movementSpeed;
-    private Vec3 rotationTorque;
+    private Vector3f movementSpeed;
+    private Vector3f rotationTorque;
 
     public IndexType<?> getRigidBodyIndex() {
         return rigidBodyIndex;
@@ -25,19 +25,19 @@ public class PMXFileMorphImpulse implements PMXFileMorphType {
         this.localFlag = localFlag;
     }
 
-    public Vec3 getMovementSpeed() {
+    public Vector3f getMovementSpeed() {
         return movementSpeed;
     }
 
-    public void setMovementSpeed(Vec3 movementSpeed) {
+    public void setMovementSpeed(Vector3f movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
 
-    public Vec3 getRotationTorque() {
+    public Vector3f getRotationTorque() {
         return rotationTorque;
     }
 
-    public void setRotationTorque(Vec3 rotationTorque) {
+    public void setRotationTorque(Vector3f rotationTorque) {
         this.rotationTorque = rotationTorque;
     }
 }

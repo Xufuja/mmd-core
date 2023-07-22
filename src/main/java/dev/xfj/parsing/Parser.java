@@ -1,8 +1,8 @@
 package dev.xfj.parsing;
 
-import dev.xfj.types.vec.Vec2;
-import dev.xfj.types.vec.Vec3;
-import dev.xfj.types.vec.Vec4;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -64,15 +64,15 @@ public abstract class Parser {
         return result;
     }
 
-    protected Vec2 getVec2() {
-        return new Vec2(getFloat(), getFloat());
+    protected Vector2f getVec2() {
+        return new Vector2f(getFloat(), getFloat());
     }
 
-    protected Vec3 getVec3() {
-        return new Vec3(getFloat(), getFloat(), getFloat());
+    protected Vector3f getVec3() {
+        return new Vector3f(getFloat(), getFloat(), getFloat());
     }
 
-    protected Vec4 getVec4() {
-        return new Vec4(getFloat(), getFloat(), getFloat(), getFloat());
+    protected Vector4f getVec4() {
+        return new Vector4f(getFloat(), getFloat(), getFloat(), getFloat());
     }
 }

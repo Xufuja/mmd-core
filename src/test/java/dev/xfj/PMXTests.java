@@ -68,22 +68,22 @@ public class PMXTests {
     @Test
     @DisplayName("Check if Vec2 can be read")
     void parseVec2() {
-        System.out.println(pmxFile.getVertices().get(0).getUv().getX());
-        assertEquals(0.13412f, pmxFile.getVertices().get(0).getUv().getX());
+        System.out.println(pmxFile.getVertices().get(0).getUv().x);
+        assertEquals(0.13412f, pmxFile.getVertices().get(0).getUv().x);
     }
 
     @Test
     @DisplayName("Check if Vec3 can be read")
     void parseVec3() {
-        System.out.println(pmxFile.getVertices().get(0).getPosition().getX());
-        assertEquals(0.35429734f, pmxFile.getVertices().get(0).getPosition().getX());
+        System.out.println(pmxFile.getVertices().get(0).getPosition().x);
+        assertEquals(0.35429734f, pmxFile.getVertices().get(0).getPosition().x);
     }
 
     @Test
     @DisplayName("Check if Vec4 can be read")
     void parseVec4() {
-        System.out.println(pmxFile.getMaterials().get(0).getDiffuseColor().getX());
-        assertEquals(1.0f, pmxFile.getMaterials().get(0).getDiffuseColor().getX());
+        System.out.println(pmxFile.getMaterials().get(0).getDiffuseColor().x);
+        assertEquals(1.0f, pmxFile.getMaterials().get(0).getDiffuseColor().x);
     }
 
     @Test

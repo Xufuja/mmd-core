@@ -1,11 +1,11 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
+import org.joml.Vector3f;
 
 public class PMXFileMorphVertex implements PMXFileMorphType {
     private IndexType<?> vertexIndex;
-    private Vec3 translation;
+    private Vector3f translation;
 
     public IndexType<?> getVertexIndex() {
         return vertexIndex;
@@ -15,11 +15,11 @@ public class PMXFileMorphVertex implements PMXFileMorphType {
         this.vertexIndex = vertexIndex;
     }
 
-    public Vec3 getTranslation() {
+    public Vector3f getTranslation() {
         return translation;
     }
 
-    public void setTranslation(Vec3 translation) {
+    public void setTranslation(Vector3f translation) {
         this.translation = translation;
     }
 }

@@ -1,55 +1,55 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec2;
-import dev.xfj.types.vec.Vec3;
-import dev.xfj.types.vec.Vec4;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.List;
 
 public class PMXFileVertex {
-    private Vec3 position;
-    private Vec3 normal;
-    private Vec2 uv;
-    private List<Vec4> additionalVec4;
+    private Vector3f position;
+    private Vector3f normal;
+    private Vector2f uv;
+    private List<Vector4f> additionalVector4f;
     private byte weightDeformType;
     private List<IndexType<?>> boneIndices;
     private List<Float> boneWeights;
-    private Vec3 c;
-    private Vec3 r0;
-    private Vec3 r1;
+    private Vector3f c;
+    private Vector3f r0;
+    private Vector3f r1;
     private float edgeScale;
 
-    public Vec3 getPosition() {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public void setPosition(Vec3 position) {
+    public void setPosition(Vector3f position) {
         this.position = position;
     }
 
-    public Vec3 getNormal() {
+    public Vector3f getNormal() {
         return normal;
     }
 
-    public void setNormal(Vec3 normal) {
+    public void setNormal(Vector3f normal) {
         this.normal = normal;
     }
 
-    public Vec2 getUv() {
+    public Vector2f getUv() {
         return uv;
     }
 
-    public void setUv(Vec2 uv) {
+    public void setUv(Vector2f uv) {
         this.uv = uv;
     }
 
-    public List<Vec4> getAdditionalVec4() {
-        return additionalVec4;
+    public List<Vector4f> getAdditionalVector4f() {
+        return additionalVector4f;
     }
 
-    public void setAdditionalVec4(List<Vec4> additionalVec4) {
-        this.additionalVec4 = additionalVec4;
+    public void setAdditionalVec4(List<Vector4f> additionalVector4f) {
+        this.additionalVector4f = additionalVector4f;
     }
 
     public byte getWeightDeformType() {
@@ -76,27 +76,27 @@ public class PMXFileVertex {
         this.boneWeights = boneWeights;
     }
 
-    public Vec3 getC() {
+    public Vector3f getC() {
         return c;
     }
 
-    public void setC(Vec3 c) {
+    public void setC(Vector3f c) {
         this.c = c;
     }
 
-    public Vec3 getR0() {
+    public Vector3f getR0() {
         return r0;
     }
 
-    public void setR0(Vec3 r0) {
+    public void setR0(Vector3f r0) {
         this.r0 = r0;
     }
 
-    public Vec3 getR1() {
+    public Vector3f getR1() {
         return r1;
     }
 
-    public void setR1(Vec3 r1) {
+    public void setR1(Vector3f r1) {
         this.r1 = r1;
     }
 

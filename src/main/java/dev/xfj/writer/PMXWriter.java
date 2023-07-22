@@ -2,9 +2,9 @@ package dev.xfj.writer;
 
 import dev.xfj.format.pmx.*;
 import dev.xfj.types.index.*;
-import dev.xfj.types.vec.Vec2;
-import dev.xfj.types.vec.Vec3;
-import dev.xfj.types.vec.Vec4;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -69,11 +69,11 @@ public final class PMXWriter implements Writer {
                     size += Short.BYTES;
                 } else if (fieldValueClass.equals(Byte.class) || fieldValueClass.equals(IndexByte.class) || fieldValueClass.equals(IndexUByte.class)) {
                     size += Byte.BYTES;
-                } else if (fieldValueClass.equals(Vec2.class)) {
+                } else if (fieldValueClass.equals(Vector2f.class)) {
                     size += Float.BYTES * 2;
-                } else if (fieldValueClass.equals(Vec3.class)) {
+                } else if (fieldValueClass.equals(Vector3f.class)) {
                     size += Float.BYTES * 3;
-                } else if (fieldValueClass.equals(Vec4.class)) {
+                } else if (fieldValueClass.equals(Vector4f.class)) {
                     size += Float.BYTES * 4;
                 } else if (fieldValueClass.equals(PMXFile.class) || fieldValueClass.equals(PMXFileBone.class) || fieldValueClass.equals(PMXFileBoneLink.class) || fieldValueClass.equals(PMXFileDisplayFrame.class) || fieldValueClass.equals(PMXFileDisplayFrameData.class) || fieldValueClass.equals(PMXFileFlags.class) || fieldValueClass.equals(PMXFileGlobals.class) || fieldValueClass.equals(PMXFileJoint.class) || fieldValueClass.equals(PMXFileMaterial.class) || fieldValueClass.equals(PMXFileMorph.class) || fieldValueClass.equals(PMXFileMorphBone.class) || fieldValueClass.equals(PMXFileMorphFlip.class) || fieldValueClass.equals(PMXFileMorphGroup.class) || fieldValueClass.equals(PMXFileMorphImpulse.class) || fieldValueClass.equals(PMXFileMorphMaterial.class) || fieldValueClass.equals(PMXFileMorphType.class) || fieldValueClass.equals(PMXFileMorphUV.class) || fieldValueClass.equals(PMXFileMorphVertex.class) || fieldValueClass.equals(PMXFileRigidBody.class) || fieldValueClass.equals(PMXFileSoftBody.class) || fieldValueClass.equals(PMXFileSoftBodyAnchorRigidBody.class) || fieldValueClass.equals(PMXFileVertex.class) || fieldValueClass.equals(PMXFileVertexIndex.class)) {
                     //No idea why I cannot just stick this in the else case, but that errors out so here is a list of every single class in the package
@@ -158,18 +158,18 @@ public final class PMXWriter implements Writer {
                     byte[] byteArray = new byte[1];
                     byteArray[0] = (byte) (((IndexUByte) fieldValue).getValue() & 0xFF);
                     byteBuffer.put(byteArray);
-                } else if (fieldValueClass.equals(Vec2.class)) {
-                    byteBuffer.putFloat(((Vec2) fieldValue).getX());
-                    byteBuffer.putFloat(((Vec2) fieldValue).getY());
-                } else if (fieldValueClass.equals(Vec3.class)) {
-                    byteBuffer.putFloat(((Vec3) fieldValue).getX());
-                    byteBuffer.putFloat(((Vec3) fieldValue).getY());
-                    byteBuffer.putFloat(((Vec3) fieldValue).getZ());
-                } else if (fieldValueClass.equals(Vec4.class)) {
-                    byteBuffer.putFloat(((Vec4) fieldValue).getX());
-                    byteBuffer.putFloat(((Vec4) fieldValue).getY());
-                    byteBuffer.putFloat(((Vec4) fieldValue).getZ());
-                    byteBuffer.putFloat(((Vec4) fieldValue).getW());
+                } else if (fieldValueClass.equals(Vector2f.class)) {
+                    byteBuffer.putFloat(((Vector2f) fieldValue).x);
+                    byteBuffer.putFloat(((Vector2f) fieldValue).y);
+                } else if (fieldValueClass.equals(Vector3f.class)) {
+                    byteBuffer.putFloat(((Vector3f) fieldValue).x);
+                    byteBuffer.putFloat(((Vector3f) fieldValue).y);
+                    byteBuffer.putFloat(((Vector3f) fieldValue).z);
+                } else if (fieldValueClass.equals(Vector4f.class)) {
+                    byteBuffer.putFloat(((Vector4f) fieldValue).x);
+                    byteBuffer.putFloat(((Vector4f) fieldValue).y);
+                    byteBuffer.putFloat(((Vector4f) fieldValue).z);
+                    byteBuffer.putFloat(((Vector4f) fieldValue).w);
                 } else if (fieldValueClass.equals(PMXFile.class) || fieldValueClass.equals(PMXFileBone.class) || fieldValueClass.equals(PMXFileBoneLink.class) || fieldValueClass.equals(PMXFileDisplayFrame.class) || fieldValueClass.equals(PMXFileDisplayFrameData.class) || fieldValueClass.equals(PMXFileFlags.class) || fieldValueClass.equals(PMXFileGlobals.class) || fieldValueClass.equals(PMXFileJoint.class) || fieldValueClass.equals(PMXFileMaterial.class) || fieldValueClass.equals(PMXFileMorph.class) || fieldValueClass.equals(PMXFileMorphBone.class) || fieldValueClass.equals(PMXFileMorphFlip.class) || fieldValueClass.equals(PMXFileMorphGroup.class) || fieldValueClass.equals(PMXFileMorphImpulse.class) || fieldValueClass.equals(PMXFileMorphMaterial.class) || fieldValueClass.equals(PMXFileMorphType.class) || fieldValueClass.equals(PMXFileMorphUV.class) || fieldValueClass.equals(PMXFileMorphVertex.class) || fieldValueClass.equals(PMXFileRigidBody.class) || fieldValueClass.equals(PMXFileSoftBody.class) || fieldValueClass.equals(PMXFileSoftBodyAnchorRigidBody.class) || fieldValueClass.equals(PMXFileVertex.class) || fieldValueClass.equals(PMXFileVertexIndex.class)) {
                     //No idea why I cannot just stick this in the else case, but that errors out so here is a list of every single class in the package
                     writeBytes(fieldValue);

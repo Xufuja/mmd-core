@@ -1,7 +1,7 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
+import org.joml.Vector3f;
 
 public class PMXFileRigidBody {
     private String rigidBodyNameJapanese;
@@ -10,9 +10,9 @@ public class PMXFileRigidBody {
     private Byte groupId;
     private Short nonCollisionGroup;
     private Byte shape;
-    private Vec3 shapeSize;
-    private Vec3 shapePosition;
-    private Vec3 shapeRotation;
+    private Vector3f shapeSize;
+    private Vector3f shapePosition;
+    private Vector3f shapeRotation;
     private Float mass;
     private Float moveAttenuation;
     private Float rotationDamping;
@@ -68,27 +68,27 @@ public class PMXFileRigidBody {
         this.shape = shape;
     }
 
-    public Vec3 getShapeSize() {
+    public Vector3f getShapeSize() {
         return shapeSize;
     }
 
-    public void setShapeSize(Vec3 shapeSize) {
+    public void setShapeSize(Vector3f shapeSize) {
         this.shapeSize = shapeSize;
     }
 
-    public Vec3 getShapePosition() {
+    public Vector3f getShapePosition() {
         return shapePosition;
     }
 
-    public void setShapePosition(Vec3 shapePosition) {
+    public void setShapePosition(Vector3f shapePosition) {
         this.shapePosition = shapePosition;
     }
 
-    public Vec3 getShapeRotation() {
+    public Vector3f getShapeRotation() {
         return shapeRotation;
     }
 
-    public void setShapeRotation(Vec3 shapeRotation) {
+    public void setShapeRotation(Vector3f shapeRotation) {
         this.shapeRotation = shapeRotation;
     }
 

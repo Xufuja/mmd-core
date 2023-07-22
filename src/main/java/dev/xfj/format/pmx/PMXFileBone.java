@@ -1,23 +1,23 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
+import org.joml.Vector3f;
 
 import java.util.List;
 
 public class PMXFileBone {
     private String boneNameJapanese;
     private String bonenameEnglish;
-    private Vec3 position;
+    private Vector3f position;
     private IndexType<?> parentBoneIndex;
     private Integer layer;
     private List<Integer> flags;
     private Object tailPosition;
     private IndexType<?> inheritParentIndex;
     private Float inheritParentInfluence;
-    private Vec3 axisDirection;
-    private Vec3 xVector;
-    private Vec3 zVector;
+    private Vector3f axisDirection;
+    private Vector3f xVector;
+    private Vector3f zVector;
     private IndexType<?> externalParentIndex;
     private IndexType<?> targetIndex;
     private Integer loopCount;
@@ -41,11 +41,11 @@ public class PMXFileBone {
         this.bonenameEnglish = bonenameEnglish;
     }
 
-    public Vec3 getPosition() {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public void setPosition(Vec3 position) {
+    public void setPosition(Vector3f position) {
         this.position = position;
     }
 
@@ -97,27 +97,27 @@ public class PMXFileBone {
         this.inheritParentInfluence = inheritParentInfluence;
     }
 
-    public Vec3 getAxisDirection() {
+    public Vector3f getAxisDirection() {
         return axisDirection;
     }
 
-    public void setAxisDirection(Vec3 axisDirection) {
+    public void setAxisDirection(Vector3f axisDirection) {
         this.axisDirection = axisDirection;
     }
 
-    public Vec3 getxVector() {
+    public Vector3f getxVector() {
         return xVector;
     }
 
-    public void setxVector(Vec3 xVector) {
+    public void setxVector(Vector3f xVector) {
         this.xVector = xVector;
     }
 
-    public Vec3 getzVector() {
+    public Vector3f getzVector() {
         return zVector;
     }
 
-    public void setzVector(Vec3 zVector) {
+    public void setzVector(Vector3f zVector) {
         this.zVector = zVector;
     }
 

@@ -1,13 +1,13 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
-import dev.xfj.types.vec.Vec4;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class PMXFileMorphBone implements PMXFileMorphType {
     private IndexType<?> boneIndex;
-    private Vec3 translation;
-    private Vec4 rotation;
+    private Vector3f translation;
+    private Vector4f rotation;
 
     public IndexType<?> getBoneIndex() {
         return boneIndex;
@@ -17,19 +17,19 @@ public class PMXFileMorphBone implements PMXFileMorphType {
         this.boneIndex = boneIndex;
     }
 
-    public Vec3 getTranslation() {
+    public Vector3f getTranslation() {
         return translation;
     }
 
-    public void setTranslation(Vec3 translation) {
+    public void setTranslation(Vector3f translation) {
         this.translation = translation;
     }
 
-    public Vec4 getRotation() {
+    public Vector4f getRotation() {
         return rotation;
     }
 
-    public void setRotation(Vec4 rotation) {
+    public void setRotation(Vector4f rotation) {
         this.rotation = rotation;
     }
 }

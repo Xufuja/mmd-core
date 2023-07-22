@@ -1,7 +1,7 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
+import org.joml.Vector3f;
 
 public class PMXFileJoint {
     private String jointNameJapanese;
@@ -9,14 +9,14 @@ public class PMXFileJoint {
     private Byte type;
     private IndexType<?> rigidBodyIndexA;
     private IndexType<?> rigidBodyIndexB;
-    private Vec3 position;
-    private Vec3 rotation;
-    private Vec3 positionMinimum;
-    private Vec3 positionMaximum;
-    private Vec3 rotationMinimum;
-    private Vec3 rotationMaximum;
-    private Vec3 positionSpring;
-    private Vec3 rotationSpring;
+    private Vector3f position;
+    private Vector3f rotation;
+    private Vector3f positionMinimum;
+    private Vector3f positionMaximum;
+    private Vector3f rotationMinimum;
+    private Vector3f rotationMaximum;
+    private Vector3f positionSpring;
+    private Vector3f rotationSpring;
 
     public String getJointNameJapanese() {
         return jointNameJapanese;
@@ -58,67 +58,67 @@ public class PMXFileJoint {
         this.rigidBodyIndexB = rigidBodyIndexB;
     }
 
-    public Vec3 getPosition() {
+    public Vector3f getPosition() {
         return position;
     }
 
-    public void setPosition(Vec3 position) {
+    public void setPosition(Vector3f position) {
         this.position = position;
     }
 
-    public Vec3 getRotation() {
+    public Vector3f getRotation() {
         return rotation;
     }
 
-    public void setRotation(Vec3 rotation) {
+    public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
     }
 
-    public Vec3 getPositionMinimum() {
+    public Vector3f getPositionMinimum() {
         return positionMinimum;
     }
 
-    public void setPositionMinimum(Vec3 positionMinimum) {
+    public void setPositionMinimum(Vector3f positionMinimum) {
         this.positionMinimum = positionMinimum;
     }
 
-    public Vec3 getPositionMaximum() {
+    public Vector3f getPositionMaximum() {
         return positionMaximum;
     }
 
-    public void setPositionMaximum(Vec3 positionMaximum) {
+    public void setPositionMaximum(Vector3f positionMaximum) {
         this.positionMaximum = positionMaximum;
     }
 
-    public Vec3 getRotationMinimum() {
+    public Vector3f getRotationMinimum() {
         return rotationMinimum;
     }
 
-    public void setRotationMinimum(Vec3 rotationMinimum) {
+    public void setRotationMinimum(Vector3f rotationMinimum) {
         this.rotationMinimum = rotationMinimum;
     }
 
-    public Vec3 getRotationMaximum() {
+    public Vector3f getRotationMaximum() {
         return rotationMaximum;
     }
 
-    public void setRotationMaximum(Vec3 rotationMaximum) {
+    public void setRotationMaximum(Vector3f rotationMaximum) {
         this.rotationMaximum = rotationMaximum;
     }
 
-    public Vec3 getPositionSpring() {
+    public Vector3f getPositionSpring() {
         return positionSpring;
     }
 
-    public void setPositionSpring(Vec3 positionSpring) {
+    public void setPositionSpring(Vector3f positionSpring) {
         this.positionSpring = positionSpring;
     }
 
-    public Vec3 getRotationSpring() {
+    public Vector3f getRotationSpring() {
         return rotationSpring;
     }
 
-    public void setRotationSpring(Vec3 rotationSpring) {
+    public void setRotationSpring(Vector3f rotationSpring) {
         this.rotationSpring = rotationSpring;
     }
 }

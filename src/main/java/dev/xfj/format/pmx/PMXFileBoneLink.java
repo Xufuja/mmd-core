@@ -1,13 +1,13 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
+import org.joml.Vector3f;
 
 public class PMXFileBoneLink {
     private IndexType<?> boneIndex;
     private Byte hasLimits;
-    private Vec3 limitMin;
-    private Vec3 limitMax;
+    private Vector3f limitMin;
+    private Vector3f limitMax;
 
     public IndexType<?> getBoneIndex() {
         return boneIndex;
@@ -25,19 +25,19 @@ public class PMXFileBoneLink {
         this.hasLimits = hasLimits;
     }
 
-    public Vec3 getLimitMin() {
+    public Vector3f getLimitMin() {
         return limitMin;
     }
 
-    public void setLimitMin(Vec3 limitMin) {
+    public void setLimitMin(Vector3f limitMin) {
         this.limitMin = limitMin;
     }
 
-    public Vec3 getLimitMax() {
+    public Vector3f getLimitMax() {
         return limitMax;
     }
 
-    public void setLimitMax(Vec3 limitMax) {
+    public void setLimitMax(Vector3f limitMax) {
         this.limitMax = limitMax;
     }
 }

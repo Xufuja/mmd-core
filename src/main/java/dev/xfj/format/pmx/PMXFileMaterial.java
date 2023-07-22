@@ -1,18 +1,18 @@
 package dev.xfj.format.pmx;
 
 import dev.xfj.types.index.IndexType;
-import dev.xfj.types.vec.Vec3;
-import dev.xfj.types.vec.Vec4;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 public class PMXFileMaterial {
     private String materialNameJapanese;
     private String materialNameEnglish;
-    private Vec4 diffuseColor;
-    private Vec3 specularColor;
+    private Vector4f diffuseColor;
+    private Vector3f specularColor;
     private Float specularStrength;
-    private Vec3 ambientColor;
+    private Vector3f ambientColor;
     private Byte materialFlags;
-    private Vec4 edgeColor;
+    private Vector4f edgeColor;
     private Float edgeScale;
     private IndexType<?> textureIndex;
     private IndexType<?> environmentIndex;
@@ -38,19 +38,19 @@ public class PMXFileMaterial {
         this.materialNameEnglish = materialNameEnglish;
     }
 
-    public Vec4 getDiffuseColor() {
+    public Vector4f getDiffuseColor() {
         return diffuseColor;
     }
 
-    public void setDiffuseColor(Vec4 diffuseColor) {
+    public void setDiffuseColor(Vector4f diffuseColor) {
         this.diffuseColor = diffuseColor;
     }
 
-    public Vec3 getSpecularColor() {
+    public Vector3f getSpecularColor() {
         return specularColor;
     }
 
-    public void setSpecularColor(Vec3 specularColor) {
+    public void setSpecularColor(Vector3f specularColor) {
         this.specularColor = specularColor;
     }
 
@@ -62,11 +62,11 @@ public class PMXFileMaterial {
         this.specularStrength = specularStrength;
     }
 
-    public Vec3 getAmbientColor() {
+    public Vector3f getAmbientColor() {
         return ambientColor;
     }
 
-    public void setAmbientColor(Vec3 ambientColor) {
+    public void setAmbientColor(Vector3f ambientColor) {
         this.ambientColor = ambientColor;
     }
 
@@ -78,11 +78,11 @@ public class PMXFileMaterial {
         this.materialFlags = materialFlags;
     }
 
-    public Vec4 getEdgeColor() {
+    public Vector4f getEdgeColor() {
         return edgeColor;
     }
 
-    public void setEdgeColor(Vec4 edgeColor) {
+    public void setEdgeColor(Vector4f edgeColor) {
         this.edgeColor = edgeColor;
     }
 
