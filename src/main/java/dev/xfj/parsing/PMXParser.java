@@ -147,7 +147,7 @@ public class PMXParser extends Parser {
     private PMXFileBone parseBone() {
         PMXFileBone bone = new PMXFileBone();
         bone.setBoneNameJapanese(getVariableString());
-        bone.setBonenameEnglish(getVariableString());
+        bone.setBoneNameEnglish(getVariableString());
         bone.setPosition(getVec3());
         bone.setParentBoneIndex(parseIndex(IndexTypes.BONE));
         bone.setLayer(getInt32());

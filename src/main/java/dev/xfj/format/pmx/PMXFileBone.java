@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PMXFileBone {
     private String boneNameJapanese;
-    private String bonenameEnglish;
+    private String boneNameEnglish;
     private Vector3f position;
     private IndexType<?> parentBoneIndex;
     private Integer layer;
@@ -33,12 +33,12 @@ public class PMXFileBone {
         this.boneNameJapanese = boneNameJapanese;
     }
 
-    public String getBonenameEnglish() {
-        return bonenameEnglish;
+    public String getBoneNameEnglish() {
+        return boneNameEnglish;
     }
 
-    public void setBonenameEnglish(String bonenameEnglish) {
-        this.bonenameEnglish = bonenameEnglish;
+    public void setBoneNameEnglish(String boneNameEnglish) {
+        this.boneNameEnglish = boneNameEnglish;
     }
 
     public Vector3f getPosition() {
